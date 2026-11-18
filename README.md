@@ -50,7 +50,7 @@ Ardından `http://localhost:8080` adresini aç. Servis çalışanı yalnızca `h
 
 ## Yayınlama (GitHub Pages)
 
-`main` dalına her gönderimde `.github/workflows/pages.yml` siteyi yayınlar. İlk seferde depoda **Settings → Pages → Source: GitHub Actions** seçilmelidir.
+`main` dalına her gönderimde `.github/workflows/pages.yml` site dosyalarını `gh-pages` dalına kopyalar. Pages ayarı: **Settings → Pages → Source: Deploy from a branch → `gh-pages` / `(root)`**.
 
 ## Telefona kurulum
 
