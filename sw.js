@@ -1,5 +1,5 @@
 /* Adorn servis çalışanı: uygulama kabuğu önbellekte, çevrimdışı çalışır. */
-const VERSION = 'adorn-v2.0.0';
+const VERSION = 'adorn-v2.1.0';
 const SHELL = [
   './',
   'index.html',

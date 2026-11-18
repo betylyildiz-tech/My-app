@@ -1,74 +1,49 @@
 <title>Adorn</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="theme-color" content="#F4EEE9">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap">
+<meta name="theme-color" content="#F9F8F6">
 <style>
-/* Adorn — sıvı cam arayüz
-   Düzen: tek sütun, sabit üst bar + alt dock; içerik arada kayar. Cam efekti (blur) yalnızca sabit katmanlarda. */
+/* Adorn — orijinal sade tasarım
+   Düzen: üst bar (≡ adorn · seri · geçmiş · yeni), tek sütun içerik, altta yazma alanı. */
 :root {
-  /* Renk: sıcak espresso + gül bronzu (makyaj modu, açık) */
-  --bg: #F4EEE9;
-  --bg2: #EADFD7;
-  --ink: #2B1F1A;
-  --ink2: #6B5A50;
-  --ink3: #A08F86;
-  --accent: #B5775F;
-  --accent2: #8A5643;
-  --accent-ink: #FFFFFF;
-  --gold: #E3B27A;
-  --glass: rgba(255, 251, 248, 0.55);
-  --glass-hi: rgba(255, 252, 250, 0.78);
-  --glass-line: rgba(255, 255, 255, 0.72);
-  --glass-edge: rgba(110, 72, 56, 0.10);
-  --shade: 0 14px 34px -16px rgba(74, 40, 28, 0.32);
-  --blob1: #F0C3AE;
-  --blob2: #E2A99C;
-  --blob3: #D8C2B0;
-  --blob4: #F6DCCB;
-  --ok: #4F8A63;
-  --warn: #B9792E;
-  --bad: #B0504A;
-  --night1: #2A1612;
-  --night2: #4A2419;
-  /* Tipografi */
-  --font: "Manrope", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
-  --display: "Sora", "Manrope", -apple-system, "SF Pro Display", system-ui, sans-serif;
-  /* Biçim */
-  --r-xl: 30px; --r-lg: 24px; --r-md: 18px; --r-pill: 999px;
+  /* Renk: orijinal palet (kırık beyaz, kahve, bej) */
+  --bg: #F9F8F6;
+  --surface: #FFFFFF;
+  --grouped: #F2F1EE;
+  --ink: #1C1A18;
+  --ink2: #5C5752;
+  --ink3: #9A948E;
+  --line: rgba(60, 56, 52, 0.14);
+  --line-strong: rgba(60, 56, 52, 0.22);
+  --fill: rgba(120, 116, 112, 0.12);
+  --tint: #3C2A21;
+  --tint-on: #FFFFFF;
+  --linen: #EAD8C0;
+  --beige: #D1BB9E;
+  --sand: #A79277;
+  --flame: #C26A35;
+  --material: rgba(250, 249, 247, 0.86);
+  --shadow: 0 0 0 .5px rgba(0, 0, 0, .04), 0 10px 30px -12px rgba(0, 0, 0, .16);
+  --ok: #4F7A5A;
+  --warn: #A9762F;
+  --bad: #A4483F;
+  --overlay: rgba(0, 0, 0, .22);
+  /* Tipografi: sistem yazı tipi */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --ease: cubic-bezier(.22, .9, .24, 1);
-  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  --spring: cubic-bezier(.34, 1.4, .64, 1);
   --top: env(safe-area-inset-top, 0px);
   --bot: env(safe-area-inset-bottom, 0px);
-  --dock-h: 74px;
   --kb: 0px;
   color-scheme: light;
 }
 :root[data-scheme="dark"] {
-  --bg: #120D0B; --bg2: #1C1411; --ink: #F4EAE3; --ink2: #C3AFA4; --ink3: #85736A;
-  --accent: #D6957B; --accent2: #E8B39C; --accent-ink: #1C110D; --gold: #EBBD86;
-  --glass: rgba(42, 30, 26, 0.50); --glass-hi: rgba(48, 35, 30, 0.80);
-  --glass-line: rgba(255, 235, 222, 0.10); --glass-edge: rgba(0, 0, 0, 0.35);
-  --shade: 0 16px 36px -18px rgba(0, 0, 0, 0.7);
-  --blob1: #5C2F22; --blob2: #6A3634; --blob3: #3A2820; --blob4: #4B2B21;
-  color-scheme: dark;
-}
-/* Bakım modu: daha sade, serin taş tonları */
-:root[data-mode="care"] {
-  --bg: #EEF0EE; --bg2: #E1E4E1; --ink: #1C2220; --ink2: #56605B; --ink3: #939C97;
-  --accent: #56685F; --accent2: #3F4F47; --accent-ink: #FFFFFF; --gold: #C9A26B;
-  --glass: rgba(252, 253, 252, 0.58); --glass-hi: rgba(253, 254, 253, 0.82);
-  --glass-line: rgba(255, 255, 255, 0.75); --glass-edge: rgba(40, 60, 50, 0.10);
-  --shade: 0 14px 30px -18px rgba(25, 40, 33, 0.30);
-  --blob1: #CED8D2; --blob2: #C3CCC6; --blob3: #DEDCD4; --blob4: #D7DED9;
-  --night1: #0E1513; --night2: #22302A;
-}
-:root[data-mode="care"][data-scheme="dark"] {
-  --bg: #0E1110; --bg2: #161B19; --ink: #E7ECE9; --ink2: #A9B4AE; --ink3: #6F7A74;
-  --accent: #98AEA3; --accent2: #B9CCC2; --accent-ink: #0E1311; --gold: #D4B07A;
-  --glass: rgba(30, 37, 34, 0.55); --glass-hi: rgba(34, 42, 38, 0.82);
-  --glass-line: rgba(220, 240, 230, 0.09); --glass-edge: rgba(0, 0, 0, 0.4);
-  --shade: 0 16px 36px -18px rgba(0, 0, 0, 0.75);
-  --blob1: #1F2C27; --blob2: #1B2622; --blob3: #262A26; --blob4: #1A2420;
+  --bg: #0F0D0C; --surface: #1D1A18; --grouped: #171513;
+  --ink: #F5F2EE; --ink2: #C9C1B9; --ink3: #8F877F;
+  --line: rgba(255, 245, 235, .12); --line-strong: rgba(255, 245, 235, .2); --fill: rgba(200, 190, 180, .16);
+  --tint: #EAD8C0; --tint-on: #1A120B; --flame: #E08C50;
+  --material: rgba(30, 27, 25, .86);
+  --shadow: 0 0 0 .5px rgba(255, 255, 255, .05), 0 14px 40px -12px rgba(0, 0, 0, .6);
+  --ok: #8DB89A; --warn: #D9A65C; --bad: #E08A80; --overlay: rgba(0, 0, 0, .5);
   color-scheme: dark;
 }
 
@@ -76,645 +51,462 @@
 html, body { height: 100%; margin: 0; }
 body {
   background: var(--bg); color: var(--ink);
-  font: 15px/1.5 var(--font); letter-spacing: -0.005em;
+  font: 16px/1.45 var(--font); letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%;
   overflow: hidden; overscroll-behavior: none; touch-action: manipulation;
-  transition: background-color .5s var(--ease), color .3s;
 }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; border: 0; background: none; padding: 0; }
-input, textarea { -webkit-user-select: text; user-select: text; }
-button, .dock, .topbar { -webkit-user-select: none; user-select: none; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button, .topbar { -webkit-user-select: none; user-select: none; }
+:focus-visible { outline: 2px solid var(--tint); outline-offset: 2px; }
 [hidden] { display: none !important; }
-h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
-h1 { font-size: 30px; line-height: 1.12; font-weight: 600; }
-h2 { font-size: 22px; line-height: 1.2; font-weight: 600; }
-h3 { font-size: 16px; font-weight: 600; }
+h1, h2, h3 { letter-spacing: -0.02em; text-wrap: balance; margin: 0; font-weight: 600; }
+h1 { font-size: 26px; line-height: 1.15; }
+h2 { font-size: 21px; line-height: 1.2; }
+h3 { font-size: 16px; }
 p { margin: 0; }
 .muted { color: var(--ink2); }
 .small { font-size: 12.5px; }
 .center { text-align: center; }
 .pad { padding: 24px 0; }
 .ok { color: var(--ok); font-weight: 600; }
-.ic { width: 22px; height: 22px; flex: none; }
+.ic { width: 20px; height: 20px; flex: none; }
+.label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; color: var(--ink2); margin: 0 2px 8px; }
+.wordmark { font-weight: 700; font-size: 19px; letter-spacing: -0.03em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
 
-/* ---------- Sıvı arka plan ---------- */
-#bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-#bg i {
-  position: absolute; width: 90vmax; height: 90vmax; border-radius: 50%;
-  will-change: transform; opacity: .9;
-  transition: background .8s var(--ease);
-}
-#bg .b1 { background: radial-gradient(circle at center, var(--blob1) 0%, transparent 62%); top: -38vmax; left: -30vmax; animation: drift1 26s ease-in-out infinite alternate; }
-#bg .b2 { background: radial-gradient(circle at center, var(--blob2) 0%, transparent 60%); bottom: -42vmax; right: -36vmax; animation: drift2 32s ease-in-out infinite alternate; }
-#bg .b3 { background: radial-gradient(circle at center, var(--blob3) 0%, transparent 60%); top: 20vh; right: -50vmax; animation: drift3 38s ease-in-out infinite alternate; }
-#bg .b4 { background: radial-gradient(circle at center, var(--blob4) 0%, transparent 58%); bottom: -20vmax; left: -45vmax; animation: drift1 44s ease-in-out infinite alternate-reverse; }
-#bg .grain { position: absolute; inset: 0; opacity: .05; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
-:root[data-mode="care"] #bg .b3, :root[data-mode="care"] #bg .b4 { display: none; }
-:root[data-mode="care"] #bg i { opacity: .75; }
-@keyframes drift1 { to { transform: translate3d(18vmax, 14vmax, 0) scale(1.12); } }
-@keyframes drift2 { to { transform: translate3d(-16vmax, -18vmax, 0) scale(1.08); } }
-@keyframes drift3 { to { transform: translate3d(-22vmax, 10vmax, 0) scale(.92); } }
-
-/* ---------- Cam ---------- */
-.glass {
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass));
-  border: 1px solid var(--glass-line);
-  box-shadow: inset 0 1px 0 var(--glass-line), 0 0 0 .5px var(--glass-edge), var(--shade);
-  border-radius: var(--r-lg);
-}
-.bar-glass {
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  backdrop-filter: blur(22px) saturate(170%);
-  border: 1px solid var(--glass-line);
-  box-shadow: inset 0 1px 0 var(--glass-line), 0 0 0 .5px var(--glass-edge), var(--shade);
-}
-.glass-dark { background: rgba(20, 14, 12, .38); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); color: #fff; border: 1px solid rgba(255,255,255,.18); }
+/* Arka plan sade: orijinaldeki gibi */
+#bg { display: none; }
 
 /* ---------- Düğmeler ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 50px; padding: 0 22px; border-radius: var(--r-pill);
-  font-weight: 650; font-size: 15.5px; position: relative; overflow: hidden;
-  transition: transform .35s var(--spring), opacity .2s, background .3s;
+  min-height: 50px; padding: 0 22px; border-radius: 999px; font-weight: 600; font-size: 16px;
+  transition: transform .3s var(--spring), opacity .2s;
 }
-.btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0) 55%); pointer-events: none; }
-.btn:active { transform: scale(.95); }
-.btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--accent-ink); box-shadow: 0 10px 24px -10px var(--accent), inset 0 1px 0 rgba(255,255,255,.35); }
-.btn.ghost { background: var(--glass); border: 1px solid var(--glass-line); }
-.btn.danger { background: transparent; color: var(--bad); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); }
-.btn.danger:not(.wide) { background: var(--bad); color: #fff; }
-.btn.small { min-height: 40px; padding: 0 14px; font-size: 14px; }
-.btn.small .ic { width: 18px; height: 18px; }
+.btn:active { transform: scale(.96); }
+.btn.primary { background: var(--tint); color: var(--tint-on); }
+.btn.ghost { background: var(--surface); border: 1px solid var(--line); }
+.btn.danger { color: var(--bad); border: 1px solid var(--line); background: var(--surface); }
+.btn.danger:not(.wide) { background: var(--bad); color: #fff; border: 0; }
+.btn.small { min-height: 38px; padding: 0 14px; font-size: 14px; }
+.btn.small .ic { width: 17px; height: 17px; }
 .btn.wide { width: 100%; }
-.btn:disabled { opacity: .55; }
-.icon-btn { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; transition: transform .3s var(--spring), background .2s; color: var(--ink); }
-.icon-btn:active { transform: scale(.88); background: var(--glass); }
-.text-btn { font-weight: 600; color: var(--ink2); padding: 10px 6px; }
-.link-btn { display: inline-flex; align-items: center; gap: 4px; color: var(--accent2); font-weight: 650; margin-top: 10px; }
+.btn:disabled { opacity: .5; }
+.icon-btn { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--ink2); transition: transform .25s var(--spring), background .2s; }
+.icon-btn:active { transform: scale(.9); background: var(--fill); }
+.ring-btn { border: 1px solid var(--line); background: var(--surface); }
+.ring-btn .ic { width: 18px; height: 18px; }
+.text-btn { font-weight: 500; color: var(--ink2); padding: 10px 6px; }
+.link-btn { display: inline-flex; align-items: center; gap: 4px; color: var(--ink); font-weight: 600; margin-top: 12px; font-size: 15px; }
 .link-btn .ic { width: 16px; height: 16px; }
-:root[data-scheme="dark"] .link-btn { color: var(--accent); }
 
-/* Seçim hapları: dokununca seçilen büyür, diğerleri solar */
-.choice { transition: transform .45s var(--spring), opacity .35s var(--ease), box-shadow .35s, background .35s, filter .35s; }
-.choice:active { transform: scale(.97); }
+/* Seçim hapları: dokununca seçilen hafif büyür, diğerleri solar */
+.choice { transition: transform .4s var(--spring), opacity .3s var(--ease), background .3s, color .3s, border-color .3s; }
+.choice:active { transform: scale(.98); }
 .decided .choice { pointer-events: none; }
-.decided .choice:not(.picked) { opacity: .32; transform: scale(.96); filter: saturate(.6); }
-.decided .choice.picked { transform: scale(1.05); background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--accent-ink); border-color: transparent; box-shadow: 0 16px 34px -12px var(--accent); }
+.decided .choice:not(.picked) { opacity: .35; transform: scale(.98); }
+.decided .choice.picked { transform: scale(1.03); background: var(--tint); color: var(--tint-on); border-color: var(--tint); }
+.decided .choice.picked small { color: inherit; opacity: .75; }
 .choice.pill {
-  width: 100%; min-height: 58px; padding: 14px 22px; border-radius: var(--r-pill);
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line);
-  box-shadow: inset 0 1px 0 var(--glass-line), 0 0 0 .5px var(--glass-edge), var(--shade);
-  font-weight: 600; font-size: 16.5px; text-align: center;
+  width: 100%; min-height: 56px; padding: 14px 22px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0,0,0,.03);
+  font-weight: 500; font-size: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
 }
-.choice.pill.was { border-color: var(--accent); }
-.choice.right { background: color-mix(in srgb, var(--ok) 22%, var(--glass-hi)) !important; color: var(--ink) !important; opacity: 1 !important; transform: scale(1.03) !important; border-color: var(--ok) !important; }
-.choice.wrong { background: color-mix(in srgb, var(--bad) 18%, var(--glass-hi)) !important; color: var(--ink) !important; animation: shake .4s; }
-@keyframes shake { 25% { translate: -6px 0; } 75% { translate: 6px 0; } }
+.choice.pill b { font-weight: 600; font-size: 17px; }
+.choice.pill small { color: var(--ink2); font-size: 13px; }
+.choice.pill.was { border-color: var(--line-strong); }
+.choice.right { background: color-mix(in srgb, var(--ok) 14%, var(--surface)) !important; color: var(--ink) !important; border-color: var(--ok) !important; opacity: 1 !important; transform: none !important; }
+.choice.wrong { background: color-mix(in srgb, var(--bad) 12%, var(--surface)) !important; color: var(--ink) !important; animation: shake .35s; }
+@keyframes shake { 25% { translate: -5px 0; } 75% { translate: 5px 0; } }
 
-/* ---------- Sahne (karşılama akışı) ---------- */
+/* ---------- Karşılama akışı ---------- */
 #app { position: relative; z-index: 1; height: 100%; }
-.stage { display: flex; flex-direction: column; padding: calc(var(--top) + 16px) max(20px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 20px) max(20px, env(safe-area-inset-left, 0px)); overflow-y: auto; }
-.gate { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; max-width: 520px; margin: 0 auto; width: 100%; position: relative; }
-.lang-switch { position: absolute; top: 0; right: 0; display: flex; padding: 3px; border-radius: var(--r-pill); background: var(--glass); border: 1px solid var(--glass-line); }
-.lang-switch button { padding: 6px 12px; border-radius: var(--r-pill); font-size: 12.5px; font-weight: 700; color: var(--ink2); transition: background .3s, color .3s; }
-.lang-switch button.on { background: var(--ink); color: var(--bg); }
-.gate-top { display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 9vh; text-align: center; }
-.wordmark { font-family: var(--display); font-weight: 600; font-size: 22px; letter-spacing: -0.04em; }
-.wordmark.big { font-size: 46px; }
-.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .14em; color: var(--ink2); font-weight: 700; }
-.gate-q { display: flex; flex-direction: column; gap: 12px; }
-.gate-q h1 { font-size: 32px; }
-.choice-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
-.pill-xl {
-  min-height: 112px; border-radius: 34px; padding: 18px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 4px; text-align: left;
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line);
-  box-shadow: inset 0 1px 0 var(--glass-line), 0 0 0 .5px var(--glass-edge), var(--shade); position: relative; overflow: hidden;
-}
-.pill-xl::after { content: ""; position: absolute; width: 120px; height: 120px; border-radius: 50%; top: -50px; right: -40px; background: radial-gradient(circle, var(--blob2), transparent 70%); opacity: .8; }
-.c-main { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -0.03em; }
-.c-sub { font-size: 13px; opacity: .75; }
-.screen-in > * { animation: rise .7s var(--ease) both; }
+.stage { display: flex; flex-direction: column; padding: calc(var(--top) + 14px) max(20px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 24px) max(20px, env(safe-area-inset-left, 0px)); overflow-y: auto; }
+.gate { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; max-width: 520px; margin: 0 auto; width: 100%; }
+.gate-bar { display: flex; justify-content: space-between; align-items: center; }
+.lang-switch { display: flex; padding: 3px; border-radius: 999px; background: var(--fill); }
+.lang-switch button { padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--ink2); transition: background .25s, color .25s; }
+.lang-switch button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink2); font-weight: 600; }
+.gate-q { display: flex; flex-direction: column; gap: 10px; }
+.gate-q h1 { font-size: 30px; }
+.choice-col { display: grid; gap: 10px; margin-top: 18px; }
+.screen-in > * { animation: rise .55s var(--ease) both; }
 .screen-in > *:nth-child(2) { animation-delay: .06s; }
-.screen-in > *:nth-child(3) { animation-delay: .14s; }
-@keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
 
-/* Orb (asistan) */
-.orb { position: relative; border-radius: 50%; display: grid; place-items: center; isolation: isolate; }
-.orb i { position: absolute; inset: 0; border-radius: 46% 54% 52% 48% / 50% 44% 56% 50%; mix-blend-mode: normal; }
-.orb i:nth-child(1) { background: radial-gradient(circle at 30% 30%, #fff8, transparent 40%), linear-gradient(135deg, var(--blob1), var(--accent)); animation: morph 7s ease-in-out infinite; }
-.orb i:nth-child(2) { background: linear-gradient(200deg, var(--gold), transparent 60%); opacity: .55; animation: morph 9s ease-in-out infinite reverse; }
-.orb i:nth-child(3) { inset: 18%; background: radial-gradient(circle at 35% 30%, #fff, transparent 55%); opacity: .5; filter: blur(2px); animation: morph 6s ease-in-out infinite; }
-.orb-lg { width: 120px; height: 120px; box-shadow: 0 30px 60px -20px var(--accent); }
-.orb-md { width: 92px; height: 92px; box-shadow: 0 24px 50px -18px var(--accent); }
-.orb-sm { width: 56px; height: 56px; }
-.orb.talk i:nth-child(1) { animation-duration: 2.6s; }
-@keyframes morph {
-  0%, 100% { border-radius: 46% 54% 52% 48% / 50% 44% 56% 50%; transform: rotate(0deg) scale(1); }
-  33% { border-radius: 58% 42% 40% 60% / 44% 58% 42% 56%; transform: rotate(60deg) scale(1.04); }
-  66% { border-radius: 40% 60% 58% 42% / 58% 40% 60% 42%; transform: rotate(-40deg) scale(.97); }
-}
-
-/* Sorular */
-.quiz { flex: 1; display: flex; flex-direction: column; gap: 26px; max-width: 520px; margin: 0 auto; width: 100%; }
+.quiz { flex: 1; display: flex; flex-direction: column; gap: 24px; max-width: 520px; margin: 0 auto; width: 100%; }
 .quiz-bar { display: flex; align-items: center; justify-content: space-between; }
 .dots { display: flex; gap: 6px; }
-.dots i { width: 22px; height: 5px; border-radius: 3px; background: var(--glass-edge); background: color-mix(in srgb, var(--ink) 14%, transparent); transition: width .4s var(--ease), background .3s; }
-.dots i.on { width: 38px; background: var(--accent); }
-.dots i.done { background: var(--accent2); opacity: .55; }
-.quiz-q { font-size: 30px; margin-top: 4vh; }
-.quiz-opts { display: flex; flex-direction: column; gap: 12px; }
-.quiz-opts .choice { animation: rise .55s var(--ease) both; animation-delay: var(--d); }
-.slide-in { animation: slideIn .45s var(--ease) both; }
-.slide-back { animation: slideBack .45s var(--ease) both; }
-@keyframes slideIn { from { opacity: 0; transform: translateX(40px); } }
-@keyframes slideBack { from { opacity: 0; transform: translateX(-40px); } }
+.dots i { width: 22px; height: 4px; border-radius: 2px; background: var(--fill); transition: width .35s var(--ease), background .3s; }
+.dots i.on { width: 34px; background: var(--tint); }
+.dots i.done { background: var(--sand); }
+.quiz-q { font-size: 27px; margin-top: 3vh; }
+.quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opts .choice { animation: rise .45s var(--ease) both; animation-delay: var(--d); }
+.slide-in { animation: slideIn .4s var(--ease) both; }
+.slide-back { animation: slideBack .4s var(--ease) both; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(28px); } }
+@keyframes slideBack { from { opacity: 0; transform: translateX(-28px); } }
 
 /* ---------- Kabuk ---------- */
-.shell { display: block; }
 .topbar {
-  position: fixed; z-index: 20; top: calc(var(--top) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); right: max(12px, env(safe-area-inset-right, 0px));
-  height: 56px; border-radius: var(--r-pill); display: flex; align-items: center; justify-content: space-between; padding: 0 6px;
+  position: fixed; z-index: 20; top: 0; left: 0; right: 0;
+  padding: calc(var(--top) + 6px) max(10px, env(safe-area-inset-right, 0px)) 6px max(8px, env(safe-area-inset-left, 0px));
+  display: flex; align-items: center; gap: 4px;
+  background: var(--material); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
 }
-.topbar .wordmark { position: absolute; left: 50%; transform: translateX(-50%); }
+.topbar .wordmark { flex: 1; margin-left: 2px; }
+.top-actions { display: flex; align-items: center; gap: 6px; }
 .streak-chip {
-  display: flex; align-items: center; gap: 5px; height: 42px; padding: 0 14px 0 10px; border-radius: var(--r-pill); position: relative;
-  background: color-mix(in srgb, var(--ink) 6%, transparent); font-weight: 750; font-variant-numeric: tabular-nums; transition: transform .35s var(--spring);
+  display: flex; align-items: center; gap: 5px; height: 36px; padding: 0 13px 0 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 15px; color: var(--ink2); font-variant-numeric: tabular-nums;
+  transition: transform .25s var(--spring);
 }
-.streak-chip:active { transform: scale(.92); }
-.streak-chip .flame { color: var(--ink3); display: grid; }
-.streak-chip.lit .flame { color: #E8743B; filter: drop-shadow(0 0 6px rgba(232, 116, 59, .55)); animation: flick 1.6s ease-in-out infinite; }
-.chip-dot { position: absolute; top: 7px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--bg); opacity: 0; }
-.streak-chip.pending .chip-dot { opacity: 1; animation: pulse 2s infinite; }
-@keyframes flick { 50% { transform: scale(1.12) rotate(-4deg); } }
-@keyframes pulse { 0% { box-shadow: 0 0 0 2px var(--bg), 0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent); } 100% { box-shadow: 0 0 0 2px var(--bg), 0 0 0 10px transparent; } }
+.streak-chip:active { transform: scale(.94); }
+.streak-chip .flame { display: grid; color: var(--ink3); }
+.streak-chip .ic { width: 17px; height: 17px; }
+.streak-chip.lit { color: var(--ink); }
+.streak-chip.lit .flame { color: var(--flame); }
 
 .view {
   position: fixed; inset: 0; z-index: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
-  padding: calc(var(--top) + 80px) max(16px, env(safe-area-inset-right, 0px)) calc(var(--bot) + var(--dock-h) + 34px) max(16px, env(safe-area-inset-left, 0px));
-  scroll-behavior: auto;
+  padding: calc(var(--top) + 66px) max(16px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 32px) max(16px, env(safe-area-inset-left, 0px));
 }
-.has-composer .view { padding-bottom: calc(var(--bot) + var(--dock-h) + 120px); }
+.has-composer .view { padding-bottom: calc(var(--bot) + 110px); }
 .view > * { max-width: 640px; margin-left: auto; margin-right: auto; }
-.view.enter > * { animation: viewIn .38s var(--ease) both; }
-@keyframes viewIn { from { opacity: 0; transform: translateY(12px) scale(.99); } }
+.view.enter > * { animation: viewIn .3s var(--ease) both; }
+@keyframes viewIn { from { opacity: 0; transform: translateY(8px); } }
 
-.dock {
-  position: fixed; z-index: 20; left: 50%; transform: translateX(-50%); bottom: calc(var(--bot) + 10px);
-  width: min(460px, calc(100% - 24px)); height: var(--dock-h); border-radius: 30px;
-  display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 0 6px;
-  transition: transform .35s var(--ease), opacity .25s;
+/* Liste satırları (orijinal "Hızlı başlangıç" görünümü) */
+.list { display: grid; gap: 8px; }
+.row, .menu-row {
+  width: 100%; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px 10px 12px; text-align: left;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; transition: transform .25s var(--spring), background .2s;
 }
-.kb-open .dock { transform: translate(-50%, 140%); opacity: 0; pointer-events: none; }
-.dock-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--ink3); height: 60px; justify-content: center; border-radius: 22px; transition: color .25s, transform .35s var(--spring); position: relative; }
-.dock-btn:active { transform: scale(.88); }
-.dock-btn.on { color: var(--ink); }
-.dock-btn.on .dock-ic { transform: translateY(-1px); }
-.dock-btn.on::after { content: ""; position: absolute; bottom: 4px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-.dock-ic { display: grid; transition: transform .35s var(--spring); }
-.dock-l { font-size: 10.5px; font-weight: 700; letter-spacing: .01em; }
-.dock-scan { display: grid; place-items: center; }
-.dock-scan span {
-  width: 58px; height: 58px; border-radius: 22px; display: grid; place-items: center; color: var(--accent-ink);
-  background: linear-gradient(140deg, var(--accent), var(--accent2)); box-shadow: 0 12px 26px -10px var(--accent), inset 0 1px 0 rgba(255,255,255,.4);
-  transform: translateY(-10px); transition: transform .4s var(--spring), border-radius .4s;
-}
-.dock-scan:active span { transform: translateY(-10px) scale(.88); border-radius: 50%; }
-.dock-scan .ic { width: 26px; height: 26px; }
+.row:active, .menu-row:active { transform: scale(.985); background: var(--grouped); }
+.row-ic { width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--ink2); }
+.row-ic .ic { width: 16px; height: 16px; }
+.row-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.row-t b { font-weight: 500; font-size: 16px; }
+.row-t small { color: var(--ink2); font-size: 13.5px; }
+.chev { width: 16px; height: 16px; color: var(--ink3); }
+.row.on { border-color: var(--tint); }
 
-/* ---------- Ana sayfa ---------- */
-.home { display: flex; flex-direction: column; gap: 22px; padding-top: 8px; }
-.hello .date { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink2); font-weight: 700; margin-bottom: 6px; }
-.hello h1 { font-size: 34px; }
-.hello .muted { margin-top: 4px; font-size: 16px; }
-.topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.topic {
-  min-height: 116px; padding: 16px; border-radius: var(--r-lg); display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 14px; text-align: left;
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line);
-  box-shadow: inset 0 1px 0 var(--glass-line), 0 0 0 .5px var(--glass-edge), var(--shade);
-  transition: transform .4s var(--spring); animation: rise .6s var(--ease) both; animation-delay: var(--d); position: relative; overflow: hidden;
-}
-.topic:active { transform: scale(.95); }
-.topic-ic { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent2); }
-:root[data-scheme="dark"] .topic-ic { color: var(--accent); }
-.topic-t { font-weight: 650; font-size: 15px; line-height: 1.3; }
+/* Ana sayfa */
+.home { display: flex; flex-direction: column; gap: 22px; padding-top: 6px; }
+.hello .date { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink2); font-weight: 600; margin-bottom: 4px; }
+.hello .muted { margin-top: 3px; }
+.foot { font-size: 13px; color: var(--ink2); margin: 12px 2px 0; }
 
 /* Odak notu */
-.focus { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 4px 0 14px; text-align: center; }
-.focus-pill { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px 7px 10px; border-radius: var(--r-pill); background: var(--glass); border: 1px solid var(--glass-line); font-weight: 650; font-size: 14px; }
-.focus-pill .ic { width: 18px; height: 18px; color: var(--accent); }
-.focus p { font-size: 12.5px; color: var(--ink2); }
+.focus { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 0 16px; text-align: center; }
+.focus-t { font-size: 13.5px; font-weight: 600; color: var(--ink2); }
+.focus p:last-child { font-size: 12.5px; color: var(--ink3); }
 
 /* Mesajlar */
 .msgs { display: flex; flex-direction: column; gap: 16px; }
-.msg { display: flex; animation: msgIn .4s var(--ease) both; }
-@keyframes msgIn { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+.msg { display: flex; animation: msgIn .3s var(--ease) both; }
+@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } }
 .msg.user { justify-content: flex-end; }
-.msg.user .bubble {
-  max-width: 82%; padding: 11px 16px; border-radius: 22px 22px 6px 22px; color: var(--accent-ink);
-  background: linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow: 0 10px 22px -14px var(--accent); white-space: pre-wrap; word-wrap: break-word;
-}
+.msg.user .bubble { max-width: 82%; padding: 9px 15px; border-radius: 20px; background: var(--tint); color: var(--tint-on); white-space: pre-wrap; word-wrap: break-word; font-size: 16.5px; }
 .msg.ai .ai-body { width: 100%; min-width: 0; }
-.ai-text { font-size: 15.5px; line-height: 1.6; }
+.ai-text { font-size: 17px; line-height: 1.55; }
 .ai-text p + p, .ai-text p + ul, .ai-text ul + p, .ai-text ol + p, .ai-text p + ol { margin-top: 8px; }
-.ai-text ul, .ai-text ol { margin: 6px 0 0; padding-left: 0; list-style: none; display: grid; gap: 6px; }
-.ai-text li { position: relative; padding-left: 18px; }
-.ai-text ul li::before { content: ""; position: absolute; left: 4px; top: .7em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.ai-text ul, .ai-text ol { margin: 6px 0 0; padding-left: 0; list-style: none; display: grid; gap: 5px; }
+.ai-text li { position: relative; padding-left: 16px; }
+.ai-text ul li::before { content: ""; position: absolute; left: 3px; top: .68em; width: 5px; height: 5px; border-radius: 50%; background: var(--ink3); }
 .ai-text ol { counter-reset: n; }
-.ai-text ol li { counter-increment: n; padding-left: 24px; }
-.ai-text ol li::before { content: counter(n); position: absolute; left: 0; top: .15em; font-size: 12px; font-weight: 700; color: var(--accent2); }
-.ai-text strong { font-weight: 700; }
+.ai-text ol li { counter-increment: n; padding-left: 22px; }
+.ai-text ol li::before { content: counter(n) "."; position: absolute; left: 0; color: var(--ink2); }
+.ai-text strong { font-weight: 600; }
 .ai-extra { display: grid; gap: 12px; margin-top: 12px; }
 .ai-extra:empty { display: none; }
-.fade-up > * { animation: rise .5s var(--ease) both; }
-.fade-up > *:nth-child(2) { animation-delay: .08s; }
-.fade-up > *:nth-child(3) { animation-delay: .16s; }
+.fade-up > * { animation: rise .4s var(--ease) both; }
 .dots3 { display: inline-flex; gap: 5px; padding: 10px 2px; }
-.dots3 i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: bob 1s ease-in-out infinite; }
+.dots3 i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink3); animation: bob 1s ease-in-out infinite; }
 .dots3 i:nth-child(2) { animation-delay: .15s; } .dots3 i:nth-child(3) { animation-delay: .3s; }
-@keyframes bob { 0%, 100% { transform: translateY(0); opacity: .4; } 50% { transform: translateY(-5px); opacity: 1; } }
+@keyframes bob { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
 
-.steps-card { padding: 16px 18px; border-radius: var(--r-lg); background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line); box-shadow: inset 0 1px 0 var(--glass-line), var(--shade); }
-.sc-t { font-weight: 700; margin-bottom: 10px; }
-.steps-card ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 10px; }
-.steps-card li { counter-increment: s; display: flex; gap: 12px; align-items: center; font-size: 14.5px; }
-.steps-card li span { width: 26px; height: 26px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); color: var(--accent2); }
+.steps-card { padding: 16px 18px; border-radius: 18px; background: var(--grouped); }
+.sc-t { font-weight: 600; margin-bottom: 12px; }
+.steps-card ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; }
+.steps-card li { counter-increment: s; display: flex; gap: 12px; align-items: center; font-size: 16px; }
+.steps-card li span { width: 26px; height: 26px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; background: var(--surface); border: 1px solid var(--line); }
 .steps-card li span::before { content: counter(s); }
-:root[data-scheme="dark"] .steps-card li span { color: var(--accent); }
 
-.p-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 4px 16px 10px; scrollbar-width: none; }
-.p-row::-webkit-scrollbar { display: none; }
-.mini {
-  flex: none; width: 232px; scroll-snap-align: start; padding: 14px; border-radius: 22px; display: flex; flex-direction: column; gap: 6px;
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line); box-shadow: inset 0 1px 0 var(--glass-line), var(--shade);
-  transition: transform .35s var(--spring); cursor: pointer;
-}
-.mini:active { transform: scale(.97); }
+.p-row { display: grid; gap: 0; border-radius: 18px; background: var(--grouped); overflow: hidden; }
+.mini { padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: background .2s; }
+.mini + .mini { border-top: 1px solid var(--line); }
+.mini:active { background: var(--fill); }
 .mini-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.mini-brand { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink2); font-weight: 700; }
-.mini-name { font-weight: 700; font-size: 15px; line-height: 1.3; }
-.mini-d { font-size: 13px; color: var(--ink2); line-height: 1.45; flex: 1; }
-.mini-bot { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
-.score { font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: var(--r-pill); font-variant-numeric: tabular-nums; }
-.score.s-hi { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
-.score.s-mid { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
-.score.s-lo { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
-.tag { display: inline-block; font-size: 12px; font-weight: 650; padding: 4px 10px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--ink) 7%, transparent); }
-.add { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--bg); transition: transform .4s var(--spring), background .3s; }
-.add .ic { width: 18px; height: 18px; }
-.add:active { transform: scale(.85); }
-.add.in { background: var(--ok); color: #fff; }
-.add.pop { animation: pop .5s var(--spring); }
-@keyframes pop { 40% { transform: scale(1.3); } }
+.mini-brand { font-size: 12.5px; color: var(--ink2); }
+.mini-name { font-weight: 600; font-size: 16px; line-height: 1.3; }
+.mini-d { font-size: 14.5px; color: var(--ink2); line-height: 1.45; }
+.mini-bot { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+.score { font-size: 12.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.tag { display: inline-block; font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.add { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--ink); transition: transform .3s var(--spring), background .2s; }
+.add .ic { width: 17px; height: 17px; }
+.add:active { transform: scale(.88); }
+.add.in { background: var(--tint); color: var(--tint-on); }
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
-  display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 15px; border-radius: var(--r-pill);
-  background: var(--glass); border: 1px solid var(--glass-line); font-size: 14px; font-weight: 600; transition: transform .35s var(--spring), background .25s, color .25s, border-color .25s;
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line); font-size: 14.5px; transition: transform .25s var(--spring), background .2s, color .2s;
 }
-.chip:active { transform: scale(.93); }
-.chip.on { background: var(--ink); color: var(--bg); border-color: transparent; }
-.chip.strong { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--accent-ink); border: 0; }
-.chip.strong .ic { width: 16px; height: 16px; }
-.chip.static { min-height: 30px; font-size: 13px; }
+.chip:active { transform: scale(.95); }
+.chip.on { background: var(--tint); color: var(--tint-on); border-color: var(--tint); }
+.chip.strong { background: var(--tint); color: var(--tint-on); border-color: var(--tint); }
+.chip.strong .ic { width: 15px; height: 15px; }
+.chip.static { min-height: 30px; font-size: 13.5px; }
 .chip .sw { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
 
 /* Yazma alanı */
 .composer {
   position: fixed; z-index: 19; left: 50%; transform: translateX(-50%);
-  bottom: calc(var(--bot) + var(--dock-h) + 18px); width: min(620px, calc(100% - 24px));
-  display: flex; align-items: flex-end; gap: 4px; padding: 6px; border-radius: 28px; transition: bottom .25s var(--ease);
+  bottom: calc(var(--bot) + 30px); width: min(640px, calc(100% - 24px));
+  display: flex; align-items: flex-end; gap: 2px; padding: 5px 5px 5px 16px; border-radius: 26px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); transition: bottom .2s var(--ease);
 }
+.composer::before { content: ""; position: fixed; left: -50vw; right: -50vw; bottom: calc(-1 * (var(--bot) + 30px)); height: calc(var(--bot) + 60px); background: linear-gradient(transparent, var(--bg) 45%); z-index: -1; pointer-events: none; }
 .kb-open .composer { bottom: calc(var(--kb) + 8px); }
-.kb-open .src-note { display: none; }
-.composer textarea {
-  flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; resize: none; max-height: 120px;
-  font-size: 16px; line-height: 1.4; padding: 11px 4px; color: var(--ink);
-}
+.composer textarea { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; resize: none; max-height: 120px; font-size: 17px; line-height: 1.35; padding: 10px 2px; color: var(--ink); }
 .composer textarea::placeholder { color: var(--ink3); }
-.composer .icon-btn { color: var(--ink2); }
-.send { width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--accent-ink); transition: transform .35s var(--spring), opacity .2s; }
-.send:disabled { opacity: .35; transform: scale(.9); }
-.send:not(:disabled):active { transform: scale(.85); }
-.src-note { display: none; position: fixed; z-index: 19; left: 0; right: 0; bottom: calc(var(--bot) + var(--dock-h) + 2px); text-align: center; font-size: 11px; color: var(--ink3); pointer-events: none; }
-.src-note.live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); margin-right: 6px; vertical-align: 1px; }
+.send { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--tint); color: var(--tint-on); transition: transform .25s var(--spring), opacity .2s, background .2s; }
+.send .ic { width: 18px; height: 18px; }
+.send:disabled { background: var(--fill); color: var(--ink2); }
+.src-note { position: fixed; z-index: 19; left: 0; right: 0; bottom: calc(var(--bot) + 8px); text-align: center; font-size: 12px; color: var(--ink2); pointer-events: none; }
+.kb-open .src-note { display: none; }
 
 /* ---------- Sayfalar ---------- */
-.page { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
-.page-h { display: flex; flex-direction: column; gap: 4px; }
-.page-h.row { flex-direction: row; justify-content: space-between; align-items: flex-end; gap: 12px; }
-.sec-t { margin-top: 12px; font-size: 18px; }
-.card { padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.page { display: flex; flex-direction: column; gap: 16px; padding-top: 6px; }
+.page-h { display: flex; flex-direction: column; gap: 3px; }
+.page-h.row { flex-direction: row; justify-content: space-between; align-items: flex-end; gap: 12px; background: none; border: 0; padding: 0; min-height: 0; }
+.sec-t { margin-top: 10px; font-size: 18px; }
+.page .card { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
 
-.seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: var(--r-pill); background: var(--glass); border: 1px solid var(--glass-line); }
-.seg button { position: relative; z-index: 1; height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 650; color: var(--ink2); transition: color .3s; }
-.seg button .ic { width: 18px; height: 18px; }
-.seg button.on { color: var(--accent-ink); }
-.seg-ind { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: var(--r-pill); background: linear-gradient(135deg, var(--accent), var(--accent2)); transform: translateX(calc(var(--i) * 100%)); transition: transform .45s var(--spring); box-shadow: 0 8px 20px -10px var(--accent); }
+.seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 12px; background: var(--fill); }
+.seg button { position: relative; z-index: 1; height: 36px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 500; font-size: 15px; color: var(--ink2); transition: color .25s; }
+.seg button .ic { width: 16px; height: 16px; }
+.seg button.on { color: var(--ink); }
+.seg-ind { position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 9px; background: var(--surface); box-shadow: 0 1px 4px rgba(0,0,0,.1); transform: translateX(calc(var(--i) * 100%)); transition: transform .35s var(--spring); }
 
-.r-head { display: flex; align-items: center; gap: 16px; padding: 16px; }
-.r-title { font-family: var(--display); font-weight: 600; font-size: 19px; }
-.ring { position: relative; width: 64px; height: 64px; flex: none; display: grid; place-items: center; }
+.r-head { flex-direction: row !important; align-items: center; gap: 14px !important; }
+.r-title { font-weight: 600; font-size: 18px; }
+.ring { position: relative; width: 58px; height: 58px; flex: none; display: grid; place-items: center; }
 .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
-.ring circle { fill: none; stroke-width: 4; }
-.ring .trk { stroke: color-mix(in srgb, var(--ink) 10%, transparent); }
-.ring .val { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p)); transition: stroke-dashoffset .8s var(--ease); }
-.ring b { font-size: 15px; font-variant-numeric: tabular-nums; }
-.ring.sm { width: 50px; height: 50px; }
+.ring circle { fill: none; stroke-width: 3.5; }
+.ring .trk { stroke: var(--fill); }
+.ring .val { stroke: var(--tint); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p)); transition: stroke-dashoffset .6s var(--ease); }
+.ring b { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ring.sm { width: 46px; height: 46px; }
 .ring.sm b { font-size: 13px; }
-.ring.lg { width: 84px; height: 84px; }
-.ring.lg b { font-size: 24px; font-family: var(--display); }
-.ring.lg small { font-size: 12px; }
-.r-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.r-step {
-  width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 22px; text-align: left;
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line); box-shadow: inset 0 1px 0 var(--glass-line), var(--shade);
-  transition: transform .35s var(--spring), opacity .3s; animation: rise .5s var(--ease) both; animation-delay: var(--d);
-}
-.r-step:active { transform: scale(.97); }
-.tick { width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid color-mix(in srgb, var(--ink) 22%, transparent); color: transparent; transition: background .35s var(--spring), border-color .3s, color .3s, transform .4s var(--spring); }
-.tick .ic { width: 17px; height: 17px; stroke-width: 2.4; }
-.r-t { flex: 1; font-weight: 600; transition: opacity .3s; }
-.r-m { font-size: 12.5px; color: var(--ink3); font-variant-numeric: tabular-nums; }
-.r-step.done .tick { background: var(--ok); border-color: var(--ok); color: #fff; transform: scale(1.08); }
-.r-step.done .r-t { opacity: .5; text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.ring.lg { width: 76px; height: 76px; }
+.ring.lg b { font-size: 21px; }
+.ring.lg small { font-size: 11px; }
+.r-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.r-step { width: 100%; display: flex; align-items: center; gap: 12px; padding: 13px 14px; border-radius: 16px; text-align: left; background: var(--surface); border: 1px solid var(--line); transition: transform .25s var(--spring); }
+.r-step:active { transform: scale(.985); }
+.tick { width: 26px; height: 26px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--line-strong); color: transparent; transition: background .3s var(--spring), border-color .3s, color .3s; }
+.tick .ic { width: 15px; height: 15px; stroke-width: 2.4; }
+.r-t { flex: 1; transition: opacity .3s; }
+.r-m { font-size: 13px; color: var(--ink3); font-variant-numeric: tabular-nums; }
+.r-step.done .tick { background: var(--tint); border-color: var(--tint); color: var(--tint-on); }
+.r-step.done .r-t { opacity: .5; text-decoration: line-through; }
 
-.filters { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+.filters { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
 .filters::-webkit-scrollbar { display: none; }
-.bag-list { display: grid; gap: 10px; }
-.bag-item { display: flex; align-items: center; gap: 14px; padding: 12px 8px 12px 14px; cursor: pointer; animation: rise .5s var(--ease) both; animation-delay: var(--d); transition: transform .3s var(--spring), opacity .25s; }
-.bag-item:active { transform: scale(.98); }
-.bag-item.gone, .hist-row.gone { opacity: 0; transform: translateX(40px) scale(.96); }
+.bag-list { display: grid; gap: 8px; }
+.bag-item { display: flex !important; flex-direction: row !important; align-items: center; gap: 12px !important; padding: 12px 6px 12px 12px !important; cursor: pointer; transition: transform .25s var(--spring), opacity .25s; }
+.bag-item:active { transform: scale(.985); }
+.bag-item.gone, .hist-row.gone { opacity: 0; transform: translateX(30px); }
 .bag-main { flex: 1; min-width: 0; }
-.bag-name { font-weight: 700; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.bag-name { font-weight: 600; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .stars { display: flex; gap: 2px; margin-top: 4px; }
-.stars button { color: color-mix(in srgb, var(--ink) 22%, transparent); padding: 2px; transition: transform .3s var(--spring), color .2s; }
-.stars button .ic { width: 18px; height: 18px; }
-.stars button.on { color: var(--gold); }
+.stars button { color: var(--line-strong); padding: 2px; }
+.stars button .ic { width: 17px; height: 17px; }
+.stars button.on { color: var(--tint); }
 .stars button.on .ic { fill: currentColor; }
-.stars button:active { transform: scale(1.3); }
-.empty { padding: 30px 22px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+.empty { align-items: center; text-align: center; padding: 28px 20px !important; }
 .empty p { color: var(--ink2); max-width: 30ch; }
 
 /* Profil */
 .pf-head { display: flex; align-items: center; gap: 14px; }
-.avatar { width: 64px; height: 64px; flex: none; }
-.avatar b { position: relative; z-index: 2; color: #fff; font-family: var(--display); font-size: 26px; text-shadow: 0 1px 6px rgba(0,0,0,.2); }
-.pf-g { display: flex; flex-direction: column; gap: 9px; }
-.pf-l { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; font-weight: 750; color: var(--ink2); }
-.field {
-  width: 100%; border-radius: 18px; padding: 13px 16px; font-size: 16px; border: 1px solid var(--glass-line);
-  background: color-mix(in srgb, var(--bg) 55%, transparent); outline: none; transition: border-color .2s, box-shadow .2s; resize: vertical;
-}
-.field:focus { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
-.saved-note { font-size: 12.5px; color: var(--ok); font-weight: 650; opacity: 0; transition: opacity .3s; min-height: 18px; }
+.avatar { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-strong); background: var(--surface); font-weight: 600; color: var(--ink2); }
+.avatar.lg { width: 56px; height: 56px; font-size: 22px; }
+.pf-g { display: flex; flex-direction: column; gap: 8px; }
+.pf-l { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; color: var(--ink2); }
+.field { width: 100%; border-radius: 14px; padding: 12px 14px; font-size: 16px; border: 1px solid var(--line); background: var(--bg); outline: none; resize: vertical; transition: border-color .2s; }
+.field:focus { border-color: var(--tint); }
+.saved-note { font-size: 13px; color: var(--ok); opacity: 0; transition: opacity .3s; min-height: 18px; }
 .saved-note.show { opacity: 1; }
-.settings { gap: 0; padding: 6px 18px; }
-.set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
+.settings { gap: 0 !important; padding: 4px 16px !important; }
+.set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .set-row:last-of-type { border-bottom: 0; }
 .set-row.col { flex-direction: column; align-items: stretch; gap: 8px; }
-.set-row > span, .set-sw > span:first-child { font-weight: 650; }
+.set-row > span, .set-sw > span:first-child { font-weight: 500; }
 .set-sw { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .settings > p { padding: 10px 0 14px; }
-.mini-seg { display: flex; padding: 3px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--ink) 7%, transparent); flex-wrap: wrap; justify-content: flex-end; }
-.mini-seg button { padding: 7px 12px; border-radius: var(--r-pill); font-size: 13px; font-weight: 650; color: var(--ink2); transition: background .3s, color .3s; }
-.mini-seg button.on { background: var(--glass-hi); color: var(--ink); box-shadow: var(--shade); }
-.switch { width: 52px; height: 32px; border-radius: 16px; background: color-mix(in srgb, var(--ink) 18%, transparent); position: relative; transition: background .3s; flex: none; }
-.switch i { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); transition: transform .4s var(--spring); }
-.switch.on { background: var(--accent); }
+.mini-seg { display: flex; padding: 3px; border-radius: 10px; background: var(--fill); flex-wrap: wrap; justify-content: flex-end; }
+.mini-seg button { padding: 6px 11px; border-radius: 8px; font-size: 13.5px; color: var(--ink2); transition: background .25s, color .25s; }
+.mini-seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.switch { width: 50px; height: 30px; border-radius: 15px; background: var(--fill); position: relative; transition: background .3s; flex: none; }
+.switch i { position: absolute; top: 2px; left: 2px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); transition: transform .35s var(--spring); }
+.switch.on { background: var(--tint); }
 .switch.on i { transform: translateX(20px); }
-.status { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink2); }
-.status.on { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
-.confirm { display: grid; gap: 10px; padding: 12px; border-radius: 18px; background: color-mix(in srgb, var(--bad) 8%, transparent); }
-.confirm .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ver { margin-top: 6px; }
+.status { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--fill); color: var(--ink2); }
+.status.on { color: var(--ok); }
+.confirm { display: grid; gap: 10px; padding: 12px; border-radius: 14px; background: var(--grouped); }
+.confirm .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: none; border: 0; padding: 0; min-height: 0; }
 
 /* ---------- Katmanlar ---------- */
 #layers { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
 .ov { position: fixed; inset: 0; pointer-events: auto; }
-.ov-back { position: absolute; inset: 0; background: rgba(20, 12, 10, .32); opacity: 0; transition: opacity .32s var(--ease); }
+.ov-back { position: absolute; inset: 0; background: var(--overlay); opacity: 0; transition: opacity .3s var(--ease); }
 .ov.open .ov-back { opacity: 1; }
 .ov-sheet .ov-panel {
   position: absolute; left: 0; right: 0; bottom: 0; margin: 0 auto; width: min(640px, 100%); max-height: 88vh; overflow-y: auto; overscroll-behavior: contain;
-  border-radius: 32px 32px 0 0; padding: 8px max(20px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 24px) max(20px, env(safe-area-inset-left, 0px));
-  transform: translateY(100%); transition: transform .45s var(--ease);
-  background: var(--glass-hi);
+  border-radius: 24px 24px 0 0; padding: 6px max(18px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 22px) max(18px, env(safe-area-inset-left, 0px));
+  background: var(--bg); transform: translateY(100%); transition: transform .4s var(--ease);
 }
 .ov-sheet.open .ov-panel { transform: translateY(0); }
-.ov-sheet.closing .ov-panel { transform: translateY(100%); transition-duration: .3s; }
-.grab { width: 40px; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 20%, transparent); margin: 4px auto 14px; }
+.ov-sheet.closing .ov-panel { transform: translateY(100%); transition-duration: .28s; }
+.grab { width: 36px; height: 5px; border-radius: 3px; background: var(--line-strong); margin: 4px auto 14px; }
 .sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
 .ov-center { display: grid; place-items: center; padding: 20px; }
-.ov-center .ov-back { background: rgba(20, 12, 10, .45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.ov-center .ov-panel { position: relative; width: min(420px, 100%); opacity: 0; transform: scale(.9) translateY(20px); transition: transform .55s var(--spring), opacity .3s; }
+.ov-center .ov-panel { position: relative; width: min(400px, 100%); opacity: 0; transform: scale(.96) translateY(10px); transition: transform .45s var(--spring), opacity .25s; }
 .ov-center.open .ov-panel { opacity: 1; transform: none; }
-.ov-center.closing .ov-panel { opacity: 0; transform: scale(.95); transition-duration: .25s; }
-.ov-full .ov-panel { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); transition: transform .45s var(--ease), opacity .3s; }
+.ov-center.closing .ov-panel { opacity: 0; transform: scale(.97); transition-duration: .2s; }
+.ov-full .ov-panel { position: absolute; inset: 0; opacity: 0; transform: translateY(16px); transition: transform .4s var(--ease), opacity .28s; }
 .ov-full.open .ov-panel { opacity: 1; transform: none; }
-.ov-full.closing .ov-panel { opacity: 0; transform: scale(.97); }
+.ov-full.closing .ov-panel { opacity: 0; transform: translateY(16px); }
 
-.welcome { padding: 30px 24px 22px; border-radius: 34px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px;
-  background: linear-gradient(160deg, var(--glass-hi), var(--glass)); border: 1px solid var(--glass-line); box-shadow: inset 0 1px 0 var(--glass-line), 0 30px 60px -20px rgba(0,0,0,.4);
-  -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); }
-.welcome h2 { font-size: 26px; }
-.type-on { min-height: 6.5em; color: var(--ink2); font-size: 16px; }
-.welcome-actions { display: grid; gap: 8px; width: 100%; }
+.menu { display: grid; gap: 14px; }
+.profile-row { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 4px; text-align: left; border-top: 1px solid var(--line); }
 
-.hist { display: grid; gap: 6px; }
-.hist-row { display: flex; align-items: center; gap: 4px; border-radius: 20px; transition: background .2s, opacity .25s, transform .3s; }
-.hist-row.on { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.welcome { padding: 26px 22px 20px; border-radius: 26px; background: var(--surface); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+.welcome h2 { font-size: 24px; margin-top: 6px; }
+.type-on { min-height: 6em; color: var(--ink2); font-size: 16.5px; }
+.welcome-actions { display: grid; gap: 8px; margin-top: 6px; }
+
+.hist { display: grid; gap: 4px; }
+.hist-row { display: flex; align-items: center; gap: 4px; border-radius: 14px; transition: background .2s, opacity .25s, transform .3s; }
+.hist-row.on { background: var(--fill); }
 .hist-main { flex: 1; min-width: 0; display: flex; gap: 12px; align-items: center; text-align: left; padding: 10px; }
 .hist-main span:last-child { min-width: 0; display: flex; flex-direction: column; }
-.hist-main b { font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hist-main b { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hist-main small { color: var(--ink3); }
-.hist-ic { width: 40px; height: 40px; flex: none; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent2); }
-.hist-ic .ic { width: 20px; height: 20px; }
+.hist-ic { width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--fill); color: var(--ink2); }
+.hist-ic .ic { width: 16px; height: 16px; }
 
 /* Ürün detayı */
 .pd { display: flex; flex-direction: column; gap: 14px; }
 .pd-top { display: flex; gap: 16px; align-items: center; }
-.pd-top h2 { font-size: 21px; margin: 2px 0 6px; }
-.pd-fit { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; font-weight: 750; color: var(--ink2); margin-top: -6px; }
-.pd-sec { padding: 14px 16px; border-radius: 20px; background: color-mix(in srgb, var(--ink) 4%, transparent); display: grid; gap: 8px; }
-.pd-sec h3 { display: flex; align-items: center; gap: 8px; font-size: 14.5px; }
-.pd-sec h3 .ic { width: 18px; height: 18px; color: var(--accent); }
-.pd-sec.ok h3 .ic { color: var(--ok); }
-.pd-sec.warn h3 .ic { color: var(--warn); }
+.pd-top h2 { font-size: 20px; margin: 2px 0 6px; }
+.pd-fit { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; color: var(--ink2); margin-top: -6px; }
+.pd-sec { padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 8px; }
+.pd-sec h3 { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+.pd-sec h3 .ic { width: 16px; height: 16px; color: var(--ink2); }
 .pd-sec ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; color: var(--ink2); }
 .pd-sec p { color: var(--ink2); }
 
 /* ---------- Tarama ---------- */
-.scan { position: absolute; inset: 0; background: #0B0807; color: #fff; overflow: hidden; }
+.scan { position: absolute; inset: 0; background: #0E0C0B; color: #fff; overflow: hidden; }
 .scan video, .scan #shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.scan video { opacity: 0; transition: opacity .5s; }
+.scan video { opacity: 0; transition: opacity .4s; }
 .live .scan video { opacity: 1; }
-.scan-shade { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 45% at 50% 46%, transparent 55%, rgba(0,0,0,.55) 100%); pointer-events: none; }
-.nocam .scan { background: radial-gradient(circle at 30% 20%, var(--night2), var(--night1)); }
-.scan-h { position: absolute; top: calc(var(--top) + 10px); left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
-.scan-h .icon-btn { color: #fff; }
+.scan-shade { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 45% at 50% 46%, transparent 55%, rgba(0,0,0,.5) 100%); pointer-events: none; }
+.scan-h { position: absolute; top: calc(var(--top) + 10px); left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.cam-btn { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.18); }
 .frame { position: absolute; left: 50%; top: 44%; width: min(72vw, 320px); aspect-ratio: 3 / 4; max-height: 52vh; transform: translate(-50%, -50%); }
-.frame > i { position: absolute; width: 38px; height: 38px; border: 3px solid #fff; opacity: .9; }
-.frame > i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; border-radius: 18px 0 0 0; }
-.frame > i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; border-radius: 0 18px 0 0; }
-.frame > i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; border-radius: 0 0 0 18px; }
-.frame > i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; border-radius: 0 0 18px 0; }
-.beam { position: absolute; left: 6%; right: 6%; height: 2px; top: 10%; background: linear-gradient(90deg, transparent, var(--gold), transparent); box-shadow: 0 0 18px 4px color-mix(in srgb, var(--gold) 60%, transparent); animation: beam 2.4s ease-in-out infinite alternate; }
-@keyframes beam { to { top: 90%; } }
+.frame > i { position: absolute; width: 34px; height: 34px; border: 2.5px solid #fff; opacity: .9; }
+.frame > i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; border-radius: 16px 0 0 0; }
+.frame > i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; border-radius: 0 16px 0 0; }
+.frame > i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; border-radius: 0 0 0 16px; }
+.frame > i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; border-radius: 0 0 16px 0; }
+.beam { display: none; }
 .busy .frame { animation: breathe 1.2s ease-in-out infinite; }
-.busy .beam { animation-duration: .9s; }
-@keyframes breathe { 50% { transform: translate(-50%, -50%) scale(.96); } }
-.naming .frame, .frozen:not(.busy) .beam { display: none; }
-.scan-hint { position: absolute; left: 24px; right: 24px; top: calc(44% + min(48vw, 213px) + 24px); top: auto; bottom: calc(var(--bot) + 150px); text-align: center; font-weight: 600; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+@keyframes breathe { 50% { opacity: .5; } }
+.naming .frame { display: none; }
+.scan-hint { position: absolute; left: 24px; right: 24px; bottom: calc(var(--bot) + 140px); text-align: center; font-weight: 500; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
 .naming .scan-hint { display: none; }
 .scan-f { position: absolute; left: 0; right: 0; bottom: calc(var(--bot) + 28px); display: flex; align-items: center; justify-content: center; gap: 44px; }
 .naming .scan-f, .busy .scan-f { opacity: 0; pointer-events: none; }
-.round { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; transition: transform .3s var(--spring); }
-.round:active { transform: scale(.88); }
-.shutter { width: 78px; height: 78px; border-radius: 50%; border: 4px solid #fff; display: grid; place-items: center; transition: transform .3s var(--spring); }
-.shutter i { width: 60px; height: 60px; border-radius: 50%; background: #fff; transition: transform .25s var(--spring); }
-.shutter:active i { transform: scale(.82); }
+.round { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; }
+.shutter { width: 74px; height: 74px; border-radius: 50%; border: 4px solid #fff; display: grid; place-items: center; }
+.shutter i { width: 58px; height: 58px; border-radius: 50%; background: #fff; transition: transform .2s var(--spring); }
+.shutter:active i { transform: scale(.85); }
 .flash::after { content: ""; position: absolute; inset: 0; background: #fff; animation: flash .3s ease-out forwards; pointer-events: none; }
-@keyframes flash { from { opacity: .9; } to { opacity: 0; } }
+@keyframes flash { from { opacity: .85; } to { opacity: 0; } }
 .scan-panel {
-  position: absolute; left: 12px; right: 12px; bottom: calc(var(--bot) + 12px + var(--kb)); padding: 20px; border-radius: 30px; color: var(--ink);
-  background: var(--glass-hi); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); border: 1px solid var(--glass-line);
-  display: grid; gap: 10px; animation: rise .45s var(--ease) both; max-width: 560px; margin: 0 auto;
+  position: absolute; left: 12px; right: 12px; bottom: calc(var(--bot) + 12px + var(--kb)); padding: 18px; border-radius: 24px; color: var(--ink);
+  background: var(--bg); display: grid; gap: 10px; animation: rise .35s var(--ease) both; max-width: 560px; margin: 0 auto;
 }
 .nm-form { display: flex; gap: 8px; }
-.nm-form input { flex: 1; min-width: 0; border-radius: var(--r-pill); padding: 0 18px; height: 50px; border: 1px solid var(--glass-line); background: color-mix(in srgb, var(--bg) 70%, transparent); font-size: 16px; outline: none; }
-.nm-form input:focus { border-color: var(--accent); }
-.sugg { display: grid; gap: 4px; }
-.sugg button { text-align: left; padding: 10px 12px; border-radius: 14px; font-size: 14px; transition: background .2s; }
-.sugg button:active { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.nm-form input { flex: 1; min-width: 0; border-radius: 999px; padding: 0 16px; height: 48px; border: 1px solid var(--line); background: var(--surface); font-size: 16px; outline: none; }
+.nm-form input:focus { border-color: var(--tint); }
+.sugg { display: grid; gap: 2px; }
+.sugg button { text-align: left; padding: 10px 12px; border-radius: 12px; font-size: 15px; }
+.sugg button:active { background: var(--fill); }
 
-/* ---------- Seri (tam ekran) ---------- */
-.ov-streak .ov-panel { background: radial-gradient(120% 70% at 50% 0%, var(--night2) 0%, var(--night1) 60%, #070505 100%); color: #FBEFE7; overflow-y: auto; overscroll-behavior: contain; }
-:root[data-mode="care"] .ov-streak .ov-panel { color: #E9F0EC; }
-.streak { position: relative; min-height: 100%; padding: calc(var(--top) + 12px) max(18px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 20px) max(18px, env(safe-area-inset-left, 0px)); max-width: 560px; margin: 0 auto; }
-.sparks { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .8; }
-.st-h { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.st-h .icon-btn { color: #fff; }
-.st-series { display: inline-flex; align-items: center; gap: 2px; font-weight: 700; padding: 8px 10px 8px 14px; border-radius: var(--r-pill); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); font-size: 14px; max-width: 60vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.st-series .ic { width: 16px; height: 16px; }
-.lv-pill { white-space: nowrap; font-size: 12.5px; font-weight: 800; padding: 7px 12px; border-radius: var(--r-pill); background: linear-gradient(135deg, var(--gold), #C9783E); color: #2A140C; }
-.st-hero { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 26px 0 10px; }
-.flame-orb { position: relative; width: 210px; height: 210px; display: grid; place-items: center; }
-.flame-orb::before { content: ""; position: absolute; inset: 22px; border-radius: 50%; background: radial-gradient(circle at 50% 60%, rgba(255,170,100,.35), rgba(255,120,60,.08) 60%, transparent 70%); filter: blur(4px); }
-.flame-orb.lit::before { animation: glow 2.4s ease-in-out infinite; background: radial-gradient(circle at 50% 60%, rgba(255,170,90,.75), rgba(240,100,50,.25) 55%, transparent 72%); }
-@keyframes glow { 50% { transform: scale(1.08); opacity: .85; } }
-.flame-orb .prog { position: absolute; inset: 0; transform: rotate(-90deg); }
-.flame-orb .prog circle { fill: none; stroke-width: 6; }
-.flame-orb .prog .trk { stroke: rgba(255,255,255,.1); }
-.flame-orb .prog .val { stroke: var(--gold); stroke-linecap: round; stroke-dasharray: 100; transition: stroke-dashoffset 1s var(--ease); filter: drop-shadow(0 0 6px var(--gold)); }
-.core { position: relative; display: flex; flex-direction: column; align-items: center; }
-.core .fl { color: rgba(255,255,255,.35); display: grid; }
-.core .fl .ic { width: 46px; height: 46px; }
-.lit .core .fl { color: #FF9A4D; filter: drop-shadow(0 0 14px rgba(255,140,60,.9)); animation: flick 1.4s ease-in-out infinite; }
-.lit .core .fl .ic { fill: rgba(255,154,77,.35); }
-.core b { font-family: var(--display); font-size: 64px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
-.core small { font-size: 12px; text-transform: uppercase; letter-spacing: .14em; opacity: .7; font-weight: 700; margin-top: 4px; }
-.xp { width: 100%; }
-.xp-row { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; opacity: .8; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
-.xp-bar { height: 12px; border-radius: 6px; background: rgba(255,255,255,.1); overflow: hidden; }
-.xp-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #C9783E, var(--gold), #FFE2B8); position: relative; transition: width 1s var(--ease); }
-.xp-bar i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: shine 2.2s ease-in-out infinite; }
-@keyframes shine { from { transform: translateX(-100%); } to { transform: translateX(200%); } }
-.st-sub { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; margin: 26px 2px 12px; }
-.st-sub span { font-size: 13px; opacity: .6; font-variant-numeric: tabular-nums; }
-.quests { display: grid; gap: 10px; }
-.quest {
-  display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 24px; text-align: left; color: inherit;
-  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); border: 1px solid rgba(255,255,255,.12);
-  transition: transform .35s var(--spring), background .4s, border-color .4s; animation: rise .55s var(--ease) both; animation-delay: var(--d);
-}
-.quest:active { transform: scale(.96); }
-.q-ic { width: 46px; height: 46px; flex: none; border-radius: 16px; display: grid; place-items: center; background: rgba(255,255,255,.08); color: var(--gold); }
-.q-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.q-txt b { font-weight: 700; }
-.q-txt small { opacity: .65; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.q-ck { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.08); }
-.q-ck .ic { width: 18px; height: 18px; }
-.quest.done { background: linear-gradient(135deg, rgba(227,178,122,.28), rgba(201,120,62,.14)); border-color: rgba(227,178,122,.5); }
-.quest.done .q-ck { background: var(--gold); color: #2A140C; }
-.quest.done .q-ck .ic { stroke-width: 2.6; }
-.quest.pop { animation: pop .55s var(--spring); }
+/* ---------- Seri (tam ekran, sade) ---------- */
+.ov-full .ov-panel:has(.streak) { background: var(--bg); overflow-y: auto; overscroll-behavior: contain; }
+.streak { min-height: 100%; padding: calc(var(--top) + 10px) max(16px, env(safe-area-inset-right, 0px)) calc(var(--bot) + 28px) max(16px, env(safe-area-inset-left, 0px)); max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; }
+.st-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.st-series { display: inline-flex; align-items: center; gap: 2px; font-weight: 600; font-size: 15px; padding: 8px 8px 8px 12px; border-radius: 999px; max-width: 64vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-series .ic { width: 15px; height: 15px; color: var(--ink3); }
+.st-hero { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 22px 0 26px; }
+.st-ring { position: relative; width: 180px; height: 180px; display: grid; place-items: center; }
+.st-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.st-ring circle { fill: none; stroke-width: 5; }
+.st-ring .trk { stroke: var(--fill); }
+.st-ring .val { stroke: var(--tint); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p)); transition: stroke-dashoffset .8s var(--ease); }
+.st-core { display: flex; flex-direction: column; align-items: center; }
+.st-core .flame { color: var(--ink3); display: grid; }
+.st-core .flame .ic { width: 28px; height: 28px; }
+.st-core.lit .flame { color: var(--flame); }
+.st-core b { font-size: 56px; line-height: 1.05; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.st-core small { font-size: 12.5px; color: var(--ink2); }
+.streak > .label { margin-top: 18px; }
+.quest .tick { color: transparent; }
+.quest.done .tick { background: var(--tint); border-color: var(--tint); color: var(--tint-on); }
+.quest.done .row-ic { background: var(--tint); color: var(--tint-on); }
+.quest.done .row-t b { color: var(--ink2); }
+.days { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.days i { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 11.5px; color: var(--ink3); background: var(--surface); border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.days i.ok { background: var(--tint); color: var(--tint-on); border-color: var(--tint); }
+.days i.cur { border-color: var(--tint); color: var(--ink); font-weight: 600; }
 
-.map { position: relative; border-radius: 28px; padding: 20px 0; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
-.map-track { display: flex; flex-direction: column-reverse; align-items: center; gap: 14px; }
-.node { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; transform: translateX(calc(var(--x) * 2.2)); position: relative; font-variant-numeric: tabular-nums; }
-.node span { display: grid; place-items: center; }
-.node .ic { width: 22px; height: 22px; }
-.node.lock { background: rgba(255,255,255,.06); color: rgba(255,255,255,.35); border: 1px solid rgba(255,255,255,.08); }
-.node.ok { background: linear-gradient(140deg, var(--gold), #C9783E); color: #2A140C; box-shadow: 0 8px 18px -8px #C9783E; }
-.node.ok .ic { stroke-width: 2.6; }
-.node.cur { background: #fff; color: #2A140C; box-shadow: 0 0 0 6px rgba(255,255,255,.15), 0 0 30px rgba(255,200,140,.6); animation: bounce 1.6s ease-in-out infinite; }
-.node.ms.lock { color: var(--gold); border-color: rgba(227,178,122,.35); }
-@keyframes bounce { 50% { transform: translateX(calc(var(--x) * 2.2)) translateY(-6px); } }
-.badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.badge { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 6px; border-radius: 22px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); text-align: center; opacity: .55; }
-.badge span { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.08); }
-.badge b { font-family: var(--display); font-size: 18px; }
-.badge small { font-size: 11px; line-height: 1.25; }
-.badge.got { opacity: 1; background: linear-gradient(160deg, rgba(227,178,122,.25), rgba(255,255,255,.04)); border-color: rgba(227,178,122,.45); }
-.badge.got span { background: var(--gold); color: #2A140C; }
-
-.lesson { display: grid; gap: 12px; }
-.lesson .eyebrow { color: var(--accent2); }
-.lesson > p { color: var(--ink2); font-size: 16px; line-height: 1.6; }
-.quiz-box { padding: 16px; border-radius: 24px; background: color-mix(in srgb, var(--ink) 4%, transparent); display: grid; gap: 10px; margin: 6px 0; }
-.qb-t { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; font-weight: 750; color: var(--ink2); }
-.qb-q { font-weight: 700; font-size: 16px; }
+.lesson { display: grid; gap: 10px; }
+.lesson .label { margin: 0; }
+.lesson-b { color: var(--ink2); font-size: 16.5px; line-height: 1.55; }
+.quiz-box { padding: 16px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 10px; margin: 6px 0; }
+.qb-q { font-weight: 600; }
 .qb-o { display: grid; gap: 8px; }
-.qb-o .choice.pill { min-height: 50px; font-size: 15px; }
-.qb-r { font-weight: 700; min-height: 22px; }
-
-.series-pick { display: grid; gap: 10px; }
-.series-pick h2 { margin-bottom: 6px; }
-.series-card { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 24px; text-align: left; background: color-mix(in srgb, var(--ink) 4%, transparent); border: 1px solid transparent; transition: transform .35s var(--spring); }
-.series-card:active { transform: scale(.97); }
-.series-card.on { border-color: var(--accent); }
-.series-card > span:nth-child(2) { flex: 1; display: flex; flex-direction: column; }
-.series-card small { color: var(--ink2); }
-.sc-orb { width: 48px; height: 48px; flex: none; border-radius: 18px; display: grid; place-items: center; color: var(--accent-ink); background: linear-gradient(135deg, var(--accent), var(--accent2)); }
-
-.ov-cel .ov-back { background: rgba(10, 6, 5, .7); }
-.celebrate { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; color: #FBEFE7; }
-.celebrate .confetti { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; }
-.celebrate h2 { font-size: 30px; }
-.celebrate p { opacity: .8; }
-.flame-orb.big { width: 180px; height: 180px; }
-
-/* Parçacıklar */
-#fx { position: fixed; inset: 0; z-index: 80; pointer-events: none; }
-.pt { position: fixed; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: hsl(calc(28 + var(--h)) 85% 62%); animation: pt .7s var(--ease) forwards; }
-@keyframes pt { to { transform: translate(var(--tx), var(--ty)) scale(.2); opacity: 0; } }
-.xp-float { position: fixed; transform: translate(-50%, -50%); font-weight: 800; color: var(--gold); text-shadow: 0 2px 10px rgba(0,0,0,.4); animation: floatUp 1s var(--ease) forwards; font-size: 15px; }
-@keyframes floatUp { to { transform: translate(-50%, -60px); opacity: 0; } }
+.qb-o .choice.pill { min-height: 48px; font-size: 15.5px; }
+.qb-r { font-weight: 600; min-height: 22px; }
+.series-pick { display: grid; gap: 14px; }
 
 /* Bildirim */
+#fx { display: none; }
 #toast {
-  position: fixed; z-index: 90; left: 50%; top: calc(var(--top) + 74px); transform: translate(-50%, -20px); opacity: 0; pointer-events: none;
-  display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 18px; border-radius: var(--r-pill); max-width: calc(100% - 32px);
-  background: var(--ink); color: var(--bg); font-weight: 600; font-size: 14px; box-shadow: 0 16px 30px -12px rgba(0,0,0,.4);
-  transition: transform .45s var(--spring), opacity .25s;
+  position: fixed; z-index: 90; left: 50%; top: calc(var(--top) + 62px); transform: translate(-50%, -12px); opacity: 0; pointer-events: none;
+  display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 16px; border-radius: 999px; max-width: calc(100% - 32px);
+  background: var(--ink); color: var(--bg); font-weight: 500; font-size: 14.5px; box-shadow: var(--shadow);
+  transition: transform .35s var(--spring), opacity .2s;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
-#toast button { padding: 7px 14px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--bg) 18%, transparent); font-weight: 750; }
-#toast:not(:has(button)) { padding-right: 18px; }
+#toast button { padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--bg) 18%, transparent); font-weight: 600; }
+#toast:not(:has(button)) { padding-right: 16px; }
 
-@media (min-width: 720px) {
-  .topic-grid { grid-template-columns: repeat(3, 1fr); }
-  .hello h1 { font-size: 40px; }
-}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
 </style>
-<div id="bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><div class="grain"></div></div>
 <div id="app"></div>
 <div id="layers"></div>
 <div id="fx" aria-hidden="true"></div>
@@ -741,6 +533,9 @@ p { margin: 0; }
       welcomeBody: 'Ben Adorn, senin kişisel asistanınım. Seni biraz tanırsam önerilerimi tam sana göre ayarlayabilirim. Tanışalım mı?',
       welcomeBodyName: 'Ben Adorn, senin kişisel asistanınım. Seni biraz tanırsam önerilerimi tam sana göre ayarlayabilirim. Tanışalım mı?',
       letsMeet: 'Tanışalım', later: 'Daha sonra',
+      menu: 'Menü', menuRoutineSub: 'Sabah ve akşam adımların', nProducts: '{0} ürün', menuProfileSub: 'Adorn\'a kendinden bahset',
+      quickStart: 'Hızlı başlangıç', homeFoot: 'Yalnızca paylaşmak istediklerini paylaş. Profilini istediğin zaman değiştirebilirsin.',
+      dayDoneShort: 'Bugünün görevleri tamam.', tasksLeft: 'Bugün {0} görev kaldı',
       tabChat: 'Sohbet', tabRoutine: 'Rutin', tabScan: 'Tara', tabBag: 'Ürünler', tabProfile: 'Profil',
       morning: 'Günaydın', afternoon: 'İyi günler', evening: 'İyi akşamlar', night: 'İyi geceler',
       homeSub: 'Bugün neye yardım edeyim?',
@@ -752,15 +547,15 @@ p { margin: 0; }
       askNew: 'Yeni sohbette sor',
       sourceLocal: 'Çevrimdışı akıllı yanıtlar', sourceAI: 'Claude ile canlı yanıtlar',
       addToBag: 'Ürünlerime ekle', added: 'Ürünlerine eklendi', removed: 'Kaldırıldı', undo: 'Geri al',
-      streakDays: '{0} gün', streakTitle: 'Glow-up serin', dayStreak: 'günlük seri',
-      level: 'Seviye {0}', xp: '{0} XP', todayTasks: 'Bugünün görevleri',
+      streakDays: '{0} gün', streakTitle: 'Glow-up serisi', dayStreak: 'günlük seri',
+      level: 'Seviye {0}', xp: '{0} XP', todayTasks: 'Bugün',
       taskAM: 'Sabah rutini', taskLesson: 'Günün dersi', taskPM: 'Akşam rutini',
       taskAMd: 'Sabah adımlarını tamamla', taskPMd: 'Akşam adımlarını tamamla',
       dayDone: 'Gün tamamlandı!', dayDoneSub: 'Serin {0} güne çıktı. Yarın görüşürüz.',
-      journey: '30 günlük yolculuk', badges: 'Rozetler', changeSeries: 'Seriyi değiştir',
+      journey: '30 gün', badges: 'Rozetler', changeSeries: 'Seriyi değiştir',
       chooseSeries: 'Bir seri seç', startSeries: 'Başla',
       badge3: 'İlk kıvılcım', badge7: 'Bir hafta', badge14: 'İki hafta', badge30: 'Glow-up ustası',
-      lessonQuiz: 'Hızlı soru', correct: 'Doğru! +10 XP', wrong: 'Tam değil. Doğrusu işaretli.',
+      lessonQuiz: 'Hızlı soru', correct: 'Doğru!', wrong: 'Tam değil. Doğrusu işaretli.',
       tryToday: 'Bugün dene', close: 'Kapat', done: 'Tamam',
       routineTitle: 'Rutinin', routineSub: 'Adımlara dokunarak işaretle. Tamamlanan rutinler serine sayılır.',
       am: 'Sabah', pm: 'Akşam', minutes: '{0} dk', allDone: 'Hepsi tamam',
@@ -777,7 +572,7 @@ p { margin: 0; }
       profileTitle: 'Profil', profileSub: 'Ne kadar paylaşırsan öneriler o kadar sana özel olur.',
       name: 'Adın', namePh: 'Sana nasıl hitap edelim?',
       skinType: 'Cilt tipi', concerns: 'Odak noktaların', hairType: 'Saç tipi', scalp: 'Saç derisi',
-      beard: 'Sakal', skinTone: 'Ten rengi', undertone: 'Alt ton', makeupStyle: 'Makyaj tarzı',
+      skinTone: 'Ten rengi', undertone: 'Alt ton', makeupStyle: 'Makyaj tarzı',
       budget: 'Bütçe', notes: 'Bilmem gereken bir şey var mı?', notesPh: 'Alerjiler, sevdiğin markalar, kaçındığın içerikler…',
       save: 'Kaydet', saved: 'Profil kaydedildi',
       settings: 'Ayarlar', language: 'Dil', appearance: 'Görünüm', themeSystem: 'Sistem', themeLight: 'Açık', themeDark: 'Koyu',
@@ -809,6 +604,9 @@ p { margin: 0; }
       welcomeBody: 'I\'m Adorn, your personal assistant. If I get to know you a little, I can tailor every tip to you. Shall we get acquainted?',
       welcomeBodyName: 'I\'m Adorn, your personal assistant. If I get to know you a little, I can tailor every tip to you. Shall we get acquainted?',
       letsMeet: 'Let\'s do it', later: 'Later',
+      menu: 'Menu', menuRoutineSub: 'Your morning and evening steps', nProducts: '{0} products', menuProfileSub: 'Tell Adorn about you',
+      quickStart: 'Quick start', homeFoot: 'Share only what you\'re comfortable with. You can change your profile any time.',
+      dayDoneShort: 'Today\'s tasks are done.', tasksLeft: '{0} tasks left today',
       tabChat: 'Chat', tabRoutine: 'Routine', tabScan: 'Scan', tabBag: 'Products', tabProfile: 'Profile',
       morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening', night: 'Good night',
       homeSub: 'What can I help with today?',
@@ -821,14 +619,14 @@ p { margin: 0; }
       sourceLocal: 'Offline smart replies', sourceAI: 'Live replies with Claude',
       addToBag: 'Add to my products', added: 'Added to your products', removed: 'Removed', undo: 'Undo',
       streakDays: '{0} days', streakTitle: 'Your glow-up streak', dayStreak: 'day streak',
-      level: 'Level {0}', xp: '{0} XP', todayTasks: 'Today\'s quests',
+      level: 'Level {0}', xp: '{0} XP', todayTasks: 'Today',
       taskAM: 'Morning routine', taskLesson: 'Lesson of the day', taskPM: 'Evening routine',
       taskAMd: 'Finish your morning steps', taskPMd: 'Finish your evening steps',
       dayDone: 'Day complete!', dayDoneSub: 'Your streak is now {0} days. See you tomorrow.',
-      journey: '30-day journey', badges: 'Badges', changeSeries: 'Change series',
+      journey: '30 days', badges: 'Badges', changeSeries: 'Change series',
       chooseSeries: 'Pick a series', startSeries: 'Start',
       badge3: 'First spark', badge7: 'One week', badge14: 'Two weeks', badge30: 'Glow-up master',
-      lessonQuiz: 'Quick check', correct: 'Right! +10 XP', wrong: 'Not quite. The answer is marked.',
+      lessonQuiz: 'Quick check', correct: 'Right!', wrong: 'Not quite. The answer is marked.',
       tryToday: 'Try today', close: 'Close', done: 'Done',
       routineTitle: 'Your routine', routineSub: 'Tap steps to tick them off. Finished routines count toward your streak.',
       am: 'Morning', pm: 'Evening', minutes: '{0} min', allDone: 'All done',
@@ -845,7 +643,7 @@ p { margin: 0; }
       profileTitle: 'Profile', profileSub: 'The more you share, the more personal the tips get.',
       name: 'Your name', namePh: 'What should we call you?',
       skinType: 'Skin type', concerns: 'Your focus areas', hairType: 'Hair type', scalp: 'Scalp',
-      beard: 'Beard', skinTone: 'Skin tone', undertone: 'Undertone', makeupStyle: 'Makeup style',
+      skinTone: 'Skin tone', undertone: 'Undertone', makeupStyle: 'Makeup style',
       budget: 'Budget', notes: 'Anything I should know?', notesPh: 'Allergies, favourite brands, ingredients you avoid…',
       save: 'Save', saved: 'Profile saved',
       settings: 'Settings', language: 'Language', appearance: 'Appearance', themeSystem: 'System', themeLight: 'Light', themeDark: 'Dark',
@@ -913,10 +711,6 @@ p { margin: 0; }
       { id: 'balanced', l: L('Dengeli', 'Balanced') }, { id: 'oilyscalp', l: L('Çabuk yağlanan', 'Gets oily fast') },
       { id: 'dandruff', l: L('Kepekli', 'Flaky') }, { id: 'thinning', l: L('Dökülme var', 'Thinning') }
     ],
-    beard: [
-      { id: 'none', l: L('Yok', 'None') }, { id: 'stubble', l: L('Kirli sakal', 'Stubble') },
-      { id: 'full', l: L('Uzun sakal', 'Full beard') }, { id: 'shave', l: L('Her gün tıraş', 'Shave daily') }
-    ],
     skinTone: [
       { id: 'fair', l: L('Çok açık', 'Fair'), c: '#F3D9C6' }, { id: 'light', l: L('Açık', 'Light'), c: '#E8C2A4' },
       { id: 'medium', l: L('Buğday', 'Medium'), c: '#C99A73' }, { id: 'tan', l: L('Esmer', 'Tan'), c: '#A97650' },
@@ -948,8 +742,8 @@ p { margin: 0; }
     care: [
       { id: 'am', area: 'skin', icon: 'sun', t: L('Sabah bakım rutini', 'Morning routine'), q: L('Bana basit bir sabah bakım rutini kurar mısın?', 'Can you set up a simple morning routine for me?') },
       { id: 'acne', area: 'skin', icon: 'target', t: L('Sivilce ve gözenekler', 'Breakouts and pores'), q: L('Sivilce ve siyah noktalar için ne yapmalıyım?', 'What should I do about breakouts and blackheads?') },
-      { id: 'beard', area: 'beard', icon: 'beard', t: L('Sakal bakımı', 'Beard care'), q: L('Sakal bakımı nasıl yapılır?', 'How should I take care of my beard?') },
-      { id: 'shave', area: 'beard', icon: 'blade', t: L('Tıraş tahrişi', 'Razor irritation'), q: L('Tıraştan sonra cildim tahriş oluyor, ne yapmalıyım?', 'My skin gets irritated after shaving, what should I do?') },
+      { id: 'dry', area: 'skin', icon: 'drop', t: L('Kuru ve hassas cilt', 'Dry, sensitive skin'), q: L('Cildim kuru ve hassas, nasıl bakmalıyım?', 'My skin is dry and sensitive, how should I care for it?') },
+      { id: 'frizz', area: 'hair', icon: 'wave', t: L('Kabaran saçlar', 'Frizzy hair'), q: L('Saçlarım kabarıyor ve kuru, ne yapmalıyım?', 'My hair is dry and frizzy, what should I do?') },
       { id: 'hair', area: 'hair', icon: 'wave', t: L('Dökülme ve kepek', 'Thinning and dandruff'), q: L('Saç dökülmesi ve kepek için ne önerirsin?', 'What do you suggest for thinning hair and dandruff?') },
       { id: 'buy', area: 'general', icon: 'bag', t: L('Ne almalıyım?', 'What should I buy?'), q: L('Profilime göre ilk alacağım bakım ürünü ne olmalı?', 'Based on my profile, which care product should I get first?') }
     ]
@@ -1014,16 +808,6 @@ p { margin: 0; }
     P({ id: 'vichy-energy', brand: 'Vichy', name: 'Dercos Energy+ Shampoo', cat: 'shampoo', area: 'hair', for: ['thin', 'short', 'straight', 'wavy'], concerns: ['thinning'], budget: '$$', ff: false, ing: ['Aminexil', 'Caffeine'],
       d: L('Güçsüz ve incelen saçlar için destekleyici şampuan.', 'A supporting shampoo for weak, thinning hair.'),
       how: L('Saç derisine masajla uygula, 1 dk beklet, durula.', 'Massage into scalp, leave 1 minute, rinse.') }),
-    // Sakal & tıraş
-    P({ id: 'proraso-oil', brand: 'Proraso', name: 'Beard Oil Wood & Spice', cat: 'beardoil', area: 'beard', for: ['stubble', 'full'], concerns: ['itch', 'dry'], budget: '$', ff: false, ing: ['Argan oil', 'Sweet almond oil'],
-      d: L('Sakalı yumuşatan, kaşıntıyı azaltan yağ.', 'An oil that softens the beard and calms itch.'),
-      how: L('Duştan sonra 3–4 damla, sakal diplerine kadar masajla.', '3–4 drops after a shower, massaged down to the skin.') }),
-    P({ id: 'proraso-pre', brand: 'Proraso', name: 'Pre-Shave Cream (Green)', cat: 'preshave', area: 'beard', for: ['shave', 'stubble'], concerns: ['irritation'], budget: '$', ff: false, ing: ['Eucalyptus oil', 'Menthol'],
-      d: L('Tıraş öncesi kılları yumuşatan klasik krem.', 'A classic cream that softens hair before shaving.'),
-      how: L('Islak cilde ince kat, üzerine tıraş köpüğü/kremi.', 'A thin layer on wet skin, then your shaving cream.') }),
-    P({ id: 'nivea-asb', brand: 'NIVEA MEN', name: 'Sensitive Post Shave Balm', cat: 'aftershave', area: 'beard', for: ['shave', 'stubble', 'none'], concerns: ['irritation', 'redness'], budget: '$', ff: false, ing: ['Chamomile', 'Vitamin E'],
-      d: L('Alkolsüz, yatıştırıcı tıraş sonrası balmı.', 'An alcohol-free, soothing post-shave balm.'),
-      how: L('Tıraştan sonra kurulanmış cilde ince kat.', 'A thin layer on dry skin after shaving.') }),
     // Makyaj
     P({ id: 'mb-fitme', brand: 'Maybelline', name: 'Fit Me Matte + Poreless Foundation', cat: 'foundation', area: 'makeup', for: ['oily', 'combo', 'normal'], concerns: ['pores'], budget: '$', ff: false, ing: [],
       d: L('Geniş ton yelpazesi, doğal mat bitiş.', 'A wide shade range with a natural matte finish.'),
@@ -1073,12 +857,11 @@ p { margin: 0; }
     cleanser: L('Temizleyici', 'Cleanser'), serum: L('Serum', 'Serum'), exfoliant: L('Peeling', 'Exfoliant'),
     spf: L('Güneş koruyucu', 'Sunscreen'), moisturizer: L('Nemlendirici', 'Moisturizer'), eye: L('Göz çevresi', 'Eye care'),
     hairoil: L('Saç yağı', 'Hair oil'), hairmask: L('Saç bakımı', 'Hair treatment'), shampoo: L('Şampuan', 'Shampoo'),
-    beardoil: L('Sakal yağı', 'Beard oil'), preshave: L('Tıraş öncesi', 'Pre-shave'), aftershave: L('Tıraş sonrası', 'Aftershave'),
     foundation: L('Fondöten', 'Foundation'), concealer: L('Kapatıcı', 'Concealer'), blush: L('Allık', 'Blush'),
     mascara: L('Maskara', 'Mascara'), brow: L('Kaş', 'Brow'), liner: L('Eyeliner', 'Eyeliner'), lip: L('Dudak', 'Lip'),
     base: L('Baz', 'Base'), setting: L('Sabitleyici', 'Setting'), other: L('Diğer', 'Other')
   };
-  const AREAS = { skin: L('Cilt', 'Skin'), hair: L('Saç', 'Hair'), beard: L('Sakal', 'Beard'), makeup: L('Makyaj', 'Makeup'), body: L('Vücut', 'Body') };
+  const AREAS = { skin: L('Cilt', 'Skin'), hair: L('Saç', 'Hair'), makeup: L('Makyaj', 'Makeup'), body: L('Vücut', 'Body') };
 
   /* ---------- Glow-up serileri ---------- */
   const SKIN_LESSONS = [
@@ -1130,22 +913,20 @@ p { margin: 0; }
       q: L('Şampuan nereye odaklanmalı?', 'Where should shampoo focus?'), o: [L('Saç derisi', 'The scalp'), L('Saç uçları', 'The ends')], a: 0 },
     { t: L('Saç derisi masajı', 'Scalp massage'), b: L('Şampuan sırasında parmak uçlarıyla 1 dakika dairesel masaj yap. Tırnak kullanma; tahriş eder.', 'While shampooing, massage in small circles with your fingertips for a minute. No nails; they irritate.'),
       q: L('Masajda ne kullanılır?', 'What do you massage with?'), o: [L('Tırnaklar', 'Nails'), L('Parmak uçları', 'Fingertips')], a: 1 },
-    { t: L('Sakal yağı', 'Beard oil'), b: L('Sakal yağı kılı değil, altındaki cildi besler. Duştan sonra 3–4 damla avucunda ısıt, sakal diplerine kadar masaj yap.', 'Beard oil feeds the skin under the beard, not just the hair. Warm 3–4 drops in your palms after a shower and work it down to the skin.'),
-      q: L('Sakal yağı en çok neyi besler?', 'What does beard oil mainly feed?'), o: [L('Sakal altındaki cildi', 'The skin underneath'), L('Sadece uçları', 'Just the tips')], a: 0 },
-    { t: L('Tıraş öncesi hazırlık', 'Pre-shave prep'), b: L('Tıraşı duştan sonra yap: sıcak su kılları yumuşatır. Köpüğü 1 dakika bekletmek tahrişi belirgin şekilde azaltır.', 'Shave after a shower: warm water softens hair. Letting the foam sit for a minute noticeably cuts irritation.'),
-      q: L('Tıraş için en iyi zaman?', 'Best time to shave?'), o: [L('Duştan sonra', 'After a shower'), L('Uyanır uyanmaz', 'Right after waking')], a: 0 },
-    { t: L('Tıraş yönü', 'Shaving direction'), b: L('İlk geçişi kıl yönünde yap. Batık ve kızarıklık sorunun varsa ters yöne hiç geçme; jileti sık değiştir.', 'First pass goes with the grain. If you get ingrowns or redness, never go against it, and change blades often.'),
-      q: L('Batık sorunu varsa?', 'Prone to ingrown hairs?'), o: [L('Kıl yönünde tıraş', 'Shave with the grain'), L('Ters yönde tıraş', 'Shave against the grain')], a: 0 },
-    { t: L('Tıraş sonrası', 'After the shave'), b: L('Alkollü losyonlar yakar ve kurutur. Soğuk suyla durula, alkolsüz bir balm veya nemlendirici sür.', 'Alcohol-based lotions sting and dry out skin. Rinse with cool water and use an alcohol-free balm or moisturizer.'),
-      q: L('Tıraş sonrası hangisi?', 'Which one after shaving?'), o: [L('Alkolsüz balm', 'Alcohol-free balm'), L('Alkollü losyon', 'Alcohol lotion')], a: 0 },
-    { t: L('Şekillendirici seçimi', 'Choosing a styler'), b: L('Mat görünüm için kil veya pasta, parlak ve düzenli görünüm için pomat. Az miktarla başla, avucunda ısıtıp arkadan öne uygula.', 'Clay or paste for a matte look, pomade for shine and control. Start small, warm it in your hands, apply back to front.'),
-      q: L('Mat görünüm için?', 'For a matte look?'), o: [L('Pomat', 'Pomade'), L('Kil / pasta', 'Clay / paste')], a: 1 },
     { t: L('Kepekle başa çıkma', 'Dealing with dandruff'), b: L('Kepek şampuanını saç derisinde 1–2 dakika beklet, haftada 2–3 kez kullan. Diğer günler nazik şampuan yeterli.', 'Leave dandruff shampoo on the scalp for 1–2 minutes, 2–3 times a week. A gentle shampoo is enough on other days.'),
       q: L('Kepek şampuanı ne kadar beklemeli?', 'How long should dandruff shampoo sit?'), o: [L('Hemen durula', 'Rinse right away'), L('1–2 dakika', '1–2 minutes')], a: 1 },
     { t: L('Dökülme belirtileri', 'Signs of thinning'), b: L('Günde 50–100 tel dökülmesi normal. Tepe ve alın hattında belirgin açılma varsa erken dönemde bir dermatoloğa görünmek en etkili adımdır.', 'Losing 50–100 hairs a day is normal. If the crown or hairline is clearly thinning, seeing a dermatologist early is the most effective step.'),
       q: L('Günde kaç tel dökülme normal?', 'How many hairs a day is normal to lose?'), o: [L('50–100', '50–100'), L('5–10', '5–10')], a: 0 },
-    { t: L('Düzenli kesim', 'Regular trims'), b: L('Kısa saçlar 3–4, sakal ise 2–3 haftada bir düzeltilince her zaman bakımlı görünür. Boyun hattını temiz tutmak büyük fark yaratır.', 'Short hair every 3–4 weeks and beard every 2–3 weeks keeps you looking sharp. A clean neckline makes a big difference.'),
-      q: L('Bakımlı görünümün sırrı?', 'Secret to looking groomed?'), o: [L('Temiz boyun hattı', 'A clean neckline'), L('Daha çok ürün', 'More product')], a: 0 }
+    { t: L('Isı koruma', 'Heat protection'), b: L('Fön, düzleştirici veya maşa kullanmadan önce ısı koruyucu sür. Isıyı orta seviyede tut; çok sıcak cihaz saçı kırar.', 'Use a heat protectant before blow-drying, straightening or curling. Keep the heat medium; very hot tools break hair.'),
+      q: L('Isı koruyucu ne zaman sürülür?', 'When do you apply heat protectant?'), o: [L('Isıdan önce', 'Before heat'), L('Isıdan sonra', 'After heat')], a: 0 },
+    { t: L('Doğru kurulama', 'Drying gently'), b: L('Saçı havluyla ovma; mikrofiber havlu veya pamuklu tişörtle bastırarak kurula. Islak saç en kırılgan halindedir, geniş dişli tarak kullan.', 'Don\'t rub with a towel; press with microfibre or a cotton T-shirt. Wet hair is at its most fragile, so use a wide-tooth comb.'),
+      q: L('Islak saç için hangisi?', 'Which is best for wet hair?'), o: [L('Geniş dişli tarak', 'Wide-tooth comb'), L('Sık dişli fırça', 'Fine brush')], a: 0 },
+    { t: L('Saç kremi nereye?', 'Where conditioner goes'), b: L('Saç kremini uçlara ve orta kısma sür, saç derisine değil. 2–3 dakika beklet, ılık suyla durula.', 'Apply conditioner to mid-lengths and ends, not the scalp. Leave 2–3 minutes and rinse with lukewarm water.'),
+      q: L('Saç kremi nereye sürülür?', 'Where does conditioner go?'), o: [L('Saç derisine', 'The scalp'), L('Uçlara ve orta kısma', 'Ends and mid-lengths')], a: 1 },
+    { t: L('Haftalık maske', 'A weekly mask'), b: L('Haftada bir besleyici maske, kuru ve yıpranmış saçta parlaklığı geri getirir. Uçlara odaklan, 5–10 dakika beklet.', 'A nourishing mask once a week brings shine back to dry, damaged hair. Focus on the ends and leave it 5–10 minutes.'),
+      q: L('Maske ne sıklıkla?', 'How often for a mask?'), o: [L('Haftada bir', 'Once a week'), L('Her gün', 'Every day')], a: 0 },
+    { t: L('Saten yastık kılıfı', 'Satin pillowcase'), b: L('Saten veya ipek yastık kılıfı sürtünmeyi azaltır; sabah daha az kabarma ve kırık uç görürsün.', 'A satin or silk pillowcase cuts friction; you\'ll wake up with less frizz and fewer split ends.'),
+      q: L('Saten kılıf neyi azaltır?', 'What does satin reduce?'), o: [L('Sürtünme ve kabarma', 'Friction and frizz'), L('Saç uzamasını', 'Hair growth')], a: 0 }
   ];
 
   const SERIES = {
@@ -1155,7 +936,7 @@ p { margin: 0; }
     ],
     care: [
       { id: 'rs30', t: L('30 Gün Cilt Reset', '30-Day Skin Reset'), d: L('Temiz, dengeli ve sağlıklı bir cilt için 30 gün.', '30 days to clean, balanced, healthy skin.'), lessons: SKIN_LESSONS },
-      { id: 'gr30', t: L('Saç & Sakal Bakımı', 'Hair & Beard Care'), d: L('Saç, sakal ve tıraş alışkanlıklarını oturt.', 'Build solid hair, beard and shaving habits.'), lessons: GROOM_LESSONS }
+      { id: 'gr30', t: L('Saç Bakımı', 'Hair Care'), d: L('Sağlıklı, güçlü saç için 30 gün.', '30 days to healthy, strong hair.'), lessons: GROOM_LESSONS }
     ]
   };
 
@@ -1187,7 +968,6 @@ p { margin: 0; }
       else { s -= 10; warn.push(L('Cilt tipin için ilk tercih değil', 'Not the first pick for your skin type')); }
     }
     if (p.area === 'hair' && prof.hairType && p.for.includes(prof.hairType)) { s += 6; why.push(L('Saç tipine uygun', 'Suits your hair type')); }
-    if (p.area === 'beard' && prof.beard && p.for.includes(prof.beard)) { s += 8; why.push(L('Sakal düzenine uygun', 'Fits your beard routine')); }
     const cs = (prof.concerns || []).filter(c => p.concerns.includes(c));
     if (cs.length) { s += Math.min(2, cs.length) * 7; why.push(L('Odak noktalarını hedefliyor', 'Targets your focus areas')); }
     if (prof.scalp && p.concerns.includes(prof.scalp)) { s += 12; why.push(L('Saç derisi ihtiyacına yönelik', 'Made for your scalp need')); }
@@ -1230,9 +1010,6 @@ p { margin: 0; }
     ['shampoo', ['sampuan', 'shampoo']],
     ['hairoil', ['sac yag', 'hair oil', 'argan', 'serum sac']],
     ['hairmask', ['sac maske', 'hair mask', 'kremi sac', 'conditioner', 'sac kremi', 'olaplex']],
-    ['beardoil', ['sakal', 'beard']],
-    ['aftershave', ['after shave', 'aftershave', 'tiras sonrasi', 'post shave']],
-    ['preshave', ['tiras kopu', 'tiras jel', 'shaving', 'shave gel', 'shave foam', 'pre-shave', 'pre shave']],
     ['foundation', ['fondoten', 'foundation', 'bb ', 'cc ', 'skin tint']],
     ['concealer', ['kapatici', 'concealer']],
     ['mascara', ['maskara', 'mascara']],
@@ -1241,7 +1018,7 @@ p { margin: 0; }
     ['liner', ['eyeliner', 'liner', 'kalem']],
     ['brow', ['kas ', 'brow']]
   ];
-  const CAT_AREA = { spf: 'skin', cleanser: 'skin', exfoliant: 'skin', serum: 'skin', eye: 'skin', moisturizer: 'skin', shampoo: 'hair', hairoil: 'hair', hairmask: 'hair', beardoil: 'beard', aftershave: 'beard', preshave: 'beard', foundation: 'makeup', concealer: 'makeup', mascara: 'makeup', lip: 'makeup', blush: 'makeup', liner: 'makeup', brow: 'makeup', other: 'skin' };
+  const CAT_AREA = { spf: 'skin', cleanser: 'skin', exfoliant: 'skin', serum: 'skin', eye: 'skin', moisturizer: 'skin', shampoo: 'hair', hairoil: 'hair', hairmask: 'hair', foundation: 'makeup', concealer: 'makeup', mascara: 'makeup', lip: 'makeup', blush: 'makeup', liner: 'makeup', brow: 'makeup', other: 'skin' };
   const CAT_HOW = {
     spf: L('Sabah son adım olarak iki parmak boyu sür; dışarıdaysan 2–3 saatte bir yenile.', 'Last morning step, two finger-lengths; reapply every 2–3 hours outdoors.'),
     cleanser: L('Nemli cilde 30–60 saniye masaj yap, ılık suyla durula.', 'Massage onto damp skin for 30–60 seconds, rinse with lukewarm water.'),
@@ -1252,9 +1029,6 @@ p { margin: 0; }
     shampoo: L('Saç derisine masajla uygula, 1 dk beklet, iyice durula.', 'Massage into the scalp, leave a minute, rinse well.'),
     hairoil: L('Nemli saçın orta ve uç kısımlarına az miktarda.', 'A little on mid-lengths and ends of damp hair.'),
     hairmask: L('Yıkadıktan sonra uçlara, 3–5 dk beklet.', 'After washing, on the ends; leave 3–5 minutes.'),
-    beardoil: L('Duştan sonra birkaç damla, sakal diplerine kadar.', 'A few drops after a shower, down to the skin.'),
-    aftershave: L('Tıraştan sonra kurulanmış cilde ince kat.', 'A thin layer on dry skin after shaving.'),
-    preshave: L('Islak cilde uygula, 1 dk beklet, kıl yönünde tıraş ol.', 'Apply to wet skin, wait a minute, shave with the grain.'),
     foundation: L('Az miktarla yüzün ortasından dışa doğru dağıt.', 'A little, blended out from the centre of the face.'),
     concealer: L('Sadece gereken noktalara, tapping ile.', 'Only where needed, tapped in.'),
     mascara: L('Dipte sağa sola oynat, uçlara doğru çek.', 'Wiggle at the root, pull to the tips.'),
@@ -1338,10 +1112,6 @@ p { margin: 0; }
     am.push({ id: 'moist', t: st === 'oily' ? L('Hafif jel nemlendirici', 'Light gel moisturizer') : L('Nemlendirici', 'Moisturizer'), m: 1 });
     am.push({ id: 'spf', t: L('Güneş koruyucu SPF 50', 'SPF 50 sunscreen'), m: 1 });
     if (mode === 'makeup') am.push({ id: 'mk', t: L('Hafif makyaj (isteğe bağlı)', 'Light makeup (optional)'), m: 8 });
-    if (mode === 'care') {
-      if (prof.beard === 'stubble' || prof.beard === 'full') am.push({ id: 'beard', t: L('Sakal yağı, 3–4 damla', 'Beard oil, 3–4 drops'), m: 1 });
-      if (prof.beard === 'shave') am.splice(1, 0, { id: 'shave', t: L('Kıl yönünde tıraş + alkolsüz balm', 'Shave with the grain + alcohol-free balm'), m: 5 });
-    }
     if (mode === 'makeup') pm.push({ id: 'rm', t: L('Makyajı temizleme yağı veya misel suyla çıkar', 'Remove makeup with cleansing oil or micellar water'), m: 2 });
     pm.push({ id: 'cl2', t: L('Yüzünü yıka', 'Cleanse your face'), m: 1 });
     if (cs.includes('aging')) pm.push({ id: 'ret', t: L('Retinol (haftada 2–3 gece)', 'Retinol (2–3 nights a week)'), m: 1 });
@@ -1367,13 +1137,13 @@ p { margin: 0; }
         products: pick(c.prof, c.mode, { cats: ['cleanser', 'moisturizer'], concerns: ['redness'] }, 2) }) },
     { id: 'greet', area: 'general', keys: ['merhaba', 'selam', 'slm', 'hey ', 'hi ', 'hello', 'gunaydin', 'iyi aksamlar', 'iyi gunler', 'naber', 'nasilsin', 'how are you'],
       r: (c) => ({ text: tx(L(`Merhaba${nm(c)}! Bugün nasıl yardımcı olayım? Bir rutin kurabilir, ürün önerebilir ya da bir ürünü senin için yorumlayabilirim.`, `Hi${nm(c)}! How can I help today? I can build a routine, suggest products or review a product for you.`)),
-        chips: c.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Sakal bakımı', 'Beard care'), L('Ne almalıyım?', 'What should I buy?')] }) },
+        chips: c.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Kabaran saçlar', 'Frizzy hair'), L('Ne almalıyım?', 'What should I buy?')] }) },
     { id: 'thanks', area: 'general', keys: ['tesekkur', 'sagol', 'sag ol', 'eyvallah', 'thanks', 'thank', 'super', 'harika', 'cok iyi', 'great'],
       r: (c) => ({ text: tx(L('Rica ederim! Aklına başka bir şey gelirse buradayım. Bugünkü serini tamamlamayı da unutma.', 'You\'re welcome! I\'m here if anything else comes up. Don\'t forget today\'s streak.')) }) },
     { id: 'who', area: 'general', keys: ['kimsin', 'sen kim', 'neler yapabilir', 'ne yapabilir', 'who are you', 'what can you', 'help me', 'yardim et'],
       r: (c) => ({ text: tx(L(
-        `Ben Adorn, kişisel bakım asistanın. Neler yapabilirim:\n• Cildine ve saçına göre sabah/akşam rutini kurarım\n• Bir ürünü tarayıp sana uygun olup olmadığını söylerim\n• Profiline göre ürün öneririm${c.mode === 'makeup' ? '\n• Makyaj tekniklerini adım adım anlatırım' : '\n• Sakal, tıraş ve saç bakımı için pratik öneriler veririm'}\n• Glow-up serinle her gün küçük adımlar attırırım`,
-        `I'm Adorn, your personal care assistant. I can:\n• Build morning/evening routines for your skin and hair\n• Scan a product and tell you if it suits you\n• Suggest products for your profile${c.mode === 'makeup' ? '\n• Walk you through makeup techniques' : '\n• Give practical beard, shaving and hair tips'}\n• Keep you going with a daily glow-up streak`)) }) },
+        `Ben Adorn, kişisel bakım asistanın. Neler yapabilirim:\n• Cildine ve saçına göre sabah/akşam rutini kurarım\n• Bir ürünü tarayıp sana uygun olup olmadığını söylerim\n• Profiline göre ürün öneririm${c.mode === 'makeup' ? '\n• Makyaj tekniklerini adım adım anlatırım' : '\n• Saç ve saç derisi bakımı için pratik öneriler veririm'}\n• Glow-up serinle her gün küçük adımlar attırırım`,
+        `I'm Adorn, your personal care assistant. I can:\n• Build morning/evening routines for your skin and hair\n• Scan a product and tell you if it suits you\n• Suggest products for your profile${c.mode === 'makeup' ? '\n• Walk you through makeup techniques' : '\n• Give practical hair and scalp care tips'}\n• Keep you going with a daily glow-up streak`)) }) },
     { id: 'am', area: 'skin', keys: ['sabah', 'morning', 'rutin', 'routine', 'bakim rutin', 'cilt bakim', 'skincare', 'skin care', 'gunluk bakim', 'bakim yap', 'nereden basla', 'where do i start'],
       r: (c) => {
         const r = buildRoutine(c.prof, c.mode); const sw = skinWord(c);
@@ -1473,16 +1243,11 @@ p { margin: 0; }
       r: (c) => ({ text: tx(L(
         'Şekillendirici seçimi istediğin görünüme bağlı:\n• **Kil / pasta**: mat, doğal, dokulu görünüm; ince telli saçlara hacim\n• **Pomat**: parlak, düzenli, klasik görünüm\n• **Wax**: orta tutuş, yeniden şekillendirilebilir\nNohut kadarıyla başla, avucunda ısıt, arkadan öne doğru uygula. Berberine yüz şeklini ve sabah ayırabildiğin süreyi söyle; buna göre kesim önersin.',
         'Pick a styler by the look you want:\n• **Clay / paste**: matte, natural, textured; adds volume to fine hair\n• **Pomade**: shiny, neat, classic\n• **Wax**: medium hold, restylable\nStart with a chickpea-sized amount, warm it in your palms, apply back to front. Tell your barber your face shape and how much time you have in the morning.')) }) },
-    { id: 'beard', area: 'beard', w: 2, keys: ['sakal', 'beard', 'biyik', 'mustache', 'moustache'],
-      r: (c) => ({ text: tx(L(
-        'Bakımlı bir sakal için:\n• Sakalı haftada 2–3 kez nazik şampuanla yıka; altındaki cildi de temizle\n• Duştan sonra **sakal yağı** ile cildi besle, kaşıntı ve kepeği azaltır\n• Taraklayarak kıl yönünü eğit\n• 2–3 haftada bir yanak ve boyun hattını düzelt; boyun hattı adem elmasının yaklaşık iki parmak üstünde olmalı\n• Seyrek bölgeler için biraz uzatmak çoğu zaman en iyi çözüm',
-        'For a well-kept beard:\n• Wash it 2–3 times a week with a gentle shampoo, skin underneath too\n• After showering, feed the skin with **beard oil**; it cuts itch and flakes\n• Comb it to train the direction\n• Tidy cheek and neck lines every 2–3 weeks; the neckline sits about two fingers above the Adam\'s apple\n• For patchy areas, a bit more length often helps most')),
-        products: pick(c.prof, c.mode, { areas: ['beard'], cats: ['beardoil'] }, 1), chips: [L('Tıraş tahrişi', 'Razor irritation')] }) },
-    { id: 'shave', area: 'beard', w: 2, keys: ['tiras', 'shave', 'shaving', 'jilet', 'razor', 'batik', 'ingrown', 'after shave', 'aftershave', 'kesik', 'kizarik tiras'],
+    { id: 'shave', area: 'skin', w: 2, keys: ['tiras', 'shave', 'shaving', 'jilet', 'razor', 'batik', 'ingrown', 'after shave', 'aftershave', 'kesik', 'kizarik tiras'],
       r: (c) => ({ text: tx(L(
         'Tıraş tahrişini azaltmak için:\n• Duştan sonra tıraş ol; sıcak su kılı yumuşatır\n• Tıraş köpüğü veya jelini 1 dakika beklet\n• **Kıl yönünde** geç; batık sorunu varsa ters yöne hiç geçme\n• Bıçağı 5–7 tıraşta bir değiştir, sık durula\n• Soğuk suyla bitir, **alkolsüz** bir balm sür\nBatıklar sık oluyorsa haftada 2 kez salisilik asitli bir tonik yardımcı olur.',
         'To cut razor irritation:\n• Shave after a shower; warm water softens hair\n• Let the foam or gel sit for a minute\n• Go **with the grain**; if you get ingrowns, never against it\n• Change the blade every 5–7 shaves, rinse often\n• Finish with cool water and an **alcohol-free** balm\nIf ingrowns are frequent, a salicylic acid toner twice a week helps.')),
-        products: pick(c.prof, c.mode, { areas: ['beard'], cats: ['preshave', 'aftershave'] }, 2) }) },
+        chips: [L('Hassas cilt', 'Sensitive skin')] }) },
     { id: 'body', area: 'skin', keys: ['ter ', 'terleme', 'koku', 'deodorant', 'deodoran', 'parfum', 'fragrance', 'sweat', 'smell', 'vucut', 'body'],
       r: (c) => ({ text: tx(L(
         'Tazelik için temel düzen:\n• Günlük duş; koltuk altı ve ayaklara özen\n• Ter sorunu varsa akşam **antiperspirant**, sabah deodorant daha etkili\n• Parfümü nabız noktalarına (bilek, boyun) sık, ovma\n• Pamuklu ve nefes alan kumaşlar kokuyu azaltır\n• Vücut için de nemlendirici, özellikle duştan hemen sonra',
@@ -1530,7 +1295,7 @@ p { margin: 0; }
     { id: 'buy', area: 'general', keys: ['ne almali', 'ne alayim', 'ne alsam', 'oneri', 'oner', 'tavsiye', 'recommend', 'what should i buy', 'buy next', 'urun oner', 'hangi urun', 'which product', 'ne kullanmali', 'ne kullanayim', 'what should i use'],
       r: (c) => {
         const bag = new Set(c.bag.map(b => b.id));
-        const order = ['spf', 'cleanser', 'moisturizer', 'serum', ...(c.mode === 'care' && (c.prof.beard === 'stubble' || c.prof.beard === 'full') ? ['beardoil'] : []), ...(c.mode === 'care' && c.prof.beard === 'shave' ? ['aftershave'] : []), ...(c.mode === 'makeup' ? ['foundation', 'mascara'] : [])];
+        const order = ['spf', 'cleanser', 'moisturizer', 'serum', ...(c.mode === 'makeup' ? ['foundation', 'mascara'] : [])];
         const haveCats = new Set(c.bag.map(b => b.cat));
         const missing = order.filter(x => !haveCats.has(x));
         const cat = missing[0] || 'serum';
@@ -1545,7 +1310,7 @@ p { margin: 0; }
       r: (c) => ({ text: tx(L('Cilt ve saç yaşam tarzına çok tepki verir:\n• 7–8 saat uyku: göz altı ve donukluk için en ucuz bakım\n• Yeterli su ve sebze; çok şekerli ve işlenmiş gıdalar bazı kişilerde sivilceyi artırabilir\n• Düzenli egzersiz kan akışını artırır; terledikten sonra yüzünü yıka\n• Stres dökülme ve sivilceyi tetikleyebilir; kısa yürüyüşler bile işe yarar\n• Sigara cilt yaşlanmasını belirgin şekilde hızlandırır', 'Skin and hair respond strongly to lifestyle:\n• 7–8 hours of sleep: the cheapest fix for under-eyes and dullness\n• Enough water and veg; very sugary, processed food can worsen breakouts for some people\n• Regular exercise boosts circulation; wash your face after sweating\n• Stress can trigger shedding and breakouts; even short walks help\n• Smoking noticeably speeds up skin ageing')) }) }
   ];
 
-  const AREA_OK = { skin: ['skin', 'general'], makeup: ['makeup', 'skin', 'general'], hair: ['hair', 'general'], beard: ['beard', 'skin', 'general'], general: ['skin', 'makeup', 'hair', 'beard', 'general'] };
+  const AREA_OK = { skin: ['skin', 'general'], makeup: ['makeup', 'skin', 'general'], hair: ['hair', 'general'], general: ['skin', 'makeup', 'hair', 'general'] };
 
   function detect(text) {
     const n = norm(text);
@@ -1567,7 +1332,7 @@ p { margin: 0; }
       return { text: tx(L(
         'Bunu tam anlayamadım ama yardımcı olmak isterim. Biraz daha açar mısın? Örneğin cilt tipini, yaşadığın sorunu ya da merak ettiğin ürünü yazabilirsin.',
         'I didn\'t quite catch that, but I\'d like to help. Could you say a bit more? For example your skin type, the issue you\'re having, or a product you\'re curious about.')),
-        chips: ctx.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Sakal bakımı', 'Beard care'), L('Saç dökülmesi', 'Hair thinning')], intentArea: 'general' };
+        chips: ctx.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Kuru cilt', 'Dry skin'), L('Saç dökülmesi', 'Hair thinning')], intentArea: 'general' };
     }
     if (intent.area === 'makeup' && ctx.mode === 'care') {
       return { text: tx(L(
@@ -1717,7 +1482,7 @@ p { margin: 0; }
     wave: '<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 13c3-3 6 3 9 0s6 3 9 0M3 18c3-3 6 3 9 0s6 3 9 0"/>',
     bag: '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
     target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8"/>',
-    beard: '<path d="M5 8c0 7 3 12 7 12s7-5 7-12"/><path d="M9 13c1 .8 2 1 3 1s2-.2 3-1"/><path d="M5 8c2 1 4 1 7 1s5 0 7-1"/>',
+    menu: '<path d="M5 9h14M5 15h14"/>',
     blade: '<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M8 12h8M7 8V6M17 8V6"/>',
     chat: '<path d="M4 5h16v11H9l-5 4z"/>',
     routine: '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/>',
@@ -1769,7 +1534,7 @@ p { margin: 0; }
     document.documentElement.dataset.mode = S.mode || 'makeup';
     document.documentElement.lang = S.lang;
     const meta = $('meta[name="theme-color"]');
-    if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F4EEE9';
+    if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F9F8F6';
   }
   mq.addEventListener?.('change', applyTheme);
   new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -1820,15 +1585,12 @@ p { margin: 0; }
     if (S.streak.last && S.streak.last !== d && S.streak.last !== yesterday()) S.streak.count = 0;
   }
   const streakCount = () => (S.streak.last === today() || S.streak.last === yesterday()) ? S.streak.count : 0;
-  const level = () => Math.floor(S.streak.xp / 100) + 1;
-  const BADGES = [{ n: 3, k: 'badge3' }, { n: 7, k: 'badge7' }, { n: 14, k: 'badge14' }, { n: 30, k: 'badge30' }];
 
   function completeTask(id, fromEl) {
     ensureToday();
     const tk = S.streak.today.tasks;
     if (tk.includes(id)) return false;
-    tk.push(id); S.streak.xp += 10;
-    if (fromEl) burst(fromEl, '+10 XP');
+    tk.push(id);
     let dayDone = false;
     if (tk.length === 3) {
       dayDone = true;
@@ -1836,8 +1598,6 @@ p { margin: 0; }
       S.streak.last = today();
       S.streak.best = Math.max(S.streak.best, S.streak.count);
       S.streak.doneDays = Math.min(30, S.streak.doneDays + 1);
-      S.streak.xp += 20;
-      BADGES.forEach(b => { if (S.streak.count >= b.n && !S.streak.badges.includes(b.n)) S.streak.badges.push(b.n); });
     }
     save(); updateChip();
     if (dayDone) setTimeout(celebrate, 450);
@@ -1864,21 +1624,20 @@ p { margin: 0; }
     app.className = 'stage';
     app.innerHTML = `
       <section class="gate screen-in">
-        <div class="lang-switch" role="group" aria-label="${t('language')}">
-          <button type="button" data-lang="tr" class="${S.lang === 'tr' ? 'on' : ''}">TR</button>
-          <button type="button" data-lang="en" class="${S.lang === 'en' ? 'on' : ''}">EN</button>
-        </div>
-        <div class="gate-top">
-          <div class="orb orb-lg" aria-hidden="true"><i></i><i></i><i></i></div>
-          <span class="wordmark big">adorn</span>
-          <p class="eyebrow">${t('gateEyebrow')}</p>
+        <div class="gate-bar">
+          <span class="wordmark">adorn</span>
+          <div class="lang-switch" role="group" aria-label="${t('language')}">
+            <button type="button" data-lang="tr" class="${S.lang === 'tr' ? 'on' : ''}">TR</button>
+            <button type="button" data-lang="en" class="${S.lang === 'en' ? 'on' : ''}">EN</button>
+          </div>
         </div>
         <div class="gate-q">
+          <p class="eyebrow">${t('gateEyebrow')}</p>
           <h1>${t('gateQ')}</h1>
           <p class="muted">${t('gateSub')}</p>
-          <div class="choice-row">
-            <button type="button" class="choice pill-xl" data-pick="makeup"><span class="c-main">${t('yes')}</span><span class="c-sub">${t('yesHint')}</span></button>
-            <button type="button" class="choice pill-xl" data-pick="care"><span class="c-main">${t('no')}</span><span class="c-sub">${t('noHint')}</span></button>
+          <div class="choice-col">
+            <button type="button" class="choice pill" data-pick="makeup"><b>${t('yes')}</b><small>${t('yesHint')}</small></button>
+            <button type="button" class="choice pill" data-pick="care"><b>${t('no')}</b><small>${t('noHint')}</small></button>
           </div>
         </div>
       </section>`;
@@ -1886,7 +1645,7 @@ p { margin: 0; }
     $$('[data-pick]', app).forEach(b => b.onclick = () => {
       buzz(); pickEffect(b);
       S.mode = b.dataset.pick; save();
-      setTimeout(() => { applyTheme(); if (S.mode === 'makeup') renderQuiz(0); else { S.quizDone = true; save(); renderShell(); } }, 460);
+      setTimeout(() => { applyTheme(); if (S.mode === 'makeup') renderQuiz(0); else { S.quizDone = true; save(); renderShell(); } }, 420);
     });
   }
   function pickEffect(btn) {
@@ -1935,62 +1694,74 @@ p { margin: 0; }
   function renderShell() {
     app.className = 'shell';
     app.innerHTML = `
-      <header class="topbar bar-glass">
-        <button type="button" class="icon-btn" data-act="history" aria-label="${t('chats')}">${ic('history')}</button>
-        <span class="wordmark">adorn</span>
-        <button type="button" class="streak-chip" data-act="streak" aria-label="${t('streakTitle')}">
-          <span class="flame">${ic('flame')}</span><b id="chip-n">${streakCount()}</b><i class="chip-dot"></i>
-        </button>
+      <header class="topbar">
+        <button type="button" class="icon-btn" id="nav-btn" aria-label="${t('menu')}">${ic('menu')}</button>
+        <span class="wordmark" id="title">adorn</span>
+        <div class="top-actions">
+          <button type="button" class="streak-chip" data-act="streak" aria-label="${t('streakTitle')}"><span class="flame">${ic('flame')}</span><b id="chip-n">${streakCount()}</b></button>
+          <button type="button" class="icon-btn ring-btn" data-act="history" aria-label="${t('chats')}">${ic('history')}</button>
+          <button type="button" class="icon-btn ring-btn" data-act="new" aria-label="${t('newChat')}">${ic('plus')}</button>
+        </div>
       </header>
       <main id="view" class="view"></main>
-      <div id="composer-slot"></div>
-      <nav class="dock bar-glass" aria-label="Adorn">
-        ${dockBtn('chat', 'chat', 'tabChat')}${dockBtn('routine', 'routine', 'tabRoutine')}
-        <button type="button" class="dock-scan" data-tab="scan" aria-label="${t('tabScan')}"><span>${ic('scan')}</span></button>
-        ${dockBtn('bag', 'bag', 'tabBag')}${dockBtn('profile', 'user', 'tabProfile')}
-      </nav>`;
+      <div id="composer-slot"></div>`;
+    $('#nav-btn').onclick = () => { buzz(5); if (tab === 'chat') openMenu(); else go('chat'); };
     $('[data-act=history]').onclick = openHistory;
     $('[data-act=streak]').onclick = openStreak;
-    $$('.dock [data-tab]').forEach(b => b.onclick = () => {
-      buzz(5);
-      const id = b.dataset.tab;
-      if (id === 'scan') return openScan();
-      // Sohbetteyken sekmeye tekrar dokunmak ana sayfaya döner
-      if (id === 'chat' && tab === 'chat' && activeChat() && !busy) { S.activeChat = null; save(); }
-      go(id);
-    });
+    $('[data-act=new]').onclick = () => { if (busy) return; S.activeChat = null; save(); go('chat'); };
     go(tab, true);
     updateChip();
     if (!S.welcomed) setTimeout(openWelcome, 380);
   }
-  const dockBtn = (id, icon, label) => `<button type="button" class="dock-btn" data-tab="${id}"><span class="dock-ic">${ic(icon)}</span><span class="dock-l">${t(label)}</span></button>`;
+
+  function openMenu() {
+    const pf = S.profile, name = (pf.name || '').trim();
+    const row = (id, icon, label, sub) => `<button type="button" class="menu-row" data-go="${id}"><span class="row-ic">${ic(icon)}</span><span class="row-t"><b>${label}</b>${sub ? `<small>${sub}</small>` : ''}</span>${ic('chev', 'chev')}</button>`;
+    const ov = overlay(`
+      <div class="menu">
+        <div class="list">
+          ${row('routine', 'routine', t('tabRoutine'), t('menuRoutineSub'))}
+          ${row('bag', 'bag', t('bagTitle'), S.bag.length ? t('nProducts', S.bag.length) : '')}
+          ${row('scan', 'camera', t('scanTitle'), '')}
+          ${row('streak', 'flame', t('streakTitle'), '')}
+        </div>
+        <button type="button" class="profile-row" data-go="profile">
+          <span class="avatar">${esc(name.charAt(0).toLocaleUpperCase(S.lang === 'tr' ? 'tr-TR' : 'en'))}</span>
+          <span class="row-t"><b>${name ? esc(name) : t('profileTitle')}</b><small>${t('menuProfileSub')}</small></span>
+          ${ic('chev', 'chev')}
+        </button>
+      </div>`);
+    $$('[data-go]', ov).forEach(b => b.onclick = () => {
+      const id = b.dataset.go; closeOverlay(ov);
+      setTimeout(() => { if (id === 'scan') openScan(); else if (id === 'streak') openStreak(); else go(id); }, 180);
+    });
+  }
 
   function updateChip() {
     const n = $('#chip-n'); if (!n) return;
     n.textContent = streakCount();
-    const chip = n.parentElement;
-    chip.classList.toggle('lit', streakCount() > 0);
-    chip.classList.toggle('pending', S.streak.today.tasks.length < 3);
+    n.parentElement.classList.toggle('lit', streakCount() > 0);
   }
 
   function go(next, instant) {
     tab = next;
-    $$('.dock [data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
     const v = $('#view');
     v.classList.remove('enter'); void v.offsetWidth; if (!instant) v.classList.add('enter');
     v.scrollTop = 0;
     document.body.classList.toggle('has-composer', tab === 'chat');
     if (tab !== 'chat') $('#composer-slot').innerHTML = '';
+    const nb = $('#nav-btn');
+    nb.innerHTML = ic(tab === 'chat' ? 'menu' : 'back');
+    nb.setAttribute('aria-label', tab === 'chat' ? t('menu') : t('back'));
     ({ chat: renderChat, routine: renderRoutine, bag: renderBag, profile: renderProfile })[tab]();
   }
 
   /* ---------- 3. Karşılama ---------- */
   function openWelcome() {
-    const name = (S.profile.name || '').trim();
     const ov = overlay(`
       <div class="welcome">
-        <div class="orb orb-md talk" aria-hidden="true"><i></i><i></i><i></i></div>
-        <h2>${t('welcomeTitle')}${name ? ' ' + esc(name) + '!' : ''}</h2>
+        <span class="wordmark">adorn</span>
+        <h2>${t('welcomeTitle')}</h2>
         <p class="type-on" id="wl-text"></p>
         <div class="welcome-actions">
           <button type="button" class="btn primary" data-act="meet">${t('letsMeet')}</button>
@@ -2055,15 +1826,19 @@ p { margin: 0; }
             <h1>${greet()}${name ? ', ' + esc(name) : ''}</h1>
             <p class="muted">${t('homeSub')}</p>
           </div>
-          <div class="topic-grid">
-            ${topics().map((tp, i) => `<button type="button" class="topic" style="--d:${i * 40}ms" data-topic="${tp.id}"><span class="topic-ic">${ic(tp.icon)}</span><span class="topic-t">${esc(tx(tp.t))}</span></button>`).join('')}
+          <div>
+            <p class="label">${t('quickStart')}</p>
+            <div class="list">
+              ${topics().map(tp => `<button type="button" class="row" data-topic="${tp.id}"><span class="row-ic">${ic(tp.icon)}</span><span class="row-t"><b>${esc(tx(tp.t))}</b></span>${ic('chev', 'chev')}</button>`).join('')}
+            </div>
+            <p class="foot">${t('homeFoot')}</p>
           </div>
         </section>`;
       $$('[data-topic]', v).forEach(b => b.onclick = () => { buzz(); startTopic(b.dataset.topic); });
     } else {
       const tp = c.topic ? topics().find(x => x.id === c.topic) || findTopicAny(c.topic) : null;
       v.innerHTML = `
-        ${tp ? `<div class="focus"><span class="focus-pill">${ic(tp.icon)}${esc(tx(tp.t))}</span><p>${t('focusNote')}</p></div>` : ''}
+        ${tp ? `<div class="focus"><p class="focus-t">${esc(tx(tp.t))}</p><p>${t('focusNote')}</p></div>` : ''}
         <div class="msgs" id="msgs"></div>`;
       const box = $('#msgs');
       c.messages.forEach(m => box.appendChild(msgEl(m)));
@@ -2259,7 +2034,7 @@ p { margin: 0; }
     const lang = S.lang === 'tr' ? 'Turkish (natural, fluent, grammatically correct Turkish; use "sen" form)' : 'English';
     const prof = { ...S.profile }; delete prof.notes;
     const scope = S.mode === 'care'
-      ? 'Scope: skincare, haircare, scalp, beard, shaving and grooming only. Never suggest makeup. If asked about makeup, say makeup content is turned off and can be enabled in Profile > Settings.'
+      ? 'Scope: skincare, haircare and scalp care only; the app is unisex. Never suggest makeup. If asked about makeup, say makeup content is turned off and can be enabled in Profile > Settings.'
       : 'Scope: skincare, haircare and makeup.';
     return [
       'You are Adorn, a warm, knowledgeable personal care assistant inside a mobile app.',
@@ -2311,7 +2086,7 @@ p { margin: 0; }
           <button type="button" role="tab" class="${routineSide === 'am' ? 'on' : ''}" data-side="am">${ic('sun')} ${t('am')}</button>
           <button type="button" role="tab" class="${routineSide === 'pm' ? 'on' : ''}" data-side="pm">${ic('moon')} ${t('pm')}</button>
         </div>
-        <div class="r-head glass">
+        <div class="r-head card">
           <div class="ring" style="--p:${pct}"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" class="trk"/><circle cx="22" cy="22" r="19" class="val" pathLength="100"/></svg><b>${n}/${steps.length}</b></div>
           <div><p class="r-title">${routineSide === 'am' ? t('am') : t('pm')}</p><p class="muted">${t('minutes', mins)}${pct === 100 ? ' · <span class="ok">' + t('allDone') + '</span>' : ''}</p></div>
         </div>
@@ -2327,7 +2102,7 @@ p { margin: 0; }
       save();
       b.classList.toggle('done', i < 0);
       const all = steps.every(s => arr.includes(s.id));
-      if (all) { completeTask(routineSide, b); }
+      if (all) { completeTask(routineSide); }
       refreshRoutineHead(steps);
     });
   }
@@ -2360,14 +2135,14 @@ p { margin: 0; }
         ${items.length ? `<div class="filters">${['all', ...areas].map(a => `<button type="button" class="chip ${bagFilter === a ? 'on' : ''}" data-f="${a}">${a === 'all' ? t('all') : esc(tx(D.AREAS[a]))}</button>`).join('')}</div>
         <div class="bag-list">${shown.map((b, i) => {
           const f = b.id.startsWith('u-') ? { score: b.score || 70 } : E.fitScore(b, S.profile);
-          return `<div class="bag-item glass" style="--d:${i * 30}ms" data-bid="${esc(b.id)}">
+          return `<div class="bag-item card" style="--d:${i * 30}ms" data-bid="${esc(b.id)}">
             <div class="ring sm" style="--p:${f.score}"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" class="trk"/><circle cx="22" cy="22" r="19" class="val" pathLength="100"/></svg><b>${f.score}</b></div>
             <div class="bag-main"><span class="mini-brand" lang="${b.brand ? 'en' : S.lang}">${esc(b.brand || tx(D.CATS[b.cat]))}</span><p class="bag-name">${esc(b.name)}</p>
               <div class="stars" role="group" aria-label="${t('rate')}">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${b.rating >= n ? 'on' : ''}" data-rate="${n}" aria-label="${n}">${ic('star')}</button>`).join('')}</div></div>
             <button type="button" class="icon-btn" data-rm="${esc(b.id)}" aria-label="${t('removed')}">${ic('trash')}</button>
           </div>`;
         }).join('')}</div>` : `
-        <div class="empty glass"><div class="orb orb-sm" aria-hidden="true"><i></i><i></i><i></i></div><p>${t('bagEmpty')}</p><button type="button" class="btn primary" data-act="add">${ic('camera')} ${t('scanTitle')}</button></div>`}
+        <div class="empty card"><p>${t('bagEmpty')}</p><button type="button" class="btn primary" data-act="add">${ic('camera')} ${t('scanTitle')}</button></div>`}
       </section>`;
     $$('[data-act=add]', v).forEach(b => b.onclick = openScan);
     $$('[data-f]', v).forEach(b => b.onclick = () => { bagFilter = b.dataset.f; renderBag(); });
@@ -2423,14 +2198,14 @@ p { margin: 0; }
         <video id="cam" playsinline muted autoplay></video>
         <img id="shot" alt="" hidden>
         <div class="scan-shade"></div>
-        <header class="scan-h"><button type="button" class="icon-btn glass-dark" data-act="x" aria-label="${t('close')}">${ic('close')}</button><span>${t('scanTitle')}</span><span style="width:44px"></span></header>
+        <header class="scan-h"><button type="button" class="icon-btn cam-btn" data-act="x" aria-label="${t('close')}">${ic('close')}</button><span>${t('scanTitle')}</span><span style="width:44px"></span></header>
         <div class="frame"><i></i><i></i><i></i><i></i><div class="beam"></div></div>
         <p class="scan-hint" id="scan-hint">${t('scanHint')}</p>
         <div class="scan-panel" id="scan-panel" hidden></div>
         <footer class="scan-f">
-          <label class="round glass-dark" aria-label="${t('scanGallery')}">${ic('image')}<input type="file" accept="image/*" id="pick" hidden></label>
+          <label class="round cam-btn" aria-label="${t('scanGallery')}">${ic('image')}<input type="file" accept="image/*" id="pick" hidden></label>
           <button type="button" class="shutter" data-act="shoot" aria-label="${t('scanCapture')}"><i></i></button>
-          <button type="button" class="round glass-dark" data-act="type" aria-label="${t('scanType')}">${ic('type')}</button>
+          <button type="button" class="round cam-btn" data-act="type" aria-label="${t('scanType')}">${ic('type')}</button>
         </footer>
       </div>`, 'full');
     ov.addEventListener('close', stopCam);
@@ -2533,19 +2308,17 @@ If no personal care product is visible or the name can't be read, reply {"found"
     setTimeout(() => inp.focus(), 250);
   }
 
-  /* ---------- Seri (tam ekran oyun) ---------- */
+  /* ---------- Seri (tam ekran) ---------- */
   function openStreak() {
     buzz();
     ensureToday();
     if (!curSeries()) return pickSeries(true);
     const ov = overlay('<div class="streak" id="streak"></div>', 'full');
-    ov.classList.add('ov-streak');
     drawStreak(ov);
   }
   function drawStreak(ov) {
     const s = curSeries(); const st = S.streak; const tk = st.today.tasks;
     const lesson = s.lessons[st.today.lesson % s.lessons.length];
-    const lv = level(), xpIn = st.xp % 100;
     const cnt = streakCount();
     const root = $('#streak', ov);
     const tasks = [
@@ -2554,63 +2327,48 @@ If no personal care product is visible or the name can't be read, reply {"found"
       { id: 'pm', icon: 'moon', t: t('taskPM'), d: t('taskPMd') }
     ];
     root.innerHTML = `
-      <canvas class="sparks" aria-hidden="true"></canvas>
       <header class="st-h">
-        <button type="button" class="icon-btn glass-dark" data-act="x" aria-label="${t('close')}">${ic('close')}</button>
+        <button type="button" class="icon-btn ring-btn" data-act="x" aria-label="${t('close')}">${ic('close')}</button>
         <button type="button" class="st-series" data-act="series">${esc(tx(s.t))} ${ic('chev')}</button>
-        <span class="lv-pill">${t('level', lv)}</span>
+        <span style="width:40px"></span>
       </header>
       <div class="st-hero">
-        <div class="flame-orb ${cnt > 0 ? 'lit' : ''}" style="--p:${tk.length / 3}">
-          <svg class="prog" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="trk"/><circle cx="60" cy="60" r="54" class="val" pathLength="100" style="stroke-dashoffset:${100 - tk.length / 3 * 100}"/></svg>
-          <div class="core"><span class="fl">${ic('flame')}</span><b id="st-count">${cnt}</b><small>${t('dayStreak')}</small></div>
+        <div class="st-ring" style="--p:${Math.round(tk.length / 3 * 100)}">
+          <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="trk"/><circle cx="60" cy="60" r="54" class="val" pathLength="100"/></svg>
+          <div class="st-core ${cnt > 0 ? 'lit' : ''}"><span class="flame">${ic('flame')}</span><b id="st-count">${cnt}</b><small>${t('dayStreak')}</small></div>
         </div>
-        <div class="xp"><div class="xp-row"><span>${t('xp', st.xp)}</span><span>${xpIn}/100</span></div><div class="xp-bar"><i style="width:${xpIn}%"></i></div></div>
+        <p class="muted">${tk.length === 3 ? t('dayDoneShort') : t('tasksLeft', 3 - tk.length)}</p>
       </div>
-      <h3 class="st-sub">${t('todayTasks')} <span>${tk.length}/3</span></h3>
-      <div class="quests">
-        ${tasks.map((q, i) => `<button type="button" class="quest ${tk.includes(q.id) ? 'done' : ''}" data-q="${q.id}" style="--d:${i * 70}ms">
-          <span class="q-ic">${ic(q.icon)}</span><span class="q-txt"><b>${q.t}</b><small>${esc(q.d)}</small></span><span class="q-ck">${ic(tk.includes(q.id) ? 'check' : 'chev')}</span></button>`).join('')}
+      <p class="label">${t('todayTasks')} · ${tk.length}/3</p>
+      <div class="list">
+        ${tasks.map(q => `<button type="button" class="row quest ${tk.includes(q.id) ? 'done' : ''}" data-q="${q.id}">
+          <span class="row-ic">${ic(tk.includes(q.id) ? 'check' : q.icon)}</span><span class="row-t"><b>${q.t}</b><small>${esc(q.d)}</small></span>${q.id === 'lesson' ? ic('chev', 'chev') : `<span class="tick">${ic('check')}</span>`}</button>`).join('')}
       </div>
-      <h3 class="st-sub">${t('journey')} <span>${st.doneDays}/30</span></h3>
-      <div class="map" id="map">${mapHTML(st.doneDays, tk.length === 3)}</div>
-      <h3 class="st-sub">${t('badges')}</h3>
-      <div class="badges">${BADGES.map(b => `<div class="badge ${st.badges.includes(b.n) ? 'got' : ''}"><span>${ic(st.badges.includes(b.n) ? 'trophy' : 'lock')}</span><b>${b.n}</b><small>${t(b.k)}</small></div>`).join('')}</div>
-      <div style="height:40px"></div>`;
+      <p class="label">${t('journey')} · ${st.doneDays}/30</p>
+      <div class="days">${Array.from({ length: 30 }, (_, i) => `<i class="${i < st.doneDays ? 'ok' : i === st.doneDays && tk.length < 3 ? 'cur' : ''}">${i + 1}</i>`).join('')}</div>`;
     $('[data-act=x]', root).onclick = () => { closeOverlay(ov); if (tab === 'routine') renderRoutine(); };
     $('[data-act=series]', root).onclick = () => pickSeries(false, ov);
     $$('[data-q]', root).forEach(b => b.onclick = () => {
       const id = b.dataset.q;
       if (id === 'lesson') return openLesson(ov, lesson);
       if (tk.includes(id)) return;
-      // Rutin adımlarını işaretle
       const r = E.buildRoutine(S.profile, S.mode);
-      S.routine[id] = r[id].map(s => s.id);
-      buzz(18);
-      b.classList.add('done', 'pop');
-      completeTask(id, b);
-      setTimeout(() => drawStreak(ov), 650);
+      S.routine[id] = r[id].map(x => x.id);
+      buzz(15);
+      b.classList.add('done');
+      completeTask(id);
+      setTimeout(() => drawStreak(ov), 380);
     });
-    startSparks(ov);
-  }
-  function mapHTML(done, todayDone) {
-    let h = '<div class="map-track">';
-    for (let i = 0; i < 30; i++) {
-      const state = i < done ? 'ok' : (i === done && !todayDone ? 'cur' : 'lock');
-      const ms = [2, 6, 13, 29].includes(i);
-      h += `<div class="node ${state} ${ms ? 'ms' : ''}" style="--x:${Math.sin(i * 0.9) * 34}%"><span>${state === 'ok' ? ic('check') : ms ? ic('trophy') : i + 1}</span></div>`;
-    }
-    return h + '</div>';
   }
   function openLesson(parent, lesson) {
     const done = S.streak.today.tasks.includes('lesson');
     const ov = overlay(`
       <div class="lesson">
-        <span class="eyebrow">${t('taskLesson')}</span>
+        <p class="label">${t('taskLesson')}</p>
         <h2>${esc(tx(lesson.t))}</h2>
-        <p>${esc(tx(lesson.b))}</p>
+        <p class="lesson-b">${esc(tx(lesson.b))}</p>
         <div class="quiz-box">
-          <p class="qb-t">${t('lessonQuiz')}</p>
+          <p class="label">${t('lessonQuiz')}</p>
           <p class="qb-q">${esc(tx(lesson.q))}</p>
           <div class="qb-o">${lesson.o.map((o, i) => `<button type="button" class="choice pill" data-a="${i}">${esc(tx(o))}</button>`).join('')}</div>
           <p class="qb-r" id="qb-r"></p>
@@ -2618,7 +2376,7 @@ If no personal care product is visible or the name can't be read, reply {"found"
         <button type="button" class="btn ghost wide" data-act="close">${t('close')}</button>
       </div>`);
     const res = $('#qb-r', ov);
-    if (done) { const btns = $$('[data-a]', ov); btns.forEach(b => { b.disabled = true; b.classList.toggle('right', +b.dataset.a === lesson.a); }); res.textContent = t('correct').split('!')[0] + '!'; }
+    if (done) { $$('[data-a]', ov).forEach(b => { b.disabled = true; b.classList.toggle('right', +b.dataset.a === lesson.a); }); }
     $$('[data-a]', ov).forEach(b => b.onclick = () => {
       if (S.streak.today.tasks.includes('lesson')) return;
       const ok = +b.dataset.a === lesson.a;
@@ -2626,10 +2384,8 @@ If no personal care product is visible or the name can't be read, reply {"found"
       $$('[data-a]', g).forEach(x => { x.disabled = true; x.classList.toggle('right', +x.dataset.a === lesson.a); x.classList.toggle('picked', x === b); });
       if (!ok) b.classList.add('wrong');
       res.textContent = ok ? t('correct') : t('wrong');
-      buzz(ok ? 20 : [10, 40, 10]);
-      completeTask('lesson', ok ? b : null);
-      if (!ok) S.streak.xp -= 5;
-      save();
+      buzz(ok ? 15 : 30);
+      completeTask('lesson');
       setTimeout(() => drawStreak(parent), 300);
     });
     $('[data-act=close]', ov).onclick = () => closeOverlay(ov);
@@ -2638,7 +2394,9 @@ If no personal care product is visible or the name can't be read, reply {"found"
     const ov = overlay(`
       <div class="series-pick">
         <h2>${t('chooseSeries')}</h2>
-        ${seriesList().map(s => `<button type="button" class="series-card ${S.streak.series === s.id ? 'on' : ''}" data-s="${s.id}"><span class="sc-orb">${ic(s.id.startsWith('mk') ? 'sparkle' : s.id.startsWith('gr') ? 'beard' : 'drop')}</span><span><b>${esc(tx(s.t))}</b><small>${esc(tx(s.d))}</small></span>${ic('chev')}</button>`).join('')}
+        <div class="list">
+        ${seriesList().map(s => `<button type="button" class="row ${S.streak.series === s.id ? 'on' : ''}" data-s="${s.id}"><span class="row-t"><b>${esc(tx(s.t))}</b><small>${esc(tx(s.d))}</small></span>${S.streak.series === s.id ? ic('check', 'chev') : ic('chev', 'chev')}</button>`).join('')}
+        </div>
       </div>`);
     $$('[data-s]', ov).forEach(b => b.onclick = () => {
       buzz();
@@ -2653,75 +2411,8 @@ If no personal care product is visible or the name can't be read, reply {"found"
     });
   }
   function celebrate() {
-    const n = streakCount();
-    const ov = overlay(`
-      <div class="celebrate">
-        <canvas class="confetti" aria-hidden="true"></canvas>
-        <div class="flame-orb lit big"><div class="core"><span class="fl">${ic('flame')}</span><b id="cel-n">0</b></div></div>
-        <h2>${t('dayDone')}</h2>
-        <p>${t('dayDoneSub', n)}</p>
-        <button type="button" class="btn primary" data-act="ok">${t('done')}</button>
-      </div>`, 'center');
-    ov.classList.add('ov-cel');
-    let k = 0; const el = $('#cel-n', ov);
-    const tick = () => { k++; el.textContent = Math.min(n, k); if (k < n) setTimeout(tick, Math.max(40, 400 / n)); };
-    setTimeout(tick, 250);
-    confetti($('.confetti', ov));
-    buzz([20, 60, 30]);
-    $('[data-act=ok]', ov).onclick = () => closeOverlay(ov);
-  }
-
-  /* ---------- Efektler ---------- */
-  function burst(el, label) {
-    if (reduced()) return;
-    const r = el.getBoundingClientRect();
-    const host = $('#fx');
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    for (let i = 0; i < 14; i++) {
-      const p = document.createElement('i');
-      const a = (Math.PI * 2 * i) / 14, d = 40 + Math.random() * 40;
-      p.className = 'pt';
-      p.style.cssText = `left:${cx}px;top:${cy}px;--tx:${Math.cos(a) * d}px;--ty:${Math.sin(a) * d}px;--h:${Math.random() * 40}`;
-      host.appendChild(p); setTimeout(() => p.remove(), 700);
-    }
-    if (label) {
-      const f = document.createElement('b'); f.className = 'xp-float'; f.textContent = label;
-      f.style.cssText = `left:${cx}px;top:${cy - 10}px`; host.appendChild(f); setTimeout(() => f.remove(), 1000);
-    }
-  }
-  function confetti(cv) {
-    if (reduced() || !cv) return;
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    const W = cv.width = innerWidth * dpr, H = cv.height = innerHeight * dpr;
-    const ctx = cv.getContext('2d');
-    const cs = getComputedStyle(document.documentElement);
-    const cols = ['--accent', '--blob1', '--blob2', '--gold'].map(v => cs.getPropertyValue(v).trim() || '#c98');
-    const ps = Array.from({ length: 120 }, () => ({ x: W / 2, y: H * 0.42, vx: (Math.random() - 0.5) * 18 * dpr, vy: (-Math.random() * 16 - 4) * dpr, r: (3 + Math.random() * 5) * dpr, c: cols[(Math.random() * cols.length) | 0], a: Math.random() * 6, s: Math.random() * 0.3 }));
-    let f = 0;
-    const loop = () => {
-      if (!cv.isConnected) return;
-      ctx.clearRect(0, 0, W, H);
-      ps.forEach(p => { p.vy += 0.45 * dpr; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.s; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); ctx.restore(); });
-      if (++f < 160) requestAnimationFrame(loop); else ctx.clearRect(0, 0, W, H);
-    };
-    loop();
-  }
-  function startSparks(ov) {
-    if (reduced()) return;
-    const cv = $('.sparks', ov); if (!cv) return;
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    let W, H; const ctx = cv.getContext('2d');
-    const size = () => { W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; };
-    size();
-    const ps = Array.from({ length: 34 }, () => ({ x: Math.random(), y: Math.random(), v: 0.0006 + Math.random() * 0.0016, r: 0.6 + Math.random() * 1.8, o: Math.random() }));
-    const loop = () => {
-      if (!ov.isConnected) return;
-      const c2 = $('.sparks', ov); if (c2 !== cv) return;
-      ctx.clearRect(0, 0, W, H);
-      ps.forEach(p => { p.y -= p.v; p.o += 0.02; if (p.y < -0.02) { p.y = 1.02; p.x = Math.random(); } ctx.globalAlpha = 0.35 + Math.sin(p.o) * 0.3; ctx.fillStyle = '#ffd9b0'; ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r * dpr, 0, 7); ctx.fill(); });
-      requestAnimationFrame(loop);
-    };
-    loop();
+    toast(t('dayDone') + ' ' + t('dayDoneSub', streakCount()));
+    buzz([15, 50, 20]);
   }
 
   /* ---------- Profil ---------- */
@@ -2740,17 +2431,16 @@ If no personal care product is visible or the name can't be read, reply {"found"
     v.innerHTML = `
       <section class="page">
         <header class="pf-head">
-          <div class="avatar orb orb-sm" aria-hidden="true"><i></i><i></i><i></i><b>${esc((pf.name || '').trim().charAt(0).toLocaleUpperCase(S.lang === 'tr' ? 'tr-TR' : 'en') || '')}</b></div>
+          <div class="avatar lg" aria-hidden="true"><b>${esc((pf.name || '').trim().charAt(0).toLocaleUpperCase(S.lang === 'tr' ? 'tr-TR' : 'en') || '')}</b></div>
           <div><h1>${t('profileTitle')}</h1><p class="muted">${t('profileSub')}</p></div>
         </header>
-        <div class="card glass">
+        <div class="card">
           <label class="pf-l" for="pf-name">${t('name')}</label>
           <input id="pf-name" class="field" type="text" maxlength="40" placeholder="${t('namePh')}" value="${esc(pf.name || '')}" autocomplete="given-name">
           ${group('skinType', false)}
           ${group('concerns', true)}
           ${group('hairType', false)}
           ${group('scalp', false)}
-          ${!mk ? group('beard', false) : ''}
           ${mk ? group('skinTone', false, 'tones') : ''}
           ${mk ? group('undertone', false) : ''}
           ${mk ? group('makeupStyle', false) : ''}
@@ -2760,7 +2450,7 @@ If no personal care product is visible or the name can't be read, reply {"found"
         </div>
 
         <h2 class="sec-t">${t('settings')}</h2>
-        <div class="card glass settings">
+        <div class="card settings">
           <div class="set-row"><span>${t('language')}</span><div class="mini-seg" data-set="lang"><button type="button" data-v="tr" class="${S.lang === 'tr' ? 'on' : ''}">Türkçe</button><button type="button" data-v="en" class="${S.lang === 'en' ? 'on' : ''}">English</button></div></div>
           <div class="set-row"><span>${t('appearance')}</span><div class="mini-seg" data-set="theme">${['system', 'light', 'dark'].map(k => `<button type="button" data-v="${k}" class="${S.settings.theme === k ? 'on' : ''}">${t('theme' + k[0].toUpperCase() + k.slice(1))}</button>`).join('')}</div></div>
           <div class="set-row col"><div class="set-sw"><span>${t('makeupContent')}</span><button type="button" class="switch ${mk ? 'on' : ''}" role="switch" aria-checked="${mk}" data-act="mode"><i></i></button></div><small class="muted">${t('makeupContentSub')}</small></div>
@@ -2770,7 +2460,7 @@ If no personal care product is visible or the name can't be read, reply {"found"
           <div class="set-row col"><button type="button" class="btn danger wide" data-act="reset">${ic('trash')} ${t('reset')}</button><div id="reset-confirm" hidden class="confirm"><p>${t('resetConfirm')}</p><div class="row"><button type="button" class="btn ghost" data-act="cancel">${t('cancel')}</button><button type="button" class="btn danger" data-act="wipe">${t('resetYes')}</button></div></div></div>
           <p class="muted small">${t('privacy')}</p>
         </div>
-        <p class="ver muted small center">adorn · v2.0</p>
+        <p class="ver muted small center">adorn · v2.1</p>
       </section>`;
 
     let nt = 0;

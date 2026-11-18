@@ -19,7 +19,7 @@
     wave: '<path d="M3 8c3-3 6 3 9 0s6 3 9 0M3 13c3-3 6 3 9 0s6 3 9 0M3 18c3-3 6 3 9 0s6 3 9 0"/>',
     bag: '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
     target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8"/>',
-    beard: '<path d="M5 8c0 7 3 12 7 12s7-5 7-12"/><path d="M9 13c1 .8 2 1 3 1s2-.2 3-1"/><path d="M5 8c2 1 4 1 7 1s5 0 7-1"/>',
+    menu: '<path d="M5 9h14M5 15h14"/>',
     blade: '<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M8 12h8M7 8V6M17 8V6"/>',
     chat: '<path d="M4 5h16v11H9l-5 4z"/>',
     routine: '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/>',
@@ -71,7 +71,7 @@
     document.documentElement.dataset.mode = S.mode || 'makeup';
     document.documentElement.lang = S.lang;
     const meta = $('meta[name="theme-color"]');
-    if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F4EEE9';
+    if (meta) meta.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F9F8F6';
   }
   mq.addEventListener?.('change', applyTheme);
   new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -122,15 +122,12 @@
     if (S.streak.last && S.streak.last !== d && S.streak.last !== yesterday()) S.streak.count = 0;
   }
   const streakCount = () => (S.streak.last === today() || S.streak.last === yesterday()) ? S.streak.count : 0;
-  const level = () => Math.floor(S.streak.xp / 100) + 1;
-  const BADGES = [{ n: 3, k: 'badge3' }, { n: 7, k: 'badge7' }, { n: 14, k: 'badge14' }, { n: 30, k: 'badge30' }];
 
   function completeTask(id, fromEl) {
     ensureToday();
     const tk = S.streak.today.tasks;
     if (tk.includes(id)) return false;
-    tk.push(id); S.streak.xp += 10;
-    if (fromEl) burst(fromEl, '+10 XP');
+    tk.push(id);
     let dayDone = false;
     if (tk.length === 3) {
       dayDone = true;
@@ -138,8 +135,6 @@
       S.streak.last = today();
       S.streak.best = Math.max(S.streak.best, S.streak.count);
       S.streak.doneDays = Math.min(30, S.streak.doneDays + 1);
-      S.streak.xp += 20;
-      BADGES.forEach(b => { if (S.streak.count >= b.n && !S.streak.badges.includes(b.n)) S.streak.badges.push(b.n); });
     }
     save(); updateChip();
     if (dayDone) setTimeout(celebrate, 450);
@@ -166,21 +161,20 @@
     app.className = 'stage';
     app.innerHTML = `
       <section class="gate screen-in">
-        <div class="lang-switch" role="group" aria-label="${t('language')}">
-          <button type="button" data-lang="tr" class="${S.lang === 'tr' ? 'on' : ''}">TR</button>
-          <button type="button" data-lang="en" class="${S.lang === 'en' ? 'on' : ''}">EN</button>
-        </div>
-        <div class="gate-top">
-          <div class="orb orb-lg" aria-hidden="true"><i></i><i></i><i></i></div>
-          <span class="wordmark big">adorn</span>
-          <p class="eyebrow">${t('gateEyebrow')}</p>
+        <div class="gate-bar">
+          <span class="wordmark">adorn</span>
+          <div class="lang-switch" role="group" aria-label="${t('language')}">
+            <button type="button" data-lang="tr" class="${S.lang === 'tr' ? 'on' : ''}">TR</button>
+            <button type="button" data-lang="en" class="${S.lang === 'en' ? 'on' : ''}">EN</button>
+          </div>
         </div>
         <div class="gate-q">
+          <p class="eyebrow">${t('gateEyebrow')}</p>
           <h1>${t('gateQ')}</h1>
           <p class="muted">${t('gateSub')}</p>
-          <div class="choice-row">
-            <button type="button" class="choice pill-xl" data-pick="makeup"><span class="c-main">${t('yes')}</span><span class="c-sub">${t('yesHint')}</span></button>
-            <button type="button" class="choice pill-xl" data-pick="care"><span class="c-main">${t('no')}</span><span class="c-sub">${t('noHint')}</span></button>
+          <div class="choice-col">
+            <button type="button" class="choice pill" data-pick="makeup"><b>${t('yes')}</b><small>${t('yesHint')}</small></button>
+            <button type="button" class="choice pill" data-pick="care"><b>${t('no')}</b><small>${t('noHint')}</small></button>
           </div>
         </div>
       </section>`;
@@ -188,7 +182,7 @@
     $$('[data-pick]', app).forEach(b => b.onclick = () => {
       buzz(); pickEffect(b);
       S.mode = b.dataset.pick; save();
-      setTimeout(() => { applyTheme(); if (S.mode === 'makeup') renderQuiz(0); else { S.quizDone = true; save(); renderShell(); } }, 460);
+      setTimeout(() => { applyTheme(); if (S.mode === 'makeup') renderQuiz(0); else { S.quizDone = true; save(); renderShell(); } }, 420);
     });
   }
   function pickEffect(btn) {
@@ -237,62 +231,74 @@
   function renderShell() {
     app.className = 'shell';
     app.innerHTML = `
-      <header class="topbar bar-glass">
-        <button type="button" class="icon-btn" data-act="history" aria-label="${t('chats')}">${ic('history')}</button>
-        <span class="wordmark">adorn</span>
-        <button type="button" class="streak-chip" data-act="streak" aria-label="${t('streakTitle')}">
-          <span class="flame">${ic('flame')}</span><b id="chip-n">${streakCount()}</b><i class="chip-dot"></i>
-        </button>
+      <header class="topbar">
+        <button type="button" class="icon-btn" id="nav-btn" aria-label="${t('menu')}">${ic('menu')}</button>
+        <span class="wordmark" id="title">adorn</span>
+        <div class="top-actions">
+          <button type="button" class="streak-chip" data-act="streak" aria-label="${t('streakTitle')}"><span class="flame">${ic('flame')}</span><b id="chip-n">${streakCount()}</b></button>
+          <button type="button" class="icon-btn ring-btn" data-act="history" aria-label="${t('chats')}">${ic('history')}</button>
+          <button type="button" class="icon-btn ring-btn" data-act="new" aria-label="${t('newChat')}">${ic('plus')}</button>
+        </div>
       </header>
       <main id="view" class="view"></main>
-      <div id="composer-slot"></div>
-      <nav class="dock bar-glass" aria-label="Adorn">
-        ${dockBtn('chat', 'chat', 'tabChat')}${dockBtn('routine', 'routine', 'tabRoutine')}
-        <button type="button" class="dock-scan" data-tab="scan" aria-label="${t('tabScan')}"><span>${ic('scan')}</span></button>
-        ${dockBtn('bag', 'bag', 'tabBag')}${dockBtn('profile', 'user', 'tabProfile')}
-      </nav>`;
+      <div id="composer-slot"></div>`;
+    $('#nav-btn').onclick = () => { buzz(5); if (tab === 'chat') openMenu(); else go('chat'); };
     $('[data-act=history]').onclick = openHistory;
     $('[data-act=streak]').onclick = openStreak;
-    $$('.dock [data-tab]').forEach(b => b.onclick = () => {
-      buzz(5);
-      const id = b.dataset.tab;
-      if (id === 'scan') return openScan();
-      // Sohbetteyken sekmeye tekrar dokunmak ana sayfaya döner
-      if (id === 'chat' && tab === 'chat' && activeChat() && !busy) { S.activeChat = null; save(); }
-      go(id);
-    });
+    $('[data-act=new]').onclick = () => { if (busy) return; S.activeChat = null; save(); go('chat'); };
     go(tab, true);
     updateChip();
     if (!S.welcomed) setTimeout(openWelcome, 380);
   }
-  const dockBtn = (id, icon, label) => `<button type="button" class="dock-btn" data-tab="${id}"><span class="dock-ic">${ic(icon)}</span><span class="dock-l">${t(label)}</span></button>`;
+
+  function openMenu() {
+    const pf = S.profile, name = (pf.name || '').trim();
+    const row = (id, icon, label, sub) => `<button type="button" class="menu-row" data-go="${id}"><span class="row-ic">${ic(icon)}</span><span class="row-t"><b>${label}</b>${sub ? `<small>${sub}</small>` : ''}</span>${ic('chev', 'chev')}</button>`;
+    const ov = overlay(`
+      <div class="menu">
+        <div class="list">
+          ${row('routine', 'routine', t('tabRoutine'), t('menuRoutineSub'))}
+          ${row('bag', 'bag', t('bagTitle'), S.bag.length ? t('nProducts', S.bag.length) : '')}
+          ${row('scan', 'camera', t('scanTitle'), '')}
+          ${row('streak', 'flame', t('streakTitle'), '')}
+        </div>
+        <button type="button" class="profile-row" data-go="profile">
+          <span class="avatar">${esc(name.charAt(0).toLocaleUpperCase(S.lang === 'tr' ? 'tr-TR' : 'en'))}</span>
+          <span class="row-t"><b>${name ? esc(name) : t('profileTitle')}</b><small>${t('menuProfileSub')}</small></span>
+          ${ic('chev', 'chev')}
+        </button>
+      </div>`);
+    $$('[data-go]', ov).forEach(b => b.onclick = () => {
+      const id = b.dataset.go; closeOverlay(ov);
+      setTimeout(() => { if (id === 'scan') openScan(); else if (id === 'streak') openStreak(); else go(id); }, 180);
+    });
+  }
 
   function updateChip() {
     const n = $('#chip-n'); if (!n) return;
     n.textContent = streakCount();
-    const chip = n.parentElement;
-    chip.classList.toggle('lit', streakCount() > 0);
-    chip.classList.toggle('pending', S.streak.today.tasks.length < 3);
+    n.parentElement.classList.toggle('lit', streakCount() > 0);
   }
 
   function go(next, instant) {
     tab = next;
-    $$('.dock [data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
     const v = $('#view');
     v.classList.remove('enter'); void v.offsetWidth; if (!instant) v.classList.add('enter');
     v.scrollTop = 0;
     document.body.classList.toggle('has-composer', tab === 'chat');
     if (tab !== 'chat') $('#composer-slot').innerHTML = '';
+    const nb = $('#nav-btn');
+    nb.innerHTML = ic(tab === 'chat' ? 'menu' : 'back');
+    nb.setAttribute('aria-label', tab === 'chat' ? t('menu') : t('back'));
     ({ chat: renderChat, routine: renderRoutine, bag: renderBag, profile: renderProfile })[tab]();
   }
 
   /* ---------- 3. Karşılama ---------- */
   function openWelcome() {
-    const name = (S.profile.name || '').trim();
     const ov = overlay(`
       <div class="welcome">
-        <div class="orb orb-md talk" aria-hidden="true"><i></i><i></i><i></i></div>
-        <h2>${t('welcomeTitle')}${name ? ' ' + esc(name) + '!' : ''}</h2>
+        <span class="wordmark">adorn</span>
+        <h2>${t('welcomeTitle')}</h2>
         <p class="type-on" id="wl-text"></p>
         <div class="welcome-actions">
           <button type="button" class="btn primary" data-act="meet">${t('letsMeet')}</button>
@@ -357,15 +363,19 @@
             <h1>${greet()}${name ? ', ' + esc(name) : ''}</h1>
             <p class="muted">${t('homeSub')}</p>
           </div>
-          <div class="topic-grid">
-            ${topics().map((tp, i) => `<button type="button" class="topic" style="--d:${i * 40}ms" data-topic="${tp.id}"><span class="topic-ic">${ic(tp.icon)}</span><span class="topic-t">${esc(tx(tp.t))}</span></button>`).join('')}
+          <div>
+            <p class="label">${t('quickStart')}</p>
+            <div class="list">
+              ${topics().map(tp => `<button type="button" class="row" data-topic="${tp.id}"><span class="row-ic">${ic(tp.icon)}</span><span class="row-t"><b>${esc(tx(tp.t))}</b></span>${ic('chev', 'chev')}</button>`).join('')}
+            </div>
+            <p class="foot">${t('homeFoot')}</p>
           </div>
         </section>`;
       $$('[data-topic]', v).forEach(b => b.onclick = () => { buzz(); startTopic(b.dataset.topic); });
     } else {
       const tp = c.topic ? topics().find(x => x.id === c.topic) || findTopicAny(c.topic) : null;
       v.innerHTML = `
-        ${tp ? `<div class="focus"><span class="focus-pill">${ic(tp.icon)}${esc(tx(tp.t))}</span><p>${t('focusNote')}</p></div>` : ''}
+        ${tp ? `<div class="focus"><p class="focus-t">${esc(tx(tp.t))}</p><p>${t('focusNote')}</p></div>` : ''}
         <div class="msgs" id="msgs"></div>`;
       const box = $('#msgs');
       c.messages.forEach(m => box.appendChild(msgEl(m)));
@@ -561,7 +571,7 @@
     const lang = S.lang === 'tr' ? 'Turkish (natural, fluent, grammatically correct Turkish; use "sen" form)' : 'English';
     const prof = { ...S.profile }; delete prof.notes;
     const scope = S.mode === 'care'
-      ? 'Scope: skincare, haircare, scalp, beard, shaving and grooming only. Never suggest makeup. If asked about makeup, say makeup content is turned off and can be enabled in Profile > Settings.'
+      ? 'Scope: skincare, haircare and scalp care only; the app is unisex. Never suggest makeup. If asked about makeup, say makeup content is turned off and can be enabled in Profile > Settings.'
       : 'Scope: skincare, haircare and makeup.';
     return [
       'You are Adorn, a warm, knowledgeable personal care assistant inside a mobile app.',
@@ -613,7 +623,7 @@
           <button type="button" role="tab" class="${routineSide === 'am' ? 'on' : ''}" data-side="am">${ic('sun')} ${t('am')}</button>
           <button type="button" role="tab" class="${routineSide === 'pm' ? 'on' : ''}" data-side="pm">${ic('moon')} ${t('pm')}</button>
         </div>
-        <div class="r-head glass">
+        <div class="r-head card">
           <div class="ring" style="--p:${pct}"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" class="trk"/><circle cx="22" cy="22" r="19" class="val" pathLength="100"/></svg><b>${n}/${steps.length}</b></div>
           <div><p class="r-title">${routineSide === 'am' ? t('am') : t('pm')}</p><p class="muted">${t('minutes', mins)}${pct === 100 ? ' · <span class="ok">' + t('allDone') + '</span>' : ''}</p></div>
         </div>
@@ -629,7 +639,7 @@
       save();
       b.classList.toggle('done', i < 0);
       const all = steps.every(s => arr.includes(s.id));
-      if (all) { completeTask(routineSide, b); }
+      if (all) { completeTask(routineSide); }
       refreshRoutineHead(steps);
     });
   }
@@ -662,14 +672,14 @@
         ${items.length ? `<div class="filters">${['all', ...areas].map(a => `<button type="button" class="chip ${bagFilter === a ? 'on' : ''}" data-f="${a}">${a === 'all' ? t('all') : esc(tx(D.AREAS[a]))}</button>`).join('')}</div>
         <div class="bag-list">${shown.map((b, i) => {
           const f = b.id.startsWith('u-') ? { score: b.score || 70 } : E.fitScore(b, S.profile);
-          return `<div class="bag-item glass" style="--d:${i * 30}ms" data-bid="${esc(b.id)}">
+          return `<div class="bag-item card" style="--d:${i * 30}ms" data-bid="${esc(b.id)}">
             <div class="ring sm" style="--p:${f.score}"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" class="trk"/><circle cx="22" cy="22" r="19" class="val" pathLength="100"/></svg><b>${f.score}</b></div>
             <div class="bag-main"><span class="mini-brand" lang="${b.brand ? 'en' : S.lang}">${esc(b.brand || tx(D.CATS[b.cat]))}</span><p class="bag-name">${esc(b.name)}</p>
               <div class="stars" role="group" aria-label="${t('rate')}">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${b.rating >= n ? 'on' : ''}" data-rate="${n}" aria-label="${n}">${ic('star')}</button>`).join('')}</div></div>
             <button type="button" class="icon-btn" data-rm="${esc(b.id)}" aria-label="${t('removed')}">${ic('trash')}</button>
           </div>`;
         }).join('')}</div>` : `
-        <div class="empty glass"><div class="orb orb-sm" aria-hidden="true"><i></i><i></i><i></i></div><p>${t('bagEmpty')}</p><button type="button" class="btn primary" data-act="add">${ic('camera')} ${t('scanTitle')}</button></div>`}
+        <div class="empty card"><p>${t('bagEmpty')}</p><button type="button" class="btn primary" data-act="add">${ic('camera')} ${t('scanTitle')}</button></div>`}
       </section>`;
     $$('[data-act=add]', v).forEach(b => b.onclick = openScan);
     $$('[data-f]', v).forEach(b => b.onclick = () => { bagFilter = b.dataset.f; renderBag(); });
@@ -725,14 +735,14 @@
         <video id="cam" playsinline muted autoplay></video>
         <img id="shot" alt="" hidden>
         <div class="scan-shade"></div>
-        <header class="scan-h"><button type="button" class="icon-btn glass-dark" data-act="x" aria-label="${t('close')}">${ic('close')}</button><span>${t('scanTitle')}</span><span style="width:44px"></span></header>
+        <header class="scan-h"><button type="button" class="icon-btn cam-btn" data-act="x" aria-label="${t('close')}">${ic('close')}</button><span>${t('scanTitle')}</span><span style="width:44px"></span></header>
         <div class="frame"><i></i><i></i><i></i><i></i><div class="beam"></div></div>
         <p class="scan-hint" id="scan-hint">${t('scanHint')}</p>
         <div class="scan-panel" id="scan-panel" hidden></div>
         <footer class="scan-f">
-          <label class="round glass-dark" aria-label="${t('scanGallery')}">${ic('image')}<input type="file" accept="image/*" id="pick" hidden></label>
+          <label class="round cam-btn" aria-label="${t('scanGallery')}">${ic('image')}<input type="file" accept="image/*" id="pick" hidden></label>
           <button type="button" class="shutter" data-act="shoot" aria-label="${t('scanCapture')}"><i></i></button>
-          <button type="button" class="round glass-dark" data-act="type" aria-label="${t('scanType')}">${ic('type')}</button>
+          <button type="button" class="round cam-btn" data-act="type" aria-label="${t('scanType')}">${ic('type')}</button>
         </footer>
       </div>`, 'full');
     ov.addEventListener('close', stopCam);
@@ -835,19 +845,17 @@ If no personal care product is visible or the name can't be read, reply {"found"
     setTimeout(() => inp.focus(), 250);
   }
 
-  /* ---------- Seri (tam ekran oyun) ---------- */
+  /* ---------- Seri (tam ekran) ---------- */
   function openStreak() {
     buzz();
     ensureToday();
     if (!curSeries()) return pickSeries(true);
     const ov = overlay('<div class="streak" id="streak"></div>', 'full');
-    ov.classList.add('ov-streak');
     drawStreak(ov);
   }
   function drawStreak(ov) {
     const s = curSeries(); const st = S.streak; const tk = st.today.tasks;
     const lesson = s.lessons[st.today.lesson % s.lessons.length];
-    const lv = level(), xpIn = st.xp % 100;
     const cnt = streakCount();
     const root = $('#streak', ov);
     const tasks = [
@@ -856,63 +864,48 @@ If no personal care product is visible or the name can't be read, reply {"found"
       { id: 'pm', icon: 'moon', t: t('taskPM'), d: t('taskPMd') }
     ];
     root.innerHTML = `
-      <canvas class="sparks" aria-hidden="true"></canvas>
       <header class="st-h">
-        <button type="button" class="icon-btn glass-dark" data-act="x" aria-label="${t('close')}">${ic('close')}</button>
+        <button type="button" class="icon-btn ring-btn" data-act="x" aria-label="${t('close')}">${ic('close')}</button>
         <button type="button" class="st-series" data-act="series">${esc(tx(s.t))} ${ic('chev')}</button>
-        <span class="lv-pill">${t('level', lv)}</span>
+        <span style="width:40px"></span>
       </header>
       <div class="st-hero">
-        <div class="flame-orb ${cnt > 0 ? 'lit' : ''}" style="--p:${tk.length / 3}">
-          <svg class="prog" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="trk"/><circle cx="60" cy="60" r="54" class="val" pathLength="100" style="stroke-dashoffset:${100 - tk.length / 3 * 100}"/></svg>
-          <div class="core"><span class="fl">${ic('flame')}</span><b id="st-count">${cnt}</b><small>${t('dayStreak')}</small></div>
+        <div class="st-ring" style="--p:${Math.round(tk.length / 3 * 100)}">
+          <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="trk"/><circle cx="60" cy="60" r="54" class="val" pathLength="100"/></svg>
+          <div class="st-core ${cnt > 0 ? 'lit' : ''}"><span class="flame">${ic('flame')}</span><b id="st-count">${cnt}</b><small>${t('dayStreak')}</small></div>
         </div>
-        <div class="xp"><div class="xp-row"><span>${t('xp', st.xp)}</span><span>${xpIn}/100</span></div><div class="xp-bar"><i style="width:${xpIn}%"></i></div></div>
+        <p class="muted">${tk.length === 3 ? t('dayDoneShort') : t('tasksLeft', 3 - tk.length)}</p>
       </div>
-      <h3 class="st-sub">${t('todayTasks')} <span>${tk.length}/3</span></h3>
-      <div class="quests">
-        ${tasks.map((q, i) => `<button type="button" class="quest ${tk.includes(q.id) ? 'done' : ''}" data-q="${q.id}" style="--d:${i * 70}ms">
-          <span class="q-ic">${ic(q.icon)}</span><span class="q-txt"><b>${q.t}</b><small>${esc(q.d)}</small></span><span class="q-ck">${ic(tk.includes(q.id) ? 'check' : 'chev')}</span></button>`).join('')}
+      <p class="label">${t('todayTasks')} · ${tk.length}/3</p>
+      <div class="list">
+        ${tasks.map(q => `<button type="button" class="row quest ${tk.includes(q.id) ? 'done' : ''}" data-q="${q.id}">
+          <span class="row-ic">${ic(tk.includes(q.id) ? 'check' : q.icon)}</span><span class="row-t"><b>${q.t}</b><small>${esc(q.d)}</small></span>${q.id === 'lesson' ? ic('chev', 'chev') : `<span class="tick">${ic('check')}</span>`}</button>`).join('')}
       </div>
-      <h3 class="st-sub">${t('journey')} <span>${st.doneDays}/30</span></h3>
-      <div class="map" id="map">${mapHTML(st.doneDays, tk.length === 3)}</div>
-      <h3 class="st-sub">${t('badges')}</h3>
-      <div class="badges">${BADGES.map(b => `<div class="badge ${st.badges.includes(b.n) ? 'got' : ''}"><span>${ic(st.badges.includes(b.n) ? 'trophy' : 'lock')}</span><b>${b.n}</b><small>${t(b.k)}</small></div>`).join('')}</div>
-      <div style="height:40px"></div>`;
+      <p class="label">${t('journey')} · ${st.doneDays}/30</p>
+      <div class="days">${Array.from({ length: 30 }, (_, i) => `<i class="${i < st.doneDays ? 'ok' : i === st.doneDays && tk.length < 3 ? 'cur' : ''}">${i + 1}</i>`).join('')}</div>`;
     $('[data-act=x]', root).onclick = () => { closeOverlay(ov); if (tab === 'routine') renderRoutine(); };
     $('[data-act=series]', root).onclick = () => pickSeries(false, ov);
     $$('[data-q]', root).forEach(b => b.onclick = () => {
       const id = b.dataset.q;
       if (id === 'lesson') return openLesson(ov, lesson);
       if (tk.includes(id)) return;
-      // Rutin adımlarını işaretle
       const r = E.buildRoutine(S.profile, S.mode);
-      S.routine[id] = r[id].map(s => s.id);
-      buzz(18);
-      b.classList.add('done', 'pop');
-      completeTask(id, b);
-      setTimeout(() => drawStreak(ov), 650);
+      S.routine[id] = r[id].map(x => x.id);
+      buzz(15);
+      b.classList.add('done');
+      completeTask(id);
+      setTimeout(() => drawStreak(ov), 380);
     });
-    startSparks(ov);
-  }
-  function mapHTML(done, todayDone) {
-    let h = '<div class="map-track">';
-    for (let i = 0; i < 30; i++) {
-      const state = i < done ? 'ok' : (i === done && !todayDone ? 'cur' : 'lock');
-      const ms = [2, 6, 13, 29].includes(i);
-      h += `<div class="node ${state} ${ms ? 'ms' : ''}" style="--x:${Math.sin(i * 0.9) * 34}%"><span>${state === 'ok' ? ic('check') : ms ? ic('trophy') : i + 1}</span></div>`;
-    }
-    return h + '</div>';
   }
   function openLesson(parent, lesson) {
     const done = S.streak.today.tasks.includes('lesson');
     const ov = overlay(`
       <div class="lesson">
-        <span class="eyebrow">${t('taskLesson')}</span>
+        <p class="label">${t('taskLesson')}</p>
         <h2>${esc(tx(lesson.t))}</h2>
-        <p>${esc(tx(lesson.b))}</p>
+        <p class="lesson-b">${esc(tx(lesson.b))}</p>
         <div class="quiz-box">
-          <p class="qb-t">${t('lessonQuiz')}</p>
+          <p class="label">${t('lessonQuiz')}</p>
           <p class="qb-q">${esc(tx(lesson.q))}</p>
           <div class="qb-o">${lesson.o.map((o, i) => `<button type="button" class="choice pill" data-a="${i}">${esc(tx(o))}</button>`).join('')}</div>
           <p class="qb-r" id="qb-r"></p>
@@ -920,7 +913,7 @@ If no personal care product is visible or the name can't be read, reply {"found"
         <button type="button" class="btn ghost wide" data-act="close">${t('close')}</button>
       </div>`);
     const res = $('#qb-r', ov);
-    if (done) { const btns = $$('[data-a]', ov); btns.forEach(b => { b.disabled = true; b.classList.toggle('right', +b.dataset.a === lesson.a); }); res.textContent = t('correct').split('!')[0] + '!'; }
+    if (done) { $$('[data-a]', ov).forEach(b => { b.disabled = true; b.classList.toggle('right', +b.dataset.a === lesson.a); }); }
     $$('[data-a]', ov).forEach(b => b.onclick = () => {
       if (S.streak.today.tasks.includes('lesson')) return;
       const ok = +b.dataset.a === lesson.a;
@@ -928,10 +921,8 @@ If no personal care product is visible or the name can't be read, reply {"found"
       $$('[data-a]', g).forEach(x => { x.disabled = true; x.classList.toggle('right', +x.dataset.a === lesson.a); x.classList.toggle('picked', x === b); });
       if (!ok) b.classList.add('wrong');
       res.textContent = ok ? t('correct') : t('wrong');
-      buzz(ok ? 20 : [10, 40, 10]);
-      completeTask('lesson', ok ? b : null);
-      if (!ok) S.streak.xp -= 5;
-      save();
+      buzz(ok ? 15 : 30);
+      completeTask('lesson');
       setTimeout(() => drawStreak(parent), 300);
     });
     $('[data-act=close]', ov).onclick = () => closeOverlay(ov);
@@ -940,7 +931,9 @@ If no personal care product is visible or the name can't be read, reply {"found"
     const ov = overlay(`
       <div class="series-pick">
         <h2>${t('chooseSeries')}</h2>
-        ${seriesList().map(s => `<button type="button" class="series-card ${S.streak.series === s.id ? 'on' : ''}" data-s="${s.id}"><span class="sc-orb">${ic(s.id.startsWith('mk') ? 'sparkle' : s.id.startsWith('gr') ? 'beard' : 'drop')}</span><span><b>${esc(tx(s.t))}</b><small>${esc(tx(s.d))}</small></span>${ic('chev')}</button>`).join('')}
+        <div class="list">
+        ${seriesList().map(s => `<button type="button" class="row ${S.streak.series === s.id ? 'on' : ''}" data-s="${s.id}"><span class="row-t"><b>${esc(tx(s.t))}</b><small>${esc(tx(s.d))}</small></span>${S.streak.series === s.id ? ic('check', 'chev') : ic('chev', 'chev')}</button>`).join('')}
+        </div>
       </div>`);
     $$('[data-s]', ov).forEach(b => b.onclick = () => {
       buzz();
@@ -955,75 +948,8 @@ If no personal care product is visible or the name can't be read, reply {"found"
     });
   }
   function celebrate() {
-    const n = streakCount();
-    const ov = overlay(`
-      <div class="celebrate">
-        <canvas class="confetti" aria-hidden="true"></canvas>
-        <div class="flame-orb lit big"><div class="core"><span class="fl">${ic('flame')}</span><b id="cel-n">0</b></div></div>
-        <h2>${t('dayDone')}</h2>
-        <p>${t('dayDoneSub', n)}</p>
-        <button type="button" class="btn primary" data-act="ok">${t('done')}</button>
-      </div>`, 'center');
-    ov.classList.add('ov-cel');
-    let k = 0; const el = $('#cel-n', ov);
-    const tick = () => { k++; el.textContent = Math.min(n, k); if (k < n) setTimeout(tick, Math.max(40, 400 / n)); };
-    setTimeout(tick, 250);
-    confetti($('.confetti', ov));
-    buzz([20, 60, 30]);
-    $('[data-act=ok]', ov).onclick = () => closeOverlay(ov);
-  }
-
-  /* ---------- Efektler ---------- */
-  function burst(el, label) {
-    if (reduced()) return;
-    const r = el.getBoundingClientRect();
-    const host = $('#fx');
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    for (let i = 0; i < 14; i++) {
-      const p = document.createElement('i');
-      const a = (Math.PI * 2 * i) / 14, d = 40 + Math.random() * 40;
-      p.className = 'pt';
-      p.style.cssText = `left:${cx}px;top:${cy}px;--tx:${Math.cos(a) * d}px;--ty:${Math.sin(a) * d}px;--h:${Math.random() * 40}`;
-      host.appendChild(p); setTimeout(() => p.remove(), 700);
-    }
-    if (label) {
-      const f = document.createElement('b'); f.className = 'xp-float'; f.textContent = label;
-      f.style.cssText = `left:${cx}px;top:${cy - 10}px`; host.appendChild(f); setTimeout(() => f.remove(), 1000);
-    }
-  }
-  function confetti(cv) {
-    if (reduced() || !cv) return;
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    const W = cv.width = innerWidth * dpr, H = cv.height = innerHeight * dpr;
-    const ctx = cv.getContext('2d');
-    const cs = getComputedStyle(document.documentElement);
-    const cols = ['--accent', '--blob1', '--blob2', '--gold'].map(v => cs.getPropertyValue(v).trim() || '#c98');
-    const ps = Array.from({ length: 120 }, () => ({ x: W / 2, y: H * 0.42, vx: (Math.random() - 0.5) * 18 * dpr, vy: (-Math.random() * 16 - 4) * dpr, r: (3 + Math.random() * 5) * dpr, c: cols[(Math.random() * cols.length) | 0], a: Math.random() * 6, s: Math.random() * 0.3 }));
-    let f = 0;
-    const loop = () => {
-      if (!cv.isConnected) return;
-      ctx.clearRect(0, 0, W, H);
-      ps.forEach(p => { p.vy += 0.45 * dpr; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.s; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); ctx.restore(); });
-      if (++f < 160) requestAnimationFrame(loop); else ctx.clearRect(0, 0, W, H);
-    };
-    loop();
-  }
-  function startSparks(ov) {
-    if (reduced()) return;
-    const cv = $('.sparks', ov); if (!cv) return;
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    let W, H; const ctx = cv.getContext('2d');
-    const size = () => { W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; };
-    size();
-    const ps = Array.from({ length: 34 }, () => ({ x: Math.random(), y: Math.random(), v: 0.0006 + Math.random() * 0.0016, r: 0.6 + Math.random() * 1.8, o: Math.random() }));
-    const loop = () => {
-      if (!ov.isConnected) return;
-      const c2 = $('.sparks', ov); if (c2 !== cv) return;
-      ctx.clearRect(0, 0, W, H);
-      ps.forEach(p => { p.y -= p.v; p.o += 0.02; if (p.y < -0.02) { p.y = 1.02; p.x = Math.random(); } ctx.globalAlpha = 0.35 + Math.sin(p.o) * 0.3; ctx.fillStyle = '#ffd9b0'; ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r * dpr, 0, 7); ctx.fill(); });
-      requestAnimationFrame(loop);
-    };
-    loop();
+    toast(t('dayDone') + ' ' + t('dayDoneSub', streakCount()));
+    buzz([15, 50, 20]);
   }
 
   /* ---------- Profil ---------- */
@@ -1042,17 +968,16 @@ If no personal care product is visible or the name can't be read, reply {"found"
     v.innerHTML = `
       <section class="page">
         <header class="pf-head">
-          <div class="avatar orb orb-sm" aria-hidden="true"><i></i><i></i><i></i><b>${esc((pf.name || '').trim().charAt(0).toLocaleUpperCase(S.lang === 'tr' ? 'tr-TR' : 'en') || '')}</b></div>
+          <div class="avatar lg" aria-hidden="true"><b>${esc((pf.name || '').trim().charAt(0).toLocaleUpperCase(S.lang === 'tr' ? 'tr-TR' : 'en') || '')}</b></div>
           <div><h1>${t('profileTitle')}</h1><p class="muted">${t('profileSub')}</p></div>
         </header>
-        <div class="card glass">
+        <div class="card">
           <label class="pf-l" for="pf-name">${t('name')}</label>
           <input id="pf-name" class="field" type="text" maxlength="40" placeholder="${t('namePh')}" value="${esc(pf.name || '')}" autocomplete="given-name">
           ${group('skinType', false)}
           ${group('concerns', true)}
           ${group('hairType', false)}
           ${group('scalp', false)}
-          ${!mk ? group('beard', false) : ''}
           ${mk ? group('skinTone', false, 'tones') : ''}
           ${mk ? group('undertone', false) : ''}
           ${mk ? group('makeupStyle', false) : ''}
@@ -1062,7 +987,7 @@ If no personal care product is visible or the name can't be read, reply {"found"
         </div>
 
         <h2 class="sec-t">${t('settings')}</h2>
-        <div class="card glass settings">
+        <div class="card settings">
           <div class="set-row"><span>${t('language')}</span><div class="mini-seg" data-set="lang"><button type="button" data-v="tr" class="${S.lang === 'tr' ? 'on' : ''}">Türkçe</button><button type="button" data-v="en" class="${S.lang === 'en' ? 'on' : ''}">English</button></div></div>
           <div class="set-row"><span>${t('appearance')}</span><div class="mini-seg" data-set="theme">${['system', 'light', 'dark'].map(k => `<button type="button" data-v="${k}" class="${S.settings.theme === k ? 'on' : ''}">${t('theme' + k[0].toUpperCase() + k.slice(1))}</button>`).join('')}</div></div>
           <div class="set-row col"><div class="set-sw"><span>${t('makeupContent')}</span><button type="button" class="switch ${mk ? 'on' : ''}" role="switch" aria-checked="${mk}" data-act="mode"><i></i></button></div><small class="muted">${t('makeupContentSub')}</small></div>
@@ -1072,7 +997,7 @@ If no personal care product is visible or the name can't be read, reply {"found"
           <div class="set-row col"><button type="button" class="btn danger wide" data-act="reset">${ic('trash')} ${t('reset')}</button><div id="reset-confirm" hidden class="confirm"><p>${t('resetConfirm')}</p><div class="row"><button type="button" class="btn ghost" data-act="cancel">${t('cancel')}</button><button type="button" class="btn danger" data-act="wipe">${t('resetYes')}</button></div></div></div>
           <p class="muted small">${t('privacy')}</p>
         </div>
-        <p class="ver muted small center">adorn · v2.0</p>
+        <p class="ver muted small center">adorn · v2.1</p>
       </section>`;
 
     let nt = 0;

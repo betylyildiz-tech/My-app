@@ -9,8 +9,7 @@ const js = scripts.map(s => `/* ${s} */\n` + read(s)).join('\n');
 const body = html.slice(html.indexOf('<body>') + 6, html.indexOf('<script'));
 const out = `<title>Adorn</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="theme-color" content="#F4EEE9">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap">
+<meta name="theme-color" content="#F9F8F6">
 <style>
 ${css}
 </style>

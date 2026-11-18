@@ -22,7 +22,6 @@
       else { s -= 10; warn.push(L('Cilt tipin için ilk tercih değil', 'Not the first pick for your skin type')); }
     }
     if (p.area === 'hair' && prof.hairType && p.for.includes(prof.hairType)) { s += 6; why.push(L('Saç tipine uygun', 'Suits your hair type')); }
-    if (p.area === 'beard' && prof.beard && p.for.includes(prof.beard)) { s += 8; why.push(L('Sakal düzenine uygun', 'Fits your beard routine')); }
     const cs = (prof.concerns || []).filter(c => p.concerns.includes(c));
     if (cs.length) { s += Math.min(2, cs.length) * 7; why.push(L('Odak noktalarını hedefliyor', 'Targets your focus areas')); }
     if (prof.scalp && p.concerns.includes(prof.scalp)) { s += 12; why.push(L('Saç derisi ihtiyacına yönelik', 'Made for your scalp need')); }
@@ -65,9 +64,6 @@
     ['shampoo', ['sampuan', 'shampoo']],
     ['hairoil', ['sac yag', 'hair oil', 'argan', 'serum sac']],
     ['hairmask', ['sac maske', 'hair mask', 'kremi sac', 'conditioner', 'sac kremi', 'olaplex']],
-    ['beardoil', ['sakal', 'beard']],
-    ['aftershave', ['after shave', 'aftershave', 'tiras sonrasi', 'post shave']],
-    ['preshave', ['tiras kopu', 'tiras jel', 'shaving', 'shave gel', 'shave foam', 'pre-shave', 'pre shave']],
     ['foundation', ['fondoten', 'foundation', 'bb ', 'cc ', 'skin tint']],
     ['concealer', ['kapatici', 'concealer']],
     ['mascara', ['maskara', 'mascara']],
@@ -76,7 +72,7 @@
     ['liner', ['eyeliner', 'liner', 'kalem']],
     ['brow', ['kas ', 'brow']]
   ];
-  const CAT_AREA = { spf: 'skin', cleanser: 'skin', exfoliant: 'skin', serum: 'skin', eye: 'skin', moisturizer: 'skin', shampoo: 'hair', hairoil: 'hair', hairmask: 'hair', beardoil: 'beard', aftershave: 'beard', preshave: 'beard', foundation: 'makeup', concealer: 'makeup', mascara: 'makeup', lip: 'makeup', blush: 'makeup', liner: 'makeup', brow: 'makeup', other: 'skin' };
+  const CAT_AREA = { spf: 'skin', cleanser: 'skin', exfoliant: 'skin', serum: 'skin', eye: 'skin', moisturizer: 'skin', shampoo: 'hair', hairoil: 'hair', hairmask: 'hair', foundation: 'makeup', concealer: 'makeup', mascara: 'makeup', lip: 'makeup', blush: 'makeup', liner: 'makeup', brow: 'makeup', other: 'skin' };
   const CAT_HOW = {
     spf: L('Sabah son adım olarak iki parmak boyu sür; dışarıdaysan 2–3 saatte bir yenile.', 'Last morning step, two finger-lengths; reapply every 2–3 hours outdoors.'),
     cleanser: L('Nemli cilde 30–60 saniye masaj yap, ılık suyla durula.', 'Massage onto damp skin for 30–60 seconds, rinse with lukewarm water.'),
@@ -87,9 +83,6 @@
     shampoo: L('Saç derisine masajla uygula, 1 dk beklet, iyice durula.', 'Massage into the scalp, leave a minute, rinse well.'),
     hairoil: L('Nemli saçın orta ve uç kısımlarına az miktarda.', 'A little on mid-lengths and ends of damp hair.'),
     hairmask: L('Yıkadıktan sonra uçlara, 3–5 dk beklet.', 'After washing, on the ends; leave 3–5 minutes.'),
-    beardoil: L('Duştan sonra birkaç damla, sakal diplerine kadar.', 'A few drops after a shower, down to the skin.'),
-    aftershave: L('Tıraştan sonra kurulanmış cilde ince kat.', 'A thin layer on dry skin after shaving.'),
-    preshave: L('Islak cilde uygula, 1 dk beklet, kıl yönünde tıraş ol.', 'Apply to wet skin, wait a minute, shave with the grain.'),
     foundation: L('Az miktarla yüzün ortasından dışa doğru dağıt.', 'A little, blended out from the centre of the face.'),
     concealer: L('Sadece gereken noktalara, tapping ile.', 'Only where needed, tapped in.'),
     mascara: L('Dipte sağa sola oynat, uçlara doğru çek.', 'Wiggle at the root, pull to the tips.'),
@@ -173,10 +166,6 @@
     am.push({ id: 'moist', t: st === 'oily' ? L('Hafif jel nemlendirici', 'Light gel moisturizer') : L('Nemlendirici', 'Moisturizer'), m: 1 });
     am.push({ id: 'spf', t: L('Güneş koruyucu SPF 50', 'SPF 50 sunscreen'), m: 1 });
     if (mode === 'makeup') am.push({ id: 'mk', t: L('Hafif makyaj (isteğe bağlı)', 'Light makeup (optional)'), m: 8 });
-    if (mode === 'care') {
-      if (prof.beard === 'stubble' || prof.beard === 'full') am.push({ id: 'beard', t: L('Sakal yağı, 3–4 damla', 'Beard oil, 3–4 drops'), m: 1 });
-      if (prof.beard === 'shave') am.splice(1, 0, { id: 'shave', t: L('Kıl yönünde tıraş + alkolsüz balm', 'Shave with the grain + alcohol-free balm'), m: 5 });
-    }
     if (mode === 'makeup') pm.push({ id: 'rm', t: L('Makyajı temizleme yağı veya misel suyla çıkar', 'Remove makeup with cleansing oil or micellar water'), m: 2 });
     pm.push({ id: 'cl2', t: L('Yüzünü yıka', 'Cleanse your face'), m: 1 });
     if (cs.includes('aging')) pm.push({ id: 'ret', t: L('Retinol (haftada 2–3 gece)', 'Retinol (2–3 nights a week)'), m: 1 });
@@ -202,13 +191,13 @@
         products: pick(c.prof, c.mode, { cats: ['cleanser', 'moisturizer'], concerns: ['redness'] }, 2) }) },
     { id: 'greet', area: 'general', keys: ['merhaba', 'selam', 'slm', 'hey ', 'hi ', 'hello', 'gunaydin', 'iyi aksamlar', 'iyi gunler', 'naber', 'nasilsin', 'how are you'],
       r: (c) => ({ text: tx(L(`Merhaba${nm(c)}! Bugün nasıl yardımcı olayım? Bir rutin kurabilir, ürün önerebilir ya da bir ürünü senin için yorumlayabilirim.`, `Hi${nm(c)}! How can I help today? I can build a routine, suggest products or review a product for you.`)),
-        chips: c.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Sakal bakımı', 'Beard care'), L('Ne almalıyım?', 'What should I buy?')] }) },
+        chips: c.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Kabaran saçlar', 'Frizzy hair'), L('Ne almalıyım?', 'What should I buy?')] }) },
     { id: 'thanks', area: 'general', keys: ['tesekkur', 'sagol', 'sag ol', 'eyvallah', 'thanks', 'thank', 'super', 'harika', 'cok iyi', 'great'],
       r: (c) => ({ text: tx(L('Rica ederim! Aklına başka bir şey gelirse buradayım. Bugünkü serini tamamlamayı da unutma.', 'You\'re welcome! I\'m here if anything else comes up. Don\'t forget today\'s streak.')) }) },
     { id: 'who', area: 'general', keys: ['kimsin', 'sen kim', 'neler yapabilir', 'ne yapabilir', 'who are you', 'what can you', 'help me', 'yardim et'],
       r: (c) => ({ text: tx(L(
-        `Ben Adorn, kişisel bakım asistanın. Neler yapabilirim:\n• Cildine ve saçına göre sabah/akşam rutini kurarım\n• Bir ürünü tarayıp sana uygun olup olmadığını söylerim\n• Profiline göre ürün öneririm${c.mode === 'makeup' ? '\n• Makyaj tekniklerini adım adım anlatırım' : '\n• Sakal, tıraş ve saç bakımı için pratik öneriler veririm'}\n• Glow-up serinle her gün küçük adımlar attırırım`,
-        `I'm Adorn, your personal care assistant. I can:\n• Build morning/evening routines for your skin and hair\n• Scan a product and tell you if it suits you\n• Suggest products for your profile${c.mode === 'makeup' ? '\n• Walk you through makeup techniques' : '\n• Give practical beard, shaving and hair tips'}\n• Keep you going with a daily glow-up streak`)) }) },
+        `Ben Adorn, kişisel bakım asistanın. Neler yapabilirim:\n• Cildine ve saçına göre sabah/akşam rutini kurarım\n• Bir ürünü tarayıp sana uygun olup olmadığını söylerim\n• Profiline göre ürün öneririm${c.mode === 'makeup' ? '\n• Makyaj tekniklerini adım adım anlatırım' : '\n• Saç ve saç derisi bakımı için pratik öneriler veririm'}\n• Glow-up serinle her gün küçük adımlar attırırım`,
+        `I'm Adorn, your personal care assistant. I can:\n• Build morning/evening routines for your skin and hair\n• Scan a product and tell you if it suits you\n• Suggest products for your profile${c.mode === 'makeup' ? '\n• Walk you through makeup techniques' : '\n• Give practical hair and scalp care tips'}\n• Keep you going with a daily glow-up streak`)) }) },
     { id: 'am', area: 'skin', keys: ['sabah', 'morning', 'rutin', 'routine', 'bakim rutin', 'cilt bakim', 'skincare', 'skin care', 'gunluk bakim', 'bakim yap', 'nereden basla', 'where do i start'],
       r: (c) => {
         const r = buildRoutine(c.prof, c.mode); const sw = skinWord(c);
@@ -308,16 +297,11 @@
       r: (c) => ({ text: tx(L(
         'Şekillendirici seçimi istediğin görünüme bağlı:\n• **Kil / pasta**: mat, doğal, dokulu görünüm; ince telli saçlara hacim\n• **Pomat**: parlak, düzenli, klasik görünüm\n• **Wax**: orta tutuş, yeniden şekillendirilebilir\nNohut kadarıyla başla, avucunda ısıt, arkadan öne doğru uygula. Berberine yüz şeklini ve sabah ayırabildiğin süreyi söyle; buna göre kesim önersin.',
         'Pick a styler by the look you want:\n• **Clay / paste**: matte, natural, textured; adds volume to fine hair\n• **Pomade**: shiny, neat, classic\n• **Wax**: medium hold, restylable\nStart with a chickpea-sized amount, warm it in your palms, apply back to front. Tell your barber your face shape and how much time you have in the morning.')) }) },
-    { id: 'beard', area: 'beard', w: 2, keys: ['sakal', 'beard', 'biyik', 'mustache', 'moustache'],
-      r: (c) => ({ text: tx(L(
-        'Bakımlı bir sakal için:\n• Sakalı haftada 2–3 kez nazik şampuanla yıka; altındaki cildi de temizle\n• Duştan sonra **sakal yağı** ile cildi besle, kaşıntı ve kepeği azaltır\n• Taraklayarak kıl yönünü eğit\n• 2–3 haftada bir yanak ve boyun hattını düzelt; boyun hattı adem elmasının yaklaşık iki parmak üstünde olmalı\n• Seyrek bölgeler için biraz uzatmak çoğu zaman en iyi çözüm',
-        'For a well-kept beard:\n• Wash it 2–3 times a week with a gentle shampoo, skin underneath too\n• After showering, feed the skin with **beard oil**; it cuts itch and flakes\n• Comb it to train the direction\n• Tidy cheek and neck lines every 2–3 weeks; the neckline sits about two fingers above the Adam\'s apple\n• For patchy areas, a bit more length often helps most')),
-        products: pick(c.prof, c.mode, { areas: ['beard'], cats: ['beardoil'] }, 1), chips: [L('Tıraş tahrişi', 'Razor irritation')] }) },
-    { id: 'shave', area: 'beard', w: 2, keys: ['tiras', 'shave', 'shaving', 'jilet', 'razor', 'batik', 'ingrown', 'after shave', 'aftershave', 'kesik', 'kizarik tiras'],
+    { id: 'shave', area: 'skin', w: 2, keys: ['tiras', 'shave', 'shaving', 'jilet', 'razor', 'batik', 'ingrown', 'after shave', 'aftershave', 'kesik', 'kizarik tiras'],
       r: (c) => ({ text: tx(L(
         'Tıraş tahrişini azaltmak için:\n• Duştan sonra tıraş ol; sıcak su kılı yumuşatır\n• Tıraş köpüğü veya jelini 1 dakika beklet\n• **Kıl yönünde** geç; batık sorunu varsa ters yöne hiç geçme\n• Bıçağı 5–7 tıraşta bir değiştir, sık durula\n• Soğuk suyla bitir, **alkolsüz** bir balm sür\nBatıklar sık oluyorsa haftada 2 kez salisilik asitli bir tonik yardımcı olur.',
         'To cut razor irritation:\n• Shave after a shower; warm water softens hair\n• Let the foam or gel sit for a minute\n• Go **with the grain**; if you get ingrowns, never against it\n• Change the blade every 5–7 shaves, rinse often\n• Finish with cool water and an **alcohol-free** balm\nIf ingrowns are frequent, a salicylic acid toner twice a week helps.')),
-        products: pick(c.prof, c.mode, { areas: ['beard'], cats: ['preshave', 'aftershave'] }, 2) }) },
+        chips: [L('Hassas cilt', 'Sensitive skin')] }) },
     { id: 'body', area: 'skin', keys: ['ter ', 'terleme', 'koku', 'deodorant', 'deodoran', 'parfum', 'fragrance', 'sweat', 'smell', 'vucut', 'body'],
       r: (c) => ({ text: tx(L(
         'Tazelik için temel düzen:\n• Günlük duş; koltuk altı ve ayaklara özen\n• Ter sorunu varsa akşam **antiperspirant**, sabah deodorant daha etkili\n• Parfümü nabız noktalarına (bilek, boyun) sık, ovma\n• Pamuklu ve nefes alan kumaşlar kokuyu azaltır\n• Vücut için de nemlendirici, özellikle duştan hemen sonra',
@@ -365,7 +349,7 @@
     { id: 'buy', area: 'general', keys: ['ne almali', 'ne alayim', 'ne alsam', 'oneri', 'oner', 'tavsiye', 'recommend', 'what should i buy', 'buy next', 'urun oner', 'hangi urun', 'which product', 'ne kullanmali', 'ne kullanayim', 'what should i use'],
       r: (c) => {
         const bag = new Set(c.bag.map(b => b.id));
-        const order = ['spf', 'cleanser', 'moisturizer', 'serum', ...(c.mode === 'care' && (c.prof.beard === 'stubble' || c.prof.beard === 'full') ? ['beardoil'] : []), ...(c.mode === 'care' && c.prof.beard === 'shave' ? ['aftershave'] : []), ...(c.mode === 'makeup' ? ['foundation', 'mascara'] : [])];
+        const order = ['spf', 'cleanser', 'moisturizer', 'serum', ...(c.mode === 'makeup' ? ['foundation', 'mascara'] : [])];
         const haveCats = new Set(c.bag.map(b => b.cat));
         const missing = order.filter(x => !haveCats.has(x));
         const cat = missing[0] || 'serum';
@@ -380,7 +364,7 @@
       r: (c) => ({ text: tx(L('Cilt ve saç yaşam tarzına çok tepki verir:\n• 7–8 saat uyku: göz altı ve donukluk için en ucuz bakım\n• Yeterli su ve sebze; çok şekerli ve işlenmiş gıdalar bazı kişilerde sivilceyi artırabilir\n• Düzenli egzersiz kan akışını artırır; terledikten sonra yüzünü yıka\n• Stres dökülme ve sivilceyi tetikleyebilir; kısa yürüyüşler bile işe yarar\n• Sigara cilt yaşlanmasını belirgin şekilde hızlandırır', 'Skin and hair respond strongly to lifestyle:\n• 7–8 hours of sleep: the cheapest fix for under-eyes and dullness\n• Enough water and veg; very sugary, processed food can worsen breakouts for some people\n• Regular exercise boosts circulation; wash your face after sweating\n• Stress can trigger shedding and breakouts; even short walks help\n• Smoking noticeably speeds up skin ageing')) }) }
   ];
 
-  const AREA_OK = { skin: ['skin', 'general'], makeup: ['makeup', 'skin', 'general'], hair: ['hair', 'general'], beard: ['beard', 'skin', 'general'], general: ['skin', 'makeup', 'hair', 'beard', 'general'] };
+  const AREA_OK = { skin: ['skin', 'general'], makeup: ['makeup', 'skin', 'general'], hair: ['hair', 'general'], general: ['skin', 'makeup', 'hair', 'general'] };
 
   function detect(text) {
     const n = norm(text);
@@ -402,7 +386,7 @@
       return { text: tx(L(
         'Bunu tam anlayamadım ama yardımcı olmak isterim. Biraz daha açar mısın? Örneğin cilt tipini, yaşadığın sorunu ya da merak ettiğin ürünü yazabilirsin.',
         'I didn\'t quite catch that, but I\'d like to help. Could you say a bit more? For example your skin type, the issue you\'re having, or a product you\'re curious about.')),
-        chips: ctx.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Sakal bakımı', 'Beard care'), L('Saç dökülmesi', 'Hair thinning')], intentArea: 'general' };
+        chips: ctx.mode === 'makeup' ? [L('Sabah rutini', 'Morning routine'), L('Günlük makyaj', 'Everyday makeup'), L('Ne almalıyım?', 'What should I buy?')] : [L('Sabah rutini', 'Morning routine'), L('Kuru cilt', 'Dry skin'), L('Saç dökülmesi', 'Hair thinning')], intentArea: 'general' };
     }
     if (intent.area === 'makeup' && ctx.mode === 'care') {
       return { text: tx(L(

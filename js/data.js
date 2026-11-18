@@ -24,10 +24,6 @@
       { id: 'balanced', l: L('Dengeli', 'Balanced') }, { id: 'oilyscalp', l: L('Çabuk yağlanan', 'Gets oily fast') },
       { id: 'dandruff', l: L('Kepekli', 'Flaky') }, { id: 'thinning', l: L('Dökülme var', 'Thinning') }
     ],
-    beard: [
-      { id: 'none', l: L('Yok', 'None') }, { id: 'stubble', l: L('Kirli sakal', 'Stubble') },
-      { id: 'full', l: L('Uzun sakal', 'Full beard') }, { id: 'shave', l: L('Her gün tıraş', 'Shave daily') }
-    ],
     skinTone: [
       { id: 'fair', l: L('Çok açık', 'Fair'), c: '#F3D9C6' }, { id: 'light', l: L('Açık', 'Light'), c: '#E8C2A4' },
       { id: 'medium', l: L('Buğday', 'Medium'), c: '#C99A73' }, { id: 'tan', l: L('Esmer', 'Tan'), c: '#A97650' },
@@ -59,8 +55,8 @@
     care: [
       { id: 'am', area: 'skin', icon: 'sun', t: L('Sabah bakım rutini', 'Morning routine'), q: L('Bana basit bir sabah bakım rutini kurar mısın?', 'Can you set up a simple morning routine for me?') },
       { id: 'acne', area: 'skin', icon: 'target', t: L('Sivilce ve gözenekler', 'Breakouts and pores'), q: L('Sivilce ve siyah noktalar için ne yapmalıyım?', 'What should I do about breakouts and blackheads?') },
-      { id: 'beard', area: 'beard', icon: 'beard', t: L('Sakal bakımı', 'Beard care'), q: L('Sakal bakımı nasıl yapılır?', 'How should I take care of my beard?') },
-      { id: 'shave', area: 'beard', icon: 'blade', t: L('Tıraş tahrişi', 'Razor irritation'), q: L('Tıraştan sonra cildim tahriş oluyor, ne yapmalıyım?', 'My skin gets irritated after shaving, what should I do?') },
+      { id: 'dry', area: 'skin', icon: 'drop', t: L('Kuru ve hassas cilt', 'Dry, sensitive skin'), q: L('Cildim kuru ve hassas, nasıl bakmalıyım?', 'My skin is dry and sensitive, how should I care for it?') },
+      { id: 'frizz', area: 'hair', icon: 'wave', t: L('Kabaran saçlar', 'Frizzy hair'), q: L('Saçlarım kabarıyor ve kuru, ne yapmalıyım?', 'My hair is dry and frizzy, what should I do?') },
       { id: 'hair', area: 'hair', icon: 'wave', t: L('Dökülme ve kepek', 'Thinning and dandruff'), q: L('Saç dökülmesi ve kepek için ne önerirsin?', 'What do you suggest for thinning hair and dandruff?') },
       { id: 'buy', area: 'general', icon: 'bag', t: L('Ne almalıyım?', 'What should I buy?'), q: L('Profilime göre ilk alacağım bakım ürünü ne olmalı?', 'Based on my profile, which care product should I get first?') }
     ]
@@ -125,16 +121,6 @@
     P({ id: 'vichy-energy', brand: 'Vichy', name: 'Dercos Energy+ Shampoo', cat: 'shampoo', area: 'hair', for: ['thin', 'short', 'straight', 'wavy'], concerns: ['thinning'], budget: '$$', ff: false, ing: ['Aminexil', 'Caffeine'],
       d: L('Güçsüz ve incelen saçlar için destekleyici şampuan.', 'A supporting shampoo for weak, thinning hair.'),
       how: L('Saç derisine masajla uygula, 1 dk beklet, durula.', 'Massage into scalp, leave 1 minute, rinse.') }),
-    // Sakal & tıraş
-    P({ id: 'proraso-oil', brand: 'Proraso', name: 'Beard Oil Wood & Spice', cat: 'beardoil', area: 'beard', for: ['stubble', 'full'], concerns: ['itch', 'dry'], budget: '$', ff: false, ing: ['Argan oil', 'Sweet almond oil'],
-      d: L('Sakalı yumuşatan, kaşıntıyı azaltan yağ.', 'An oil that softens the beard and calms itch.'),
-      how: L('Duştan sonra 3–4 damla, sakal diplerine kadar masajla.', '3–4 drops after a shower, massaged down to the skin.') }),
-    P({ id: 'proraso-pre', brand: 'Proraso', name: 'Pre-Shave Cream (Green)', cat: 'preshave', area: 'beard', for: ['shave', 'stubble'], concerns: ['irritation'], budget: '$', ff: false, ing: ['Eucalyptus oil', 'Menthol'],
-      d: L('Tıraş öncesi kılları yumuşatan klasik krem.', 'A classic cream that softens hair before shaving.'),
-      how: L('Islak cilde ince kat, üzerine tıraş köpüğü/kremi.', 'A thin layer on wet skin, then your shaving cream.') }),
-    P({ id: 'nivea-asb', brand: 'NIVEA MEN', name: 'Sensitive Post Shave Balm', cat: 'aftershave', area: 'beard', for: ['shave', 'stubble', 'none'], concerns: ['irritation', 'redness'], budget: '$', ff: false, ing: ['Chamomile', 'Vitamin E'],
-      d: L('Alkolsüz, yatıştırıcı tıraş sonrası balmı.', 'An alcohol-free, soothing post-shave balm.'),
-      how: L('Tıraştan sonra kurulanmış cilde ince kat.', 'A thin layer on dry skin after shaving.') }),
     // Makyaj
     P({ id: 'mb-fitme', brand: 'Maybelline', name: 'Fit Me Matte + Poreless Foundation', cat: 'foundation', area: 'makeup', for: ['oily', 'combo', 'normal'], concerns: ['pores'], budget: '$', ff: false, ing: [],
       d: L('Geniş ton yelpazesi, doğal mat bitiş.', 'A wide shade range with a natural matte finish.'),
@@ -184,12 +170,11 @@
     cleanser: L('Temizleyici', 'Cleanser'), serum: L('Serum', 'Serum'), exfoliant: L('Peeling', 'Exfoliant'),
     spf: L('Güneş koruyucu', 'Sunscreen'), moisturizer: L('Nemlendirici', 'Moisturizer'), eye: L('Göz çevresi', 'Eye care'),
     hairoil: L('Saç yağı', 'Hair oil'), hairmask: L('Saç bakımı', 'Hair treatment'), shampoo: L('Şampuan', 'Shampoo'),
-    beardoil: L('Sakal yağı', 'Beard oil'), preshave: L('Tıraş öncesi', 'Pre-shave'), aftershave: L('Tıraş sonrası', 'Aftershave'),
     foundation: L('Fondöten', 'Foundation'), concealer: L('Kapatıcı', 'Concealer'), blush: L('Allık', 'Blush'),
     mascara: L('Maskara', 'Mascara'), brow: L('Kaş', 'Brow'), liner: L('Eyeliner', 'Eyeliner'), lip: L('Dudak', 'Lip'),
     base: L('Baz', 'Base'), setting: L('Sabitleyici', 'Setting'), other: L('Diğer', 'Other')
   };
-  const AREAS = { skin: L('Cilt', 'Skin'), hair: L('Saç', 'Hair'), beard: L('Sakal', 'Beard'), makeup: L('Makyaj', 'Makeup'), body: L('Vücut', 'Body') };
+  const AREAS = { skin: L('Cilt', 'Skin'), hair: L('Saç', 'Hair'), makeup: L('Makyaj', 'Makeup'), body: L('Vücut', 'Body') };
 
   /* ---------- Glow-up serileri ---------- */
   const SKIN_LESSONS = [
@@ -241,22 +226,20 @@
       q: L('Şampuan nereye odaklanmalı?', 'Where should shampoo focus?'), o: [L('Saç derisi', 'The scalp'), L('Saç uçları', 'The ends')], a: 0 },
     { t: L('Saç derisi masajı', 'Scalp massage'), b: L('Şampuan sırasında parmak uçlarıyla 1 dakika dairesel masaj yap. Tırnak kullanma; tahriş eder.', 'While shampooing, massage in small circles with your fingertips for a minute. No nails; they irritate.'),
       q: L('Masajda ne kullanılır?', 'What do you massage with?'), o: [L('Tırnaklar', 'Nails'), L('Parmak uçları', 'Fingertips')], a: 1 },
-    { t: L('Sakal yağı', 'Beard oil'), b: L('Sakal yağı kılı değil, altındaki cildi besler. Duştan sonra 3–4 damla avucunda ısıt, sakal diplerine kadar masaj yap.', 'Beard oil feeds the skin under the beard, not just the hair. Warm 3–4 drops in your palms after a shower and work it down to the skin.'),
-      q: L('Sakal yağı en çok neyi besler?', 'What does beard oil mainly feed?'), o: [L('Sakal altındaki cildi', 'The skin underneath'), L('Sadece uçları', 'Just the tips')], a: 0 },
-    { t: L('Tıraş öncesi hazırlık', 'Pre-shave prep'), b: L('Tıraşı duştan sonra yap: sıcak su kılları yumuşatır. Köpüğü 1 dakika bekletmek tahrişi belirgin şekilde azaltır.', 'Shave after a shower: warm water softens hair. Letting the foam sit for a minute noticeably cuts irritation.'),
-      q: L('Tıraş için en iyi zaman?', 'Best time to shave?'), o: [L('Duştan sonra', 'After a shower'), L('Uyanır uyanmaz', 'Right after waking')], a: 0 },
-    { t: L('Tıraş yönü', 'Shaving direction'), b: L('İlk geçişi kıl yönünde yap. Batık ve kızarıklık sorunun varsa ters yöne hiç geçme; jileti sık değiştir.', 'First pass goes with the grain. If you get ingrowns or redness, never go against it, and change blades often.'),
-      q: L('Batık sorunu varsa?', 'Prone to ingrown hairs?'), o: [L('Kıl yönünde tıraş', 'Shave with the grain'), L('Ters yönde tıraş', 'Shave against the grain')], a: 0 },
-    { t: L('Tıraş sonrası', 'After the shave'), b: L('Alkollü losyonlar yakar ve kurutur. Soğuk suyla durula, alkolsüz bir balm veya nemlendirici sür.', 'Alcohol-based lotions sting and dry out skin. Rinse with cool water and use an alcohol-free balm or moisturizer.'),
-      q: L('Tıraş sonrası hangisi?', 'Which one after shaving?'), o: [L('Alkolsüz balm', 'Alcohol-free balm'), L('Alkollü losyon', 'Alcohol lotion')], a: 0 },
-    { t: L('Şekillendirici seçimi', 'Choosing a styler'), b: L('Mat görünüm için kil veya pasta, parlak ve düzenli görünüm için pomat. Az miktarla başla, avucunda ısıtıp arkadan öne uygula.', 'Clay or paste for a matte look, pomade for shine and control. Start small, warm it in your hands, apply back to front.'),
-      q: L('Mat görünüm için?', 'For a matte look?'), o: [L('Pomat', 'Pomade'), L('Kil / pasta', 'Clay / paste')], a: 1 },
     { t: L('Kepekle başa çıkma', 'Dealing with dandruff'), b: L('Kepek şampuanını saç derisinde 1–2 dakika beklet, haftada 2–3 kez kullan. Diğer günler nazik şampuan yeterli.', 'Leave dandruff shampoo on the scalp for 1–2 minutes, 2–3 times a week. A gentle shampoo is enough on other days.'),
       q: L('Kepek şampuanı ne kadar beklemeli?', 'How long should dandruff shampoo sit?'), o: [L('Hemen durula', 'Rinse right away'), L('1–2 dakika', '1–2 minutes')], a: 1 },
     { t: L('Dökülme belirtileri', 'Signs of thinning'), b: L('Günde 50–100 tel dökülmesi normal. Tepe ve alın hattında belirgin açılma varsa erken dönemde bir dermatoloğa görünmek en etkili adımdır.', 'Losing 50–100 hairs a day is normal. If the crown or hairline is clearly thinning, seeing a dermatologist early is the most effective step.'),
       q: L('Günde kaç tel dökülme normal?', 'How many hairs a day is normal to lose?'), o: [L('50–100', '50–100'), L('5–10', '5–10')], a: 0 },
-    { t: L('Düzenli kesim', 'Regular trims'), b: L('Kısa saçlar 3–4, sakal ise 2–3 haftada bir düzeltilince her zaman bakımlı görünür. Boyun hattını temiz tutmak büyük fark yaratır.', 'Short hair every 3–4 weeks and beard every 2–3 weeks keeps you looking sharp. A clean neckline makes a big difference.'),
-      q: L('Bakımlı görünümün sırrı?', 'Secret to looking groomed?'), o: [L('Temiz boyun hattı', 'A clean neckline'), L('Daha çok ürün', 'More product')], a: 0 }
+    { t: L('Isı koruma', 'Heat protection'), b: L('Fön, düzleştirici veya maşa kullanmadan önce ısı koruyucu sür. Isıyı orta seviyede tut; çok sıcak cihaz saçı kırar.', 'Use a heat protectant before blow-drying, straightening or curling. Keep the heat medium; very hot tools break hair.'),
+      q: L('Isı koruyucu ne zaman sürülür?', 'When do you apply heat protectant?'), o: [L('Isıdan önce', 'Before heat'), L('Isıdan sonra', 'After heat')], a: 0 },
+    { t: L('Doğru kurulama', 'Drying gently'), b: L('Saçı havluyla ovma; mikrofiber havlu veya pamuklu tişörtle bastırarak kurula. Islak saç en kırılgan halindedir, geniş dişli tarak kullan.', 'Don\'t rub with a towel; press with microfibre or a cotton T-shirt. Wet hair is at its most fragile, so use a wide-tooth comb.'),
+      q: L('Islak saç için hangisi?', 'Which is best for wet hair?'), o: [L('Geniş dişli tarak', 'Wide-tooth comb'), L('Sık dişli fırça', 'Fine brush')], a: 0 },
+    { t: L('Saç kremi nereye?', 'Where conditioner goes'), b: L('Saç kremini uçlara ve orta kısma sür, saç derisine değil. 2–3 dakika beklet, ılık suyla durula.', 'Apply conditioner to mid-lengths and ends, not the scalp. Leave 2–3 minutes and rinse with lukewarm water.'),
+      q: L('Saç kremi nereye sürülür?', 'Where does conditioner go?'), o: [L('Saç derisine', 'The scalp'), L('Uçlara ve orta kısma', 'Ends and mid-lengths')], a: 1 },
+    { t: L('Haftalık maske', 'A weekly mask'), b: L('Haftada bir besleyici maske, kuru ve yıpranmış saçta parlaklığı geri getirir. Uçlara odaklan, 5–10 dakika beklet.', 'A nourishing mask once a week brings shine back to dry, damaged hair. Focus on the ends and leave it 5–10 minutes.'),
+      q: L('Maske ne sıklıkla?', 'How often for a mask?'), o: [L('Haftada bir', 'Once a week'), L('Her gün', 'Every day')], a: 0 },
+    { t: L('Saten yastık kılıfı', 'Satin pillowcase'), b: L('Saten veya ipek yastık kılıfı sürtünmeyi azaltır; sabah daha az kabarma ve kırık uç görürsün.', 'A satin or silk pillowcase cuts friction; you\'ll wake up with less frizz and fewer split ends.'),
+      q: L('Saten kılıf neyi azaltır?', 'What does satin reduce?'), o: [L('Sürtünme ve kabarma', 'Friction and frizz'), L('Saç uzamasını', 'Hair growth')], a: 0 }
   ];
 
   const SERIES = {
@@ -266,7 +249,7 @@
     ],
     care: [
       { id: 'rs30', t: L('30 Gün Cilt Reset', '30-Day Skin Reset'), d: L('Temiz, dengeli ve sağlıklı bir cilt için 30 gün.', '30 days to clean, balanced, healthy skin.'), lessons: SKIN_LESSONS },
-      { id: 'gr30', t: L('Saç & Sakal Bakımı', 'Hair & Beard Care'), d: L('Saç, sakal ve tıraş alışkanlıklarını oturt.', 'Build solid hair, beard and shaving habits.'), lessons: GROOM_LESSONS }
+      { id: 'gr30', t: L('Saç Bakımı', 'Hair Care'), d: L('Sağlıklı, güçlü saç için 30 gün.', '30 days to healthy, strong hair.'), lessons: GROOM_LESSONS }
     ]
   };
 

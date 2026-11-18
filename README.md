@@ -6,15 +6,16 @@ Cilt, saç ve makyaj için kişisel bakım asistanı. iPhone ve Android'de ana e
 
 - **Unisex yol ayrımı**: Açılışta "Makyajla ilgileniyor musun?" sorusu.
   - **Evet**: 3 kısa soru (dokununca seçilen büyür, diğerleri solar ve otomatik geçer), ardından makyaj + cilt + saç modu.
-  - **Hayır**: Soru yok. Makyaj içeriği tamamen gizlenir; cilt, saç, sakal ve tıraş odaklı, daha sade (taş/adaçayı tonlu) tema.
+  - **Hayır**: Soru yok. Tasarım aynı kalır, yalnızca makyaj içeriği gizlenir; uygulama cilt ve saç bakımına odaklanır.
 - **Tek seferlik karşılama**: "Hoş geldin! Ben Adorn, senin kişisel asistanınım. Tanışalım mı?" ve ardından **Profil**.
 - **Odaklı sohbet**: Konu seçilince sohbet o konuda kalır. Konu dışı bir soruda "Yeni sohbette sor" önerilir.
-- **Tam ekran glow-up serisi**: Seviye/XP, günlük 3 görev (sabah rutini, mini ders + soru, akşam rutini), 30 günlük yol haritası, rozetler, konfeti.
+- **Tam ekran glow-up serisi**: Sade görünüm; günlük 3 görev (sabah rutini, kısa ders + soru, akşam rutini) ve 30 günlük ilerleme.
 - **Ürün tarama**: Canlı kamera vizörü. Claude bağlıysa fotoğraftan ürün tanıma; değilse ürün adını yazarak (otomatik öneriyle) analiz. Sonuçta uygunluk puanı, nedenleri, uyarılar ve kullanım şekli gösterilir.
 - **Rutin**: Profile göre oluşan sabah/akşam adımları. Tamamlanan rutin seriye sayılır.
 - **Ürünlerim**: Puanlama, alana göre filtre, geri alınabilir silme.
 - **Tam Türkçe ve İngilizce**: Arayüz ve sohbet motoru iki dilli. Türkçe ekleri ve ünsüz yumuşamasını tanır (ör. "kepeğim", "sivilcelerim").
-- **Kasmayan sohbet**: Yerel motor anında yanıt verir. Yazı animasyonu `requestAnimationFrame` ile yapılır ve yalnızca ilgili mesaj güncellenir; liste her seferinde yeniden çizilmez. Bulanıklık (blur) efekti yalnızca sabit çubuklarda kullanılır.
+- **Kasmayan sohbet**: Yerel motor anında yanıt verir. Yazı animasyonu `requestAnimationFrame` ile yapılır ve yalnızca ilgili mesaj güncellenir; liste her seferinde yeniden çizilmez.
+- **Orijinal tasarım**: Kırık beyaz zemin, kahve vurgular, sistem yazı tipi; açık ve koyu tema.
 
 ## Claude bağlantısı (isteğe bağlı)
 
@@ -28,7 +29,7 @@ Uygulama çevrimdışı yerleşik bir asistanla çalışır. Canlı yanıt ve fo
 index.html             Uygulama kabuğu
 manifest.webmanifest   PWA manifesti (tam ekran, ikonlar, kısayollar)
 sw.js                  Servis çalışanı (çevrimdışı önbellek)
-css/app.css            Sıvı cam tasarım
+css/app.css            Tasarım (orijinal palet)
 js/i18n.js             TR/EN metinler
 js/data.js             Ürünler, konular, seriler, dersler
 js/engine.js           Yerel sohbet motoru, ürün analizi, rutin
