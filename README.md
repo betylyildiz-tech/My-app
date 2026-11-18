@@ -1,59 +1,39 @@
-# Adorn: kişisel bakım asistanı (PWA)
+# Adorn — Beauty that understands you
 
-Cilt, saç ve makyaj için kişisel bakım asistanı. iPhone ve Android'de ana ekrana uygulama gibi kurulur, tam ekran ve çevrimdışı çalışır.
+Adorn prototipinin telefona kurulabilen (PWA) sürümü. Derleme adımı yoktur; GitHub Pages'te statik dosya olarak yayınlanır.
 
-## Öne çıkanlar
+**Canlı adres:** https://betylyildiz-tech.github.io/My-app/
 
-- **Unisex yol ayrımı**: Açılışta "Makyajla ilgileniyor musun?" sorusu.
-  - **Evet**: 3 kısa soru (dokununca seçilen büyür, diğerleri solar ve otomatik geçer), ardından makyaj + cilt + saç modu.
-  - **Hayır**: Soru yok. Tasarım aynı kalır, yalnızca makyaj içeriği gizlenir; uygulama cilt ve saç bakımına odaklanır.
-- **Tek seferlik karşılama**: "Hoş geldin! Ben Adorn, senin kişisel asistanınım. Tanışalım mı?" ve ardından **Profil**.
-- **Odaklı sohbet**: Konu seçilince sohbet o konuda kalır. Konu dışı bir soruda "Yeni sohbette sor" önerilir.
-- **Tam ekran glow-up serisi**: Sade görünüm; günlük 3 görev (sabah rutini, kısa ders + soru, akşam rutini) ve 30 günlük ilerleme.
-- **Ürün tarama**: Canlı kamera vizörü. Claude bağlıysa fotoğraftan ürün tanıma; değilse ürün adını yazarak (otomatik öneriyle) analiz. Sonuçta uygunluk puanı, nedenleri, uyarılar ve kullanım şekli gösterilir.
-- **Rutin**: Profile göre oluşan sabah/akşam adımları. Tamamlanan rutin seriye sayılır.
-- **Ürünlerim**: Puanlama, alana göre filtre, geri alınabilir silme.
-- **Tam Türkçe ve İngilizce**: Arayüz ve sohbet motoru iki dilli. Türkçe ekleri ve ünsüz yumuşamasını tanır (ör. "kepeğim", "sivilcelerim").
-- **Kasmayan sohbet**: Yerel motor anında yanıt verir. Yazı animasyonu `requestAnimationFrame` ile yapılır ve yalnızca ilgili mesaj güncellenir; liste her seferinde yeniden çizilmez.
-- **Orijinal tasarım**: Kırık beyaz zemin, kahve vurgular, sistem yazı tipi; açık ve koyu tema.
-
-## Claude bağlantısı (isteğe bağlı)
-
-Uygulama çevrimdışı yerleşik bir asistanla çalışır. Canlı yanıt ve fotoğraftan ürün tanıma için **Profil → Ayarlar → Claude bağlantısı** alanına bir Anthropic API anahtarı girilebilir. Anahtar yalnızca o cihazın tarayıcısında saklanır.
-
-> Not: API anahtarı tarayıcıdan doğrudan kullanılır. Herkese açık bir yayın için anahtarı bir sunucu (proxy) arkasına almak daha güvenlidir.
-
-## Yapı
+## Dosyalar
 
 ```
-index.html             Uygulama kabuğu
-manifest.webmanifest   PWA manifesti (tam ekran, ikonlar, kısayollar)
-sw.js                  Servis çalışanı (çevrimdışı önbellek)
-css/app.css            Tasarım (orijinal palet)
-js/i18n.js             TR/EN metinler
-js/data.js             Ürünler, konular, seriler, dersler
-js/engine.js           Yerel sohbet motoru, ürün analizi, rutin
-js/ai.js               Claude bağlantısı
-js/app.js              Ekranlar ve etkileşim
-icons/                 Uygulama ikonları (normal, maskable, Apple)
-scripts/               İkon ve tek dosyalık önizleme üretimi
+index.html             Prototipin kendisi (tek parça HTML). Yalnızca <head> içine PWA satırları eklendi.
+manifest.webmanifest   Uygulama adı, ikonlar, tam ekran (standalone) görünüm
+sw.js                  Servis çalışanı: uygulamayı önbelleğe alır, internetsiz de açılır
+icons/                 Ana ekran ikonları (prototipteki "adorn" yazısı)
+.nojekyll              GitHub Pages'in dosyaları olduğu gibi sunması için
 ```
 
-Derleme adımı yoktur. Düz HTML/CSS/JS'dir.
+`index.html` içine eklenen tek kod: GitHub Pages'te `/api` sunucusu olmadığı için bu istekler ağa gitmeden "kullanılamıyor" olarak yanıtlanır ve uygulama prototipteki yerleşik örnek yanıtlarla çalışır. Konsolda 404 hatası oluşmaz.
 
-## Yerelde çalıştırma
+## Güncelleme
+
+Yeni bir prototip HTML'i geldiğinde:
+
+1. Dosyayı `index.html` olarak kaydet.
+2. Eski `index.html` içindeki `<!-- PWA: ... -->` bloğunu (bir `<link rel="manifest">` ile başlayıp `</script>` ile biter) yeni dosyada `<meta name="description" ...>` satırının hemen altına kopyala.
+3. `sw.js` içindeki `CACHE` sürümünü bir artır (ör. `adorn-v4`), böylece telefonlar yeni sürümü alır.
+4. `main` dalına gönder. `.github/workflows/pages.yml` siteyi `gh-pages` dalına yayınlar.
+
+## Telefona kurulum
+
+- **iPhone (Safari):** Paylaş → **Ana Ekrana Ekle**
+- **Android (Chrome):** Menü → **Uygulamayı yükle**
+
+## Yerelde deneme
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Ardından `http://localhost:8080` adresini aç. Servis çalışanı yalnızca `http(s)` üzerinde etkinleşir.
-
-## Yayınlama (GitHub Pages)
-
-`main` dalına her gönderimde `.github/workflows/pages.yml` site dosyalarını `gh-pages` dalına kopyalar. Pages ayarı: **Settings → Pages → Source: Deploy from a branch → `gh-pages` / `(root)`**.
-
-## Telefona kurulum
-
-- **iPhone (Safari)**: Paylaş → **Ana Ekrana Ekle**
-- **Android (Chrome)**: Menü → **Uygulamayı yükle** (veya Profil → Ayarlar → "Ana ekrana ekle")
+Ardından `http://localhost:8080` adresini aç.
