@@ -22,6 +22,7 @@ Bu işlem `index.html` dosyasını yeniden yazar. Ardından `sw.js` içindeki `C
 ## Dosyalar
 
 - `patches.py`: Prototipe uygulanan değişiklikler; her birinin başında Türkçe açıklaması var.
+- `patches2.py`: İkinci tur: seri programları, alev halkası, şarj olan görevler, Claude bağlantısı ayarı, titreşimler (`patches.py` tarafından çalıştırılır).
 - `additions.css`: Yeni parçaların stilleri. Prototipin kendi renk değişkenlerini (`--tint`, `--paper`, `--ink-2` vb.) kullanır.
 - `pwa-head.html`: `<head>` içine eklenen manifest, ikon ve servis çalışanı satırları. Ayrıca GitHub Pages'te `/api` sunucusu olmadığı için bu istekleri ağa göndermeden "kullanılamıyor" olarak yanıtlayan küçük kod.
 - `../l10n/*.json`: 13 dilin hazır çevirileri (İngilizce metin → çeviri).

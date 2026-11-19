@@ -9,17 +9,116 @@
 <meta name="apple-mobile-web-app-title" content="Adorn" />
 <script>
 (function () {
-  // GitHub Pages statik barındırmadır, /api sunucusu yoktur. Bu istekleri ağa göndermeden
-  // "kullanılamıyor" olarak yanıtla; uygulama kendi yerleşik örnek yanıtlarına geçer.
+  // GitHub Pages statik barındırmadır, /api sunucusu yoktur. Uygulamanın /api isteklerini burada karşıla:
+  // Ayarlar'da bir Claude API anahtarı kayıtlıysa sohbeti doğrudan Claude'a gönder (canlı yanıt),
+  // değilse "kullanılamıyor" de; uygulama kendi yerleşik örnek yanıtlarına geçer.
   var nativeFetch = window.fetch;
+  var MODEL = 'claude-opus-5-5';
+  function apiKey() {
+    try { return localStorage.getItem('adorn:claude-key') || ''; } catch (e) { return ''; }
+  }
+  function json(obj, status) {
+    return new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json' } });
+  }
+  function codeFor(status) {
+    return status === 401 || status === 403 ? 'not_granted' : status === 429 || status === 529 ? 'rate_limited' : 'upstream_error';
+  }
+  function body(req, stream) {
+    var msgs = (req.messages || []).map(function (m) { return { role: m.role, content: m.content }; });
+    var last = msgs[msgs.length - 1];
+    if (req.images && req.images.length && last && last.role === 'user') {
+      last.content = req.images.map(function (i) {
+        return { type: 'image', source: { type: 'base64', media_type: i.mediaType, data: i.data } };
+      }).concat([{ type: 'text', text: String(last.content || '') }]);
+    }
+    var b = { model: MODEL, max_tokens: stream ? 64000 : 16000, messages: msgs, output_config: { effort: 'low' }, fallbacks: 'default' };
+    if (req.system) b.system = req.system;
+    if (stream) b.stream = true;
+    return b;
+  }
+  function claude(req, signal) {
+    var key = apiKey();
+    if (!key) return Promise.resolve(json({ code: 'not_granted' }, 503));
+    var stream = req.format !== 'json';
+    return nativeFetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      signal: signal,
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2026-10-21',
+        'anthropic-beta': 'server-side-fallback-2026-07-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify(body(req, stream))
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.json().catch(function () { return {}; }).then(function (j) {
+          return json({ code: codeFor(res.status), message: (j.error && j.error.message) || 'Request failed' }, res.status);
+        });
+      }
+      if (!stream) {
+        return res.json().then(function (j) {
+          if (j.stop_reason === 'refusal') return json({ code: 'refused' }, 400);
+          var text = (j.content || []).filter(function (c) { return c.type === 'text'; }).map(function (c) { return c.text; }).join('');
+          return json({ text: text });
+        });
+      }
+      // Claude'un olay akışını (SSE) uygulamanın beklediği düz metin akışına çevir
+      var reader = res.body.getReader(), dec = new TextDecoder(), enc = new TextEncoder(), buf = '', started = false, ctrl;
+      var out = new ReadableStream({ start: function (c) { ctrl = c; } });
+      return new Promise(function (resolve) {
+        function fail(code) {
+          if (signal && signal.aborted) code = 'cancelled';
+          if (!started) { started = true; resolve(json({ code: code }, code === 'refused' ? 400 : 502)); }
+          else { try { ctrl.error({ code: code }); } catch (e) {} }
+        }
+        function pump() {
+          reader.read().then(function (r) {
+            if (r.done) {
+              if (!started) { started = true; resolve(json({ code: 'upstream_error' }, 502)); } else { try { ctrl.close(); } catch (e) {} }
+              return;
+            }
+            buf += dec.decode(r.value, { stream: true });
+            var i;
+            while ((i = buf.indexOf('\n')) >= 0) {
+              var line = buf.slice(0, i).trim();
+              buf = buf.slice(i + 1);
+              if (line.indexOf('data:') !== 0) continue;
+              var ev;
+              try { ev = JSON.parse(line.slice(5)); } catch (e) { continue; }
+              if (ev.type === 'content_block_delta' && ev.delta && ev.delta.type === 'text_delta') {
+                ctrl.enqueue(enc.encode(ev.delta.text));
+                if (!started) { started = true; resolve(new Response(out, { status: 200, headers: { 'Content-Type': 'text/plain; charset=utf-8' } })); }
+              } else if (ev.type === 'message_delta' && ev.delta && ev.delta.stop_reason === 'refusal' && !started) {
+                try { reader.cancel(); } catch (e) {}
+                return fail('refused');
+              } else if (ev.type === 'error') {
+                return fail(ev.error && ev.error.type === 'overloaded_error' ? 'rate_limited' : 'upstream_error');
+              }
+            }
+            pump();
+          }).catch(function () { fail('upstream_error'); });
+        }
+        pump();
+      });
+    }, function () {
+      return json({ code: signal && signal.aborted ? 'cancelled' : 'upstream_error' }, 502);
+    });
+  }
   window.fetch = function (input, init) {
     var url = typeof input === 'string' ? input : (input && input.url) || '';
     var path = url.replace(location.origin, '');
     if (path.indexOf('/api/') === 0) {
-      var cap = path.indexOf('/api/capabilities') === 0;
-      return Promise.resolve(new Response(cap ? 'null' : '{"code":"not_granted"}', {
-        status: cap ? 200 : 503, headers: { 'Content-Type': 'application/json' }
-      }));
+      if (path.indexOf('/api/capabilities') === 0) {
+        return Promise.resolve(json(apiKey() ? { chat: true } : null));
+      }
+      if (path.indexOf('/api/chat') === 0 && init && init.body) {
+        var req = {};
+        try { req = JSON.parse(init.body); } catch (e) {}
+        return claude(req, init.signal);
+      }
+      return Promise.resolve(json({ code: 'not_granted' }, 503));
     }
     return nativeFetch.apply(this, arguments);
   };

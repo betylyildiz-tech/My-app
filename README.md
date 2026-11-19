@@ -14,7 +14,12 @@ Tasarım, renkler, fontlar, ikonlar ve logo prototipteki gibi kaldı. Eklenen ve
 - **Akıcı sorular:** Onay butonu yok; seçeneğe dokununca bir sonraki soruya geçilir. Seçilen hafifçe büyür, diğerleri solar. Seçenekler yuvarlak hap biçimindedir.
 - **Tek seferlik karşılama:** "Hoş geldin! Ben Adorn, kişisel asistanınım. Birbirimizi tanıyalım mı?" Ardından Profil açılır. "Güzellik profili" başlığı "Profil" oldu.
 - **Ana sayfa:** "Odaklı sohbet" başlığı ve özet çipleri kaldırıldı. Konu seçilince yalnızca "Adorn sohbeti bu konuya odaklı tutacaktır." yazar.
-- **Seri:** Pencere yerine tüm ekranı kaplayan kendi sayfasında açılır. Halka büyük ve ortadadır; görev tamamlanınca kutu prototipin halka renkleriyle sıvı gibi dolar.
+- **Seri:** Pencere yerine tüm ekranı kaplayan kendi sayfasında açılır.
+  - **Programlar:** Genel bir şablon yerine belirli hedefler: Sivilcesiz cilt, Cam cilt, Hassas cilde huzur, Güçlü saçlar (makyaj yolunda ayrıca Makyaj glow-up'ı). Her biri 30 günlük, günde üç görevli.
+  - **Alev halkası:** Ortada alev biçiminde bir gösterge var. Günün görevleri tamamlandıkça alev alttan yukarı kahve tonlarında dolar. Çevresindeki halka 30 günlük ilerlemeyi gösterir.
+  - **Görevler:** Dokununca kutu şarj gibi dolar, tok bir titreşim gelir. Parmak ekrandan kalkınca görev kaybolur.
+- **Gerçek yapay zeka (Claude):** Ayarlar → Rehberlik → "Claude bağlantısı" alanına bir Anthropic API anahtarı girilince sohbet ve fotoğraf yorumu Claude'dan canlı gelir (model: Claude Opus 5.5). Anahtar yalnızca o cihazda saklanır ve doğrudan Anthropic'e gönderilir. Anahtar yoksa uygulama yerleşik örnek yanıtlarla çalışır.
+- **Görünüm:** Yazma çubuğu tam yuvarlak ve yarı saydam. Satırlar, düğmeler ve sohbet balonları yumuşak, esnek animasyonlarla tepki verir. Sohbet ve seride dokunuşlara kısa bir titreşim eşlik eder. Palet beyaz, bej, siyah ve kahvedir; turuncu tonlar kaldırıldı.
 - **Üst düğmeler:** Seri, geçmiş ve + düğmeleri kapalı tepside durur; ok işaretine dokununca ya da kaydırınca belirir.
 - **Hayır yolu profilinde** göz rengi bölümü gösterilmez.
 - **14 dil:** İngilizce, Türkçe, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Rusça, Arapça, Çince, Japonca, Korece, Fince, İsveççe. Çeviriler `l10n/` içinde hazır durur; sunucu veya internet olmadan çalışır. Örnek sohbet yanıtları da çevrilir.

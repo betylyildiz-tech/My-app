@@ -208,3 +208,207 @@ body {
   .glow-page .glow-task.is-done .glow-check:after { animation: none !important; }
   .glow-page .task-liquid { transition: none !important; }
 }
+
+/* ===== Görünüm güncellemesi: kahve–bej palet, Apple tarzı yazma çubuğu, alev halkası, şarj olan görevler ===== */
+
+/* Palet: turuncu tonlar yerine beyaz, bej, siyah, koyu ve açık kahve */
+:root:root:root {
+  --flame-1: #3c2a21;
+  --flame-2: #8a6e5a;
+  --flame-3: #d1bb9e;
+  --flame-core-1: #ead8c0;
+  --flame-core-2: #fbf6ec;
+  --spark: #d1bb9e;
+  --stage-glow: rgba(209, 187, 158, 0.35);
+  --sat-loved: #3c2a21;
+  --fr-deep: #3c2a21;
+  --fr-mid: #7a5f4e;
+  --fr-light: #cdb79b;
+  --fr-shell: #f3ece2;
+  --fr-track: #ece5da;
+}
+:root:root:root[data-theme="dark"] {
+  --flame-1: #a79277;
+  --flame-2: #d1bb9e;
+  --flame-3: #f1e7d8;
+  --flame-core-1: #f1e7d8;
+  --flame-core-2: #fffaf2;
+  --spark: #d1bb9e;
+  --stage-glow: rgba(234, 216, 192, 0.12);
+  --sat-loved: #ead8c0;
+  --liquid-1: #d1bb9e38;
+  --fr-deep: #8a6e5a;
+  --fr-mid: #bfa688;
+  --fr-light: #ecdcc6;
+  --fr-shell: #2a231e;
+  --fr-track: #2c251f;
+}
+:root:root:root .streak-chip.is-lit svg,
+:root:root:root .glow-flame.is-lit svg { color: var(--flame-2) !important; }
+:root:root:root .glow-goal-icon svg { color: var(--tint) !important; }
+:root:root:root .glow-node.is-today { box-shadow: inset 0 0 0 2px var(--tint), 0 0 0 5px color-mix(in oklab, var(--tint) 16%, transparent) !important; }
+:root:root:root .swipe-behind { background: var(--tint) !important; }
+
+/* Yazma çubuğu: tam yuvarlak, yarı saydam, yumuşak */
+:root:root:root .composer {
+  border-radius: 28px !important;
+  border: 0.5px solid color-mix(in oklab, var(--l-border, #e5e5e5) 85%, transparent);
+  background: color-mix(in oklab, var(--l-bg, #fafafa) 72%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 1px 1px rgba(26, 18, 11, 0.04), 0 12px 30px -18px rgba(26, 18, 11, 0.35);
+  min-height: 54px;
+  padding: 7px 7px 7px 18px;
+  transition: box-shadow 0.35s ease, transform 0.4s cubic-bezier(0.34, 1.4, 0.5, 1), background-color 0.3s ease;
+}
+:root:root:root .composer:focus-within {
+  border-color: color-mix(in oklab, var(--tint) 30%, transparent);
+  background: color-mix(in oklab, var(--l-bg, #fafafa) 86%, transparent);
+  box-shadow: 0 1px 1px rgba(26, 18, 11, 0.05), 0 16px 36px -18px rgba(26, 18, 11, 0.42);
+  transform: translateY(-2px);
+}
+:root:root:root .composer > button {
+  transition: transform 0.35s cubic-bezier(0.34, 1.6, 0.5, 1), background-color 0.25s ease, opacity 0.2s ease;
+}
+:root:root:root .composer > button:active { transform: scale(0.88); }
+:root:root:root .composer > button[type="submit"]:not(:disabled) { animation: adorn-send-ready 0.4s cubic-bezier(0.34, 1.6, 0.5, 1); }
+@keyframes adorn-send-ready { from { transform: scale(0.8); } }
+
+/* Esnek dokunuşlar: satırlar, başlık düğmeleri, sohbet balonları */
+:root:root:root :is(.home-row, .glow-goal, .escalator-profile, .header-icon, .streak-chip, .header-tray-handle) {
+  transition: transform 0.38s cubic-bezier(0.34, 1.4, 0.5, 1), background-color 0.2s ease, opacity 0.2s ease;
+}
+:root:root:root :is(.home-row, .glow-goal, .escalator-profile):active { transform: scale(0.975); }
+:root:root:root :is(.header-icon, .streak-chip, .header-tray-handle):active { transform: scale(0.9); }
+.home-rows li { animation: adorn-rise 0.45s cubic-bezier(0.22, 0.9, 0.24, 1) both; }
+.home-rows li:nth-child(2) { animation-delay: 0.04s; }
+.home-rows li:nth-child(3) { animation-delay: 0.08s; }
+.home-rows li:nth-child(4) { animation-delay: 0.12s; }
+.user-bubble,
+.assistant-bubble { animation: adorn-bubble 0.42s cubic-bezier(0.22, 0.9, 0.24, 1) both; }
+@keyframes adorn-bubble { from { opacity: 0; transform: translateY(8px) scale(0.985); } }
+
+/* Seri: alev halkası */
+.glow-hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; padding: 10px 0 20px; }
+.flame-ring { position: relative; width: min(240px, 64vw); aspect-ratio: 1; }
+.flame-ring svg { width: 100%; height: 100%; overflow: visible; }
+.fr-track { fill: none; stroke: var(--fr-track); stroke-width: 7; }
+.fr-arc {
+  fill: none;
+  stroke: url(#fr-arc);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 120px 120px;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+.fr-shell { fill: var(--fr-shell); }
+.fr-outline { fill: none; stroke: color-mix(in oklab, var(--fr-deep) 22%, transparent); stroke-width: 0.7; }
+.fr-wave { fill: url(#fr-liquid); animation: fr-wave 3.2s linear infinite; }
+.fr-wave-back { opacity: 0.4; animation-duration: 4.8s; animation-direction: reverse; }
+@keyframes fr-wave { to { transform: translateX(32px); } }
+.fr-level { transition: transform 1.3s cubic-bezier(0.34, 1.25, 0.5, 1); }
+.fr-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: fr-breathe 3.6s ease-in-out infinite; }
+.flame-ring.is-lit .fr-flame { animation-duration: 2.6s; }
+@keyframes fr-breathe { 50% { transform: scale(1.025, 1.045); } }
+.flame-ring.is-full .fr-flame { filter: drop-shadow(0 6px 14px color-mix(in oklab, var(--fr-mid) 45%, transparent)); }
+.flame-ring-count {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.flame-ring-count strong { font-size: 34px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink, var(--foreground)); }
+.flame-ring-count small { margin-top: 3px; font-size: 12px; color: var(--ink-2, var(--muted-foreground)); }
+.glow-hero-meta { display: flex; flex-direction: column; align-items: center; gap: 4px; max-width: 320px; }
+.glow-program { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2, var(--muted-foreground)); }
+:root:root:root .glow-hero-meta .glow-rank-name { font-size: 20px; font-weight: 600; }
+.glow-hero-meta small { font-size: 13px; color: var(--ink-2, var(--muted-foreground)); }
+
+/* Seri: bugünün görevleri — dokununca şarj gibi dolar, parmak kalkınca kaybolur */
+.glow-v2 .glow-today h3 { display: flex; align-items: center; justify-content: space-between; margin: 6px 2px 10px; font-size: 15px; font-weight: 600; }
+.glow-dots { display: flex; gap: 6px; }
+.glow-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--fill, var(--secondary)); transition: background-color 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.6, 0.5, 1); }
+.glow-dots i.is-on { background: var(--tint); transform: scale(1.25); }
+.charge-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.charge-task {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-height: 160px;
+  padding: 12px 14px 12px 12px;
+  border-radius: 18px;
+  background: var(--surface, var(--card));
+  box-shadow: 0 0 0 0.5px var(--line, var(--border)), 0 8px 20px -16px rgba(26, 18, 11, 0.4);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+.charge-task.is-charging { transform: scale(0.985); }
+.charge-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, color-mix(in oklab, var(--fr-light) 55%, var(--surface, #fff)), var(--fr-light));
+  overflow: hidden;
+}
+.charge-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  transform: translateX(-100%);
+}
+.charge-task.is-charging .charge-fill { animation: adorn-charge 0.8s cubic-bezier(0.45, 0.05, 0.25, 1) forwards; }
+.charge-task.is-charging .charge-fill::after { animation: adorn-charge-shine 0.8s ease-in-out forwards; }
+.charge-task.is-charged .charge-fill,
+.charge-task.is-leaving .charge-fill { transform: scaleX(1); }
+.charge-task.is-charged { animation: adorn-thump 0.3s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.charge-task.is-leaving { animation: adorn-leave 0.46s cubic-bezier(0.4, 0, 0.2, 1) forwards; pointer-events: none; }
+@keyframes adorn-charge { 0% { transform: scaleX(0); } 65% { transform: scaleX(0.9); } 100% { transform: scaleX(1); } }
+@keyframes adorn-charge-shine { to { transform: translateX(100%); } }
+@keyframes adorn-thump { 0% { transform: scale(0.985); } 45% { transform: scale(1.018); } 100% { transform: scale(1); } }
+@keyframes adorn-leave {
+  0% { opacity: 1; transform: none; max-height: 160px; }
+  55% { opacity: 0; transform: scale(0.97) translateX(14px); max-height: 160px; }
+  100% { opacity: 0; transform: scale(0.97) translateX(14px); max-height: 0; padding-top: 0; padding-bottom: 0; margin-bottom: -8px; }
+}
+.charge-icon { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--fill, var(--secondary)); color: var(--tint); transition: background-color 0.3s ease, color 0.3s ease; }
+.charge-icon svg { width: 18px; height: 18px; }
+.charge-task.is-charged .charge-icon,
+.charge-task.is-leaving .charge-icon { background: var(--tint); color: var(--tint-on); }
+.charge-task .glow-task-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.glow-done-note { margin: 14px 2px 0; text-align: center; font-size: 14px; color: var(--ink-2, var(--muted-foreground)); animation: adorn-rise 0.5s cubic-bezier(0.22, 0.9, 0.24, 1) both; }
+
+/* Ayarlar: Claude bağlantısı */
+.claude-key { flex-wrap: wrap; gap: 10px; }
+.claude-key-form { display: flex; gap: 8px; width: 100%; }
+.claude-key-form input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 0.5px solid var(--line-strong, var(--border));
+  background: var(--surface, var(--card));
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fr-wave, .fr-flame, .home-rows li, .user-bubble, .assistant-bubble { animation: none !important; }
+}
