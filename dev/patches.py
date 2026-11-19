@@ -587,6 +587,8 @@ p("sample-delay", """            Kt(!1),
 
 exec(open(__import__("os").path.join(__import__("os").path.dirname(__import__("os").path.abspath(__file__)), "patches2.py"), encoding="utf-8").read())
 
+exec(open(__import__("os").path.join(__import__("os").path.dirname(__import__("os").path.abspath(__file__)), "patches3.py"), encoding="utf-8").read())
+
 # ---------------------------------------------------------------- uygula
 out = src
 for name, old, new in P:

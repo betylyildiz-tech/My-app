@@ -10,7 +10,7 @@ esbuild = os.path.join(here, "tools", "node_modules", ".bin", "esbuild")
 mini = subprocess.run([esbuild, "--minify", "--target=es2020", "--loader=js", "--charset=utf8", "--legal-comments=none"],
                       input=js, capture_output=True, text=True, check=True).stdout
 mini = mini.replace("</script", "<\\/script")
-add = open(css_add, encoding="utf-8").read()
+add = "\n".join(open(f, encoding="utf-8").read() for f in css_add.split(","))
 add_min = subprocess.run([esbuild, "--minify", "--loader=css", "--charset=utf8"], input=add,
                          capture_output=True, text=True, check=True).stdout
 

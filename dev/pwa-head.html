@@ -122,6 +122,48 @@
     }
     return nativeFetch.apply(this, arguments);
   };
+  // Dokunma titreşimi: Android'de kısa titreşim, iPhone'da iOS anahtarının haptiği
+  var hapLabel = null;
+  function tick() {
+    try {
+      if (navigator.vibrate) { navigator.vibrate(10); return; }
+      if (!hapLabel) {
+        hapLabel = document.createElement('label');
+        hapLabel.setAttribute('aria-hidden', 'true');
+        hapLabel.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none';
+        var sw = document.createElement('input');
+        sw.type = 'checkbox'; sw.setAttribute('switch', ''); sw.tabIndex = -1;
+        hapLabel.appendChild(sw);
+        document.body.appendChild(hapLabel);
+      }
+      hapLabel.click();
+    } catch (e) {}
+  }
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t && t.type === 'checkbox' && !t.hasAttribute('switch')) tick();
+  }, true);
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('.theme-selector button, .segmented button, .chip')) tick();
+  }, true);
+
+  // Premium: dokunulan düğmenin altından altın ışık hüzmesi
+  var BEAM = '.home-row, .glow-goal, .routine-list-item, .button-metal, .onboarding-option, .escalator-profile, .face-scan-entry, .charge-task';
+  document.addEventListener('pointerdown', function (e) {
+    if (document.documentElement.dataset.gold !== 'true' || !e.target.closest) return;
+    var el = e.target.closest(BEAM);
+    if (!el) return;
+    var old = el.querySelector(':scope > .adorn-beam');
+    if (old) old.remove();
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.classList.add('has-adorn-beam');
+    var beam = document.createElement('span');
+    beam.className = 'adorn-beam';
+    beam.setAttribute('aria-hidden', 'true');
+    el.appendChild(beam);
+    setTimeout(function () { if (beam.parentNode) beam.parentNode.removeChild(beam); }, 1000);
+  }, { passive: true });
+
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     // Yeni sürüm yayınlandığında telefon eskisinde takılı kalmasın: güncelle ve bir kez yenile
     var hadController = !!navigator.serviceWorker.controller, reloaded = false;
