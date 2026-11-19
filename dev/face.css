@@ -1,240 +1,30 @@
-/* ===== Adorn — iOS tarzı yüzey güncellemesi =====
-   Düzen, logo, fontlar ve ikonlar aynı. Değişen: yüzeyler (gruplanmış kartlar), başlık ölçüleri,
-   ayırıcılar, malzeme (blur), yaylanan dokunuşlar. Palet: beyaz, bej, siyah, kahve. */
+/* ===== Adorn — yüz taraması, premium hüzme ve akıcılık =====
+   Prototipin görünümü değişmez: renk, zemin, kart ve başlıklar aynen kalır.
+   Bu dosya yalnızca yüz tarama ekranını, premium altın hüzmeyi ve dokunuşlardaki yumuşak geçişleri ekler. */
 
-:root:root:root:root {
-  --ios-bg: #f4f2ee;
-  --ios-card: #ffffff;
-  --ios-sep: rgba(60, 50, 42, 0.12);
-  --ios-fill: rgba(120, 104, 92, 0.1);
-  --ios-press: rgba(60, 42, 33, 0.06);
-  --ios-ink: #1c1a18;
-  --ios-ink-2: rgba(60, 50, 42, 0.62);
-  --ios-ink-3: rgba(60, 50, 42, 0.42);
-  --ios-radius: 16px;
+:root {
+  --ios-card: var(--surface, var(--card));
+  --ios-ink: var(--ink, var(--foreground));
+  --ios-ink-2: var(--ink-2, var(--muted-foreground));
+  --ios-ink-3: var(--ink-3, var(--muted-foreground));
+  --ios-radius: var(--r-row, 12px);
   --ios-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
   --ios-ease: cubic-bezier(0.22, 0.9, 0.24, 1);
-  --ios-shadow: 0 1px 2px rgba(26, 18, 11, 0.04), 0 8px 24px -18px rgba(26, 18, 11, 0.25);
-}
-:root:root:root:root[data-theme="dark"] {
-  --ios-bg: #0f0d0c;
-  --ios-card: #1d1a18;
-  --ios-sep: rgba(255, 240, 225, 0.1);
-  --ios-fill: rgba(200, 190, 180, 0.12);
-  --ios-press: rgba(255, 240, 225, 0.06);
-  --ios-ink: #f5f2ee;
-  --ios-ink-2: rgba(245, 236, 226, 0.66);
-  --ios-ink-3: rgba(245, 236, 226, 0.42);
-  --ios-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --ios-shadow: 0 0 0 0.5px var(--line, var(--border));
 }
 
-/* Zemin: gruplanmış arka plan, kartlar beyaz */
-:root:root:root:root body,
-:root:root:root:root .adorn-app,
-:root:root:root:root .onboarding,
-:root:root:root:root .glow-page { background: var(--ios-bg); }
-
-/* Üst çubuk: yarı saydam malzeme */
-:root:root:root:root .app-header {
-  background: color-mix(in oklab, var(--ios-bg) 78%, transparent);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 0.5px 0 var(--ios-sep);
-}
-:root:root:root:root body:before { background: color-mix(in oklab, var(--ios-bg) 78%, transparent); }
-
-/* Ana sayfa: büyük başlık + gruplanmış liste */
-:root:root:root:root .home-eyebrow {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--ios-ink-3);
-}
-:root:root:root:root .home-title {
-  font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -0.022em;
-  line-height: 1.12;
-  color: var(--ios-ink);
-}
-:root:root:root:root .home-sub { font-size: 17px; color: var(--ios-ink-2); }
-:root:root:root:root .home-label {
-  margin: 26px 16px 7px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--ios-ink-3);
-}
-:root:root:root:root .home-rows {
-  display: block;
-  overflow: hidden;
-  border-radius: var(--ios-radius);
-  background: var(--ios-card);
-  box-shadow: var(--ios-shadow);
-}
-:root:root:root:root .home-rows li { position: relative; }
-:root:root:root:root .home-rows li + li::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 58px;
-  right: 0;
-  height: 0.5px;
-  background: var(--ios-sep);
-  z-index: 1;
-}
-:root:root:root:root .home-row {
-  min-height: 54px;
-  padding: 10px 14px 10px 14px;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  transition: background-color 0.18s ease, transform 0.38s var(--ios-spring);
-}
-:root:root:root:root .home-row:active { background: var(--ios-press) !important; transform: none; }
-:root:root:root:root .home-row-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: color-mix(in oklab, var(--tint) 10%, var(--ios-card));
-  color: var(--tint);
-}
-:root:root:root:root .home-row-text { font-size: 17px; letter-spacing: -0.01em; color: var(--ios-ink); }
-:root:root:root:root .home-row-chevron { color: var(--ios-ink-3); }
-:root:root:root:root .home-foot { margin: 8px 16px 0; font-size: 13px; color: var(--ios-ink-3); }
-
-/* Sayfa panelleri (iOS sheet) */
-:root:root:root:root .dialog-content {
-  background: var(--ios-bg);
-  border-radius: 22px 22px 0 0 !important;
-  box-shadow: 0 -1px 0 var(--ios-sep), 0 -20px 50px -30px rgba(26, 18, 11, 0.35);
-}
-:root:root:root:root .dialog-content:not(.is-drawer) { border-radius: 22px !important; }
-:root:root:root:root .drawer-grabber {
-  width: 36px;
-  height: 5px;
-  border-radius: 3px;
-  background: color-mix(in oklab, var(--ios-ink) 18%, transparent);
-}
-:root:root:root:root .dialog-title {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--ios-ink);
-}
-:root:root:root:root .dialog-heading button,
-:root:root:root:root .glow-page-head button {
-  width: 30px;
-  height: 30px;
-  border-radius: 50% !important;
-  background: var(--ios-fill);
-  color: var(--ios-ink-2);
-  transition: transform 0.35s var(--ios-spring), background-color 0.2s ease;
-}
-:root:root:root:root .dialog-heading button:active,
-:root:root:root:root .glow-page-head button:active { transform: scale(0.88); }
-:root:root:root:root .dialog-description { font-size: 15px; color: var(--ios-ink-2); }
-
-/* Ayarlar: gruplanmış tablo */
-:root:root:root:root .settings-group {
-  padding: 4px 16px;
-  margin-bottom: 26px;
-  border: 0;
-  border-radius: var(--ios-radius);
-  background: var(--ios-card);
-  box-shadow: var(--ios-shadow);
-}
-:root:root:root:root .settings-group > h3 {
-  margin: 12px 0 2px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--ios-ink-3);
-}
-:root:root:root:root .settings-row {
-  min-height: 50px;
-  border-top: 0.5px solid var(--ios-sep);
-  font-size: 17px;
-  color: var(--ios-ink);
-}
-:root:root:root:root .settings-group > h3 + .settings-row { border-top: 0; }
-:root:root:root:root .settings-label small { font-size: 13px; color: var(--ios-ink-3); }
-:root:root:root:root .settings-row select {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='16' viewBox='0 0 10 16'%3E%3Cpath d='M1.5 6 5 2.5 8.5 6M1.5 10 5 13.5 8.5 10' fill='none' stroke='%238a6e5a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 2px center;
-  padding: 8px 20px 8px 8px;
-  color: var(--tint);
-  font-size: 17px;
-  text-align: right;
-  text-align-last: right;
-  box-shadow: none;
-}
-:root:root:root:root :is(.settings-row, .profile-section) input[type="checkbox"] {
+/* Akıcılık: görünüm aynı, yalnızca dokunma geçişleri yumuşak */
+:root:root:root .chip { transition: transform 0.32s var(--ios-spring), background-color 0.2s ease, color 0.2s ease; }
+:root:root:root .chip:active { transform: scale(0.95); }
+:root:root:root .button-metal,
+:root:root:root .onboarding-cta { transition: transform 0.38s var(--ios-spring), filter 0.2s ease; }
+:root:root:root .button-metal:active:not(:disabled),
+:root:root:root .onboarding-cta:active:not(:disabled) { transform: scale(0.97); }
+:root:root:root .routine-list-item { transition: transform 0.38s var(--ios-spring); }
+:root:root:root .routine-list-item:active { transform: scale(0.985); }
+:root:root:root :is(.settings-row, .profile-section) input[type="checkbox"] {
   transition: background-position 0.32s var(--ios-spring), background-color 0.25s ease;
 }
-
-/* Profil: bölümler kart, alanlar iOS metin alanı */
-:root:root:root:root .profile-section {
-  padding: 14px 16px;
-  margin-bottom: 12px;
-  border: 0;
-  border-radius: var(--ios-radius);
-  background: var(--ios-card);
-  box-shadow: var(--ios-shadow);
-}
-:root:root:root:root .profile-section-head { font-size: 17px; font-weight: 600; color: var(--ios-ink); }
-:root:root:root:root .field input,
-:root:root:root:root .field textarea,
-:root:root:root:root .profile-note textarea {
-  border: 0;
-  border-radius: 12px;
-  background: var(--ios-card);
-  box-shadow: inset 0 0 0 0.5px var(--ios-sep);
-  font-size: 17px;
-}
-:root:root:root:root .chip {
-  transition: transform 0.32s var(--ios-spring), background-color 0.2s ease, color 0.2s ease;
-}
-:root:root:root:root .chip:active { transform: scale(0.94); }
-
-/* Ritüeller ve kurslar: gruplanmış satırlar */
-:root:root:root:root .routine-list-item {
-  border-radius: 14px;
-  background: var(--ios-card);
-  box-shadow: var(--ios-shadow);
-  transition: transform 0.38s var(--ios-spring), background-color 0.18s ease;
-}
-:root:root:root:root .routine-list-item:active { transform: scale(0.98); background: color-mix(in oklab, var(--ios-card) 92%, var(--tint)); }
-
-/* Ana düğmeler: kapsül, yaylanan */
-:root:root:root:root .button-metal,
-:root:root:root:root .onboarding-cta { transition: transform 0.38s var(--ios-spring), filter 0.2s ease; }
-:root:root:root:root .button-metal:active:not(:disabled),
-:root:root:root:root .onboarding-cta:active:not(:disabled) { transform: scale(0.96); filter: brightness(1.06); }
-
-/* Sohbet balonları */
-:root:root:root:root .user-bubble { border-radius: 20px 20px 6px 20px; }
-:root:root:root:root .product-tile,
-:root:root:root:root .routine-preview { border-radius: var(--ios-radius); background: var(--ios-card); box-shadow: var(--ios-shadow); border: 0; }
-
-/* Karşılama kartı: iOS uyarı penceresi gibi */
-:root:root:root:root .welcome-card {
-  border-radius: 24px;
-  background: color-mix(in oklab, var(--ios-card) 97%, transparent);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-}
-
-/* Seri sayfası */
-:root:root:root:root .charge-task { background: var(--ios-card); box-shadow: var(--ios-shadow); border-radius: var(--ios-radius); }
-:root:root:root:root .glow-goal { background: var(--ios-card); border-radius: var(--ios-radius); box-shadow: var(--ios-shadow); }
 
 /* ===== Profil: yüz taraması ===== */
 .face-scan-entry {

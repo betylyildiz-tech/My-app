@@ -26,7 +26,6 @@ Tasarım, renkler, fontlar, ikonlar ve logo prototipteki gibi kaldı. Eklenen ve
 - **Akıcılık:** Kaydırılan kartlardaki gereksiz bulanıklık efekti kaldırıldı; örnek yanıt beklemesi kısaldı. Telefonda alttan açılan paneller tam genişlikte açılır.
 - **PWA:** Ana ekrana kurulur, kendi penceresinde açılır, internetsiz de çalışır.
 - **Varsayılan dil İngilizce:** Kayıtlı bir tercih yoksa uygulama İngilizce açılır; dil Ayarlar → Görünüm → Dil'den değiştirilir.
-- **iOS tarzı yüzeyler:** Aynı düzen; bej gruplanmış zemin üzerinde beyaz kartlar, büyük başlıklar, iOS listelerindeki gibi girintili ince ayırıcılar, yarı saydam üst çubuk, iOS menü düğmesi gibi seçim kutuları, yaylanan dokunuşlar ve anahtar/seçimlerde kısa titreşim.
 - **Yüz taraması (Profil → "Cildini tara"):** Ön kamera, oval yüz kılavuzu ve tarama ışığıyla fotoğraf çekilir (ya da galeriden seçilir) ve cilt sorunları ile makyaj hakkında yorum için Claude'a gönderilir. Claude bağlı değilse Ayarlar'a yönlendirir.
 - **Premium altın hüzme:** Premium açıkken satır ve ana düğmelere basınca altından altın bir ışık yükselir, kenarında ince bir parıltı dolaşır.
 
