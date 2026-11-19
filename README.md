@@ -16,7 +16,7 @@ Tasarım, renkler, fontlar, ikonlar ve logo prototipteki gibi kaldı. Eklenen ve
 - **Ana sayfa:** "Odaklı sohbet" başlığı ve özet çipleri kaldırıldı. Konu seçilince yalnızca "Adorn sohbeti bu konuya odaklı tutacaktır." yazar.
 - **Seri:** Pencere yerine tüm ekranı kaplayan kendi sayfasında açılır.
   - **Programlar:** Genel bir şablon yerine belirli hedefler: Sivilcesiz cilt, Cam cilt, Hassas cilde huzur, Güçlü saçlar (makyaj yolunda ayrıca Makyaj glow-up'ı). Her biri 30 günlük, günde üç görevli.
-  - **Alev halkası:** Ortada ince, yumuşak hatlı bir alev var; seri gün sayısı alevin içinde yazar. Günün görevleri tamamlandıkça alev alttan yukarı kahve tonlarında dolar. Çevresindeki halka 30 günlük ilerlemeyi gösterir.
+  - **Alev halkası:** Ortada alev biçiminde bir gösterge var. Günün görevleri tamamlandıkça alev alttan yukarı kahve tonlarında dolar. Çevresindeki halka 30 günlük ilerlemeyi gösterir.
   - **Görevler:** Dokununca kutu şarj gibi dolar, tok bir titreşim gelir. Parmak ekrandan kalkınca görev kaybolur.
 - **Gerçek yapay zeka (Claude):** Ayarlar → Rehberlik → "Claude bağlantısı" alanına bir Anthropic API anahtarı girilince sohbet ve fotoğraf yorumu Claude'dan canlı gelir (model: Claude Opus 5.5). Anahtar yalnızca o cihazda saklanır ve doğrudan Anthropic'e gönderilir. Anahtar yoksa uygulama yerleşik örnek yanıtlarla çalışır.
 - **Görünüm:** Yazma çubuğu tam yuvarlak ve yarı saydam. Satırlar, düğmeler ve sohbet balonları yumuşak, esnek animasyonlarla tepki verir. Sohbet ve seride dokunuşlara kısa bir titreşim eşlik eder. Palet beyaz, bej, siyah ve kahvedir; turuncu tonlar kaldırıldı.
