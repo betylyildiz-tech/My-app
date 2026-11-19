@@ -1,39 +1,40 @@
 # Adorn — Beauty that understands you
 
-Adorn prototipinin telefona kurulabilen (PWA) sürümü. Derleme adımı yoktur; GitHub Pages'te statik dosya olarak yayınlanır.
+Adorn prototipinin telefona kurulabilen (PWA) sürümü. Derleme adımı gerektirmez; GitHub Pages'te statik dosya olarak yayınlanır.
 
 **Canlı adres:** https://betylyildiz-tech.github.io/My-app/
+
+## Prototipe eklenenler
+
+Tasarım, renkler, fontlar, ikonlar ve logo prototipteki gibi kaldı. Eklenen ve değişenler:
+
+- **İki yol:** Açılışta "Makyajla ilgileniyor musun?" sorusu sorulur.
+  - **Evet:** Kısa sorularla klasik moda geçilir.
+  - **Hayır:** Sorular atlanır. Makyaj alanları, kurslar, makyaj glow-up'ı, profildeki makyaj bölümü ve makyaj önerileri gizlenir; uygulama cilt ve saç bakımına odaklanır. Bu tercih sonradan Ayarlar → "Makyaj içeriği" ile değiştirilebilir.
+- **Akıcı sorular:** Onay butonu yok; seçeneğe dokununca bir sonraki soruya geçilir. Seçilen hafifçe büyür, diğerleri solar. Seçenekler yuvarlak hap biçimindedir.
+- **Tek seferlik karşılama:** "Hoş geldin! Ben Adorn, kişisel asistanınım. Birbirimizi tanıyalım mı?" Ardından Profil açılır. "Güzellik profili" başlığı "Profil" oldu.
+- **Ana sayfa:** "Odaklı sohbet" başlığı ve özet çipleri kaldırıldı. Konu seçilince yalnızca "Adorn sohbeti bu konuya odaklı tutacaktır." yazar.
+- **Seri:** Tam ekran açılır.
+- **14 dil:** İngilizce, Türkçe, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Rusça, Arapça, Çince, Japonca, Korece, Fince, İsveççe. Çeviriler `l10n/` içinde hazır durur; sunucu veya internet olmadan çalışır. Örnek sohbet yanıtları da çevrilir.
+- **Akıcılık:** Kaydırılan kartlardaki gereksiz bulanıklık efekti kaldırıldı; örnek yanıt beklemesi kısaldı.
+- **PWA:** Ana ekrana kurulur, kendi penceresinde açılır, internetsiz de çalışır.
 
 ## Dosyalar
 
 ```
-index.html             Prototipin kendisi (tek parça HTML). Yalnızca <head> içine PWA satırları eklendi.
-manifest.webmanifest   Uygulama adı, ikonlar, tam ekran (standalone) görünüm
-sw.js                  Servis çalışanı: uygulamayı önbelleğe alır, internetsiz de açılır
+index.html             Uygulama (prototip + değişiklikler, tek dosya)
+l10n/                  13 dilin hazır çevirileri
+manifest.webmanifest   Uygulama adı, ikonlar, görünüm
+sw.js                  Servis çalışanı: önbellek, internetsiz açılış
 icons/                 Ana ekran ikonları (prototipteki "adorn" yazısı)
-.nojekyll              GitHub Pages'in dosyaları olduğu gibi sunması için
+dev/                   Prototip, yamalar ve yeniden üretme araçları (bkz. dev/README.md)
 ```
 
-`index.html` içine eklenen tek kod: GitHub Pages'te `/api` sunucusu olmadığı için bu istekler ağa gitmeden "kullanılamıyor" olarak yanıtlanır ve uygulama prototipteki yerleşik örnek yanıtlarla çalışır. Konsolda 404 hatası oluşmaz.
+## Yayınlama
 
-## Güncelleme
-
-Yeni bir prototip HTML'i geldiğinde:
-
-1. Dosyayı `index.html` olarak kaydet.
-2. Eski `index.html` içindeki `<!-- PWA: ... -->` bloğunu (bir `<link rel="manifest">` ile başlayıp `</script>` ile biter) yeni dosyada `<meta name="description" ...>` satırının hemen altına kopyala.
-3. `sw.js` içindeki `CACHE` sürümünü bir artır (ör. `adorn-v4`), böylece telefonlar yeni sürümü alır.
-4. `main` dalına gönder. `.github/workflows/pages.yml` siteyi `gh-pages` dalına yayınlar.
+`main` dalına yapılan her gönderimde `.github/workflows/pages.yml` siteyi `gh-pages` dalına yayınlar. Pages ayarı: **Settings → Pages → Deploy from a branch → `gh-pages` / `(root)`**.
 
 ## Telefona kurulum
 
 - **iPhone (Safari):** Paylaş → **Ana Ekrana Ekle**
 - **Android (Chrome):** Menü → **Uygulamayı yükle**
-
-## Yerelde deneme
-
-```bash
-python3 -m http.server 8080
-```
-
-Ardından `http://localhost:8080` adresini aç.

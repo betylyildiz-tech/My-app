@@ -1,3 +1,6 @@
 node_modules/
+dev/tools/
+dev/app.pretty.js
+dev/app.patched.js
 .DS_Store
 *.log

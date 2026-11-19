@@ -23,7 +23,7 @@ jobs:
       - name: Site klasörünü hazırla
         run: |
           mkdir -p _site
-          cp -r index.html manifest.webmanifest sw.js icons _site/
+          cp -r index.html manifest.webmanifest sw.js icons l10n _site/
           touch _site/.nojekyll
       - name: gh-pages dalına gönder
         run: |
