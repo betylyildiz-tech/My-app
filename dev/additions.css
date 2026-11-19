@@ -54,6 +54,20 @@
 @keyframes adorn-fade { from { opacity: 0; } }
 @keyframes adorn-pop { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
 
+/* Safari'de sayfa ve paneller yana kaymasın */
+html,
+body {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+:root:root:root .dialog-content {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+.dialog-content select,
+.dialog-content input,
+.dialog-content textarea { max-width: 100%; }
+
 /* Telefonda alttan açılan paneller: tam genişlik (sağda boşluk kalmasın) */
 :root:root:root .dialog-content.is-drawer {
   left: 0 !important;

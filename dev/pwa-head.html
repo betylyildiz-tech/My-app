@@ -24,7 +24,16 @@
     return nativeFetch.apply(this, arguments);
   };
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+    // Yeni sürüm yayınlandığında telefon eskisinde takılı kalmasın: güncelle ve bir kez yenile
+    var hadController = !!navigator.serviceWorker.controller, reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (hadController && !reloaded) { reloaded = true; location.reload(); }
+    });
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (r) {
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) r.update().catch(function () {}); });
+      }).catch(function () {});
+    });
   }
 })();
 </script>
