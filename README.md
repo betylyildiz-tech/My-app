@@ -14,9 +14,11 @@ Tasarım, renkler, fontlar, ikonlar ve logo prototipteki gibi kaldı. Eklenen ve
 - **Akıcı sorular:** Onay butonu yok; seçeneğe dokununca bir sonraki soruya geçilir. Seçilen hafifçe büyür, diğerleri solar. Seçenekler yuvarlak hap biçimindedir.
 - **Tek seferlik karşılama:** "Hoş geldin! Ben Adorn, kişisel asistanınım. Birbirimizi tanıyalım mı?" Ardından Profil açılır. "Güzellik profili" başlığı "Profil" oldu.
 - **Ana sayfa:** "Odaklı sohbet" başlığı ve özet çipleri kaldırıldı. Konu seçilince yalnızca "Adorn sohbeti bu konuya odaklı tutacaktır." yazar.
-- **Seri:** Tam ekran açılır.
+- **Seri:** Pencere yerine tüm ekranı kaplayan kendi sayfasında açılır. Halka büyük ve ortadadır; görev tamamlanınca kutu prototipin halka renkleriyle sıvı gibi dolar.
+- **Üst düğmeler:** Seri, geçmiş ve + düğmeleri kapalı tepside durur; ok işaretine dokununca ya da kaydırınca belirir.
+- **Hayır yolu profilinde** göz rengi bölümü gösterilmez.
 - **14 dil:** İngilizce, Türkçe, İspanyolca, Fransızca, Almanca, İtalyanca, Portekizce, Rusça, Arapça, Çince, Japonca, Korece, Fince, İsveççe. Çeviriler `l10n/` içinde hazır durur; sunucu veya internet olmadan çalışır. Örnek sohbet yanıtları da çevrilir.
-- **Akıcılık:** Kaydırılan kartlardaki gereksiz bulanıklık efekti kaldırıldı; örnek yanıt beklemesi kısaldı.
+- **Akıcılık:** Kaydırılan kartlardaki gereksiz bulanıklık efekti kaldırıldı; örnek yanıt beklemesi kısaldı. Telefonda alttan açılan paneller tam genişlikte açılır.
 - **PWA:** Ana ekrana kurulur, kendi penceresinde açılır, internetsiz de çalışır.
 
 ## Dosyalar

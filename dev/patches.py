@@ -115,6 +115,61 @@ p("profile-makeup", """        (0, R.jsxs)(wl, {
           title: I(`Makeup`),""", """        __adornMk &&
         (0, R.jsxs)(wl, {
           title: I(`Makeup`),""")
+# Profil: göz rengi yalnızca makyaj yolunda
+p("profile-eyes", """        (0, R.jsx)(wl, {
+          title: I(`Eyes`),""", """        __adornMk &&
+        (0, R.jsx)(wl, {
+          title: I(`Eyes`),""")
+# Seri: pencere yerine kendi tam ekran sayfası
+p("glow-not-dialog", """              (0, R.jsx)(lt.Root, {
+                open: z !== null,""", """              z === `glow` &&
+                (0, R.jsxs)(`div`, {
+                  className: `glow-page`,
+                  role: `dialog`,
+                  "aria-modal": `true`,
+                  "aria-label": tr.glow,
+                  children: [
+                    (0, R.jsxs)(`div`, {
+                      className: `glow-page-head`,
+                      children: [
+                        (0, R.jsx)(`h2`, {
+                          className: `dialog-title`,
+                          children: tr.glow,
+                        }),
+                        (0, R.jsx)(q, {
+                          variant: `ghost`,
+                          size: `icon`,
+                          "aria-label": I(`Close window`),
+                          onClick: () => We(null),
+                          children: (0, R.jsx)(No, {}),
+                        }),
+                      ],
+                    }),
+                    (0, R.jsx)(`div`, {
+                      className: `glow-page-body`,
+                      children: (0, R.jsx)(
+                        Cu,
+                        {
+                          glow: P,
+                          remembering: Vt,
+                          level: St[`Makeup experience`] ?? ``,
+                          onOpenLesson: Ln,
+                          onBegin: Fn,
+                          onToggle: (e) => le((t) => t && mu(t, e)),
+                          onAsk: zn,
+                          onChangeGoal: () => le(null),
+                          onLink: () => le((e) => e && du(e)),
+                        },
+                        it,
+                      ),
+                    }),
+                  ],
+                }),
+              (0, R.jsx)(lt.Root, {
+                open: z !== null && z !== `glow`,""")
+# Esc ile seri sayfasını kapat
+p("glow-esc", """          e.key === `Escape` && (ce(null), N(!1));""",
+  """          e.key === `Escape` && (ce(null), N(!1), We((e) => (e === `glow` ? null : e)));""")
 # Profil hedefleri: makyajsız yolda makyaj hedeflerini gösterme
 p("profile-goals", """              "aria-label": I(`Goals`),
               children: Pc.map((n) => {""", """              "aria-label": I(`Goals`),
@@ -199,10 +254,6 @@ p("home-eyebrow", """            (0, R.jsx)(`p`, {
 p("home-sub", """                                ? L(`topic.sub`, { topic: L(`area.${ge}`) })""",
   """                                ? L(`topic.sub`)""")
 p("home-stats", """                              stats: Vn,""", """                              stats: [],""")
-
-# ---------------------------------------------------------------- seri tam ekran
-p("glow-full", """                      className: `dialog-content ${st ? `is-drawer` : ``}`,""",
-  """                      className: `dialog-content ${st ? `is-drawer` : ``} ${z === `glow` ? `is-full` : ``}`,""")
 
 # ---------------------------------------------------------------- karşılama soruları
 start = src.index("  function ku({ onDone: e, onSkip: t }) {")

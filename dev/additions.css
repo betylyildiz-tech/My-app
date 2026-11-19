@@ -54,34 +54,127 @@
 @keyframes adorn-fade { from { opacity: 0; } }
 @keyframes adorn-pop { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
 
-/* Seri: tam ekran */
-:root:root:root .dialog-content.is-full {
-  inset: 0 !important;
-  width: 100% !important;
+/* Telefonda alttan açılan paneller: tam genişlik (sağda boşluk kalmasın) */
+:root:root:root .dialog-content.is-drawer {
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
   max-width: none !important;
-  height: 100dvh;
-  max-height: none !important;
-  border-radius: 0 !important;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 14px);
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  margin: 0 !important;
 }
-:root:root:root .dialog-content.is-full:not(.is-drawer) { transform: none; }
-:root:root:root .dialog-content.is-full:not(.is-drawer)[data-state="open"] { animation: adorn-fade 0.3s ease both !important; }
-:root:root:root .dialog-content.is-full:not(.is-drawer)[data-state="closed"] { animation: adorn-fade-out 0.2s ease both !important; }
-@keyframes adorn-fade-out { to { opacity: 0; } }
-.dialog-content.is-full > * { width: 100%; max-width: 560px; margin-left: auto; margin-right: auto; }
-.dialog-content.is-full .glow > *,
-.dialog-content.is-full .glow-start > * {
-  animation: adorn-rise 0.5s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+
+/* Sağ üstteki düğme tepsisi: kapalıyken kesin gizli, okla/kaydırınca belirir */
+.header-tray .header-tray-item {
+  transition: opacity 0.2s ease, scale 0.2s ease, visibility 0s linear 0.2s;
 }
-.dialog-content.is-full .glow > *:nth-child(2),
-.dialog-content.is-full .glow-start > *:nth-child(2) { animation-delay: 0.06s; }
-.dialog-content.is-full .glow > *:nth-child(3),
-.dialog-content.is-full .glow-start > *:nth-child(3) { animation-delay: 0.12s; }
-.dialog-content.is-full .glow > *:nth-child(n + 4) { animation-delay: 0.18s; }
+.header-tray:not(.is-open):not(.is-dragging) .header-tray-item {
+  opacity: 0 !important;
+  visibility: hidden;
+}
+.header-tray.is-open .header-tray-item,
+.header-tray.is-dragging .header-tray-item {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* Seri: kendi tam ekran sayfası */
+.glow-page {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--paper, var(--background));
+  color: var(--ink, var(--foreground));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(env(safe-area-inset-top, 0px) + 10px) max(16px, env(safe-area-inset-right, 0px))
+    calc(env(safe-area-inset-bottom, 0px) + 28px) max(16px, env(safe-area-inset-left, 0px));
+  animation: adorn-page-in 0.42s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+}
+@keyframes adorn-page-in {
+  from { opacity: 0; transform: translateY(24px); }
+}
+.glow-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 560px;
+  margin: 0 auto 4px;
+}
+.glow-page-body { max-width: 560px; margin: 0 auto; }
+.glow-page .glow > *,
+.glow-page .glow-start > * { animation: adorn-rise 0.5s cubic-bezier(0.22, 0.9, 0.24, 1) both; }
+.glow-page .glow > *:nth-child(2),
+.glow-page .glow-start > *:nth-child(2) { animation-delay: 0.07s; }
+.glow-page .glow > *:nth-child(3),
+.glow-page .glow-start > *:nth-child(3) { animation-delay: 0.14s; }
+.glow-page .glow > *:nth-child(n + 4) { animation-delay: 0.2s; }
 @keyframes adorn-rise { from { opacity: 0; transform: translateY(14px); } }
 
+/* Halka sahnesi: ortada, büyük; arkasında prototipin kendi yumuşak ışığı */
+:root:root:root .glow-page .glow-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 18px 0 22px;
+  margin-bottom: 6px;
+}
+:root:root:root .glow-page .glow-stage:before {
+  display: block;
+  width: 300px;
+  height: 300px;
+  left: 50%;
+  top: 38%;
+  margin: -150px 0 0 -150px;
+}
+:root:root:root .glow-page .glow-ring { width: min(220px, 58vw); }
+:root:root:root .glow-page .glow-ring-center strong { font-size: 52px; }
+:root:root:root .glow-page .glow-ring-center small { font-size: 13px; }
+:root:root:root .glow-page .glow-stage-meta {
+  align-items: center;
+  text-align: center;
+  margin-top: 16px;
+  width: min(320px, 100%);
+}
+:root:root:root .glow-page .glow-meter { height: 8px; }
+.glow-page .glow-meter span { position: relative; overflow: hidden; }
+.glow-page .glow-meter span:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-100%);
+  animation: adorn-shine 2.8s ease-in-out infinite;
+}
+@keyframes adorn-shine { 60%, 100% { transform: translateX(100%); } }
+
+/* Görevler: tik atınca sıvı dolar, kutu hafifçe yerleşir, tik halkası dalgalanır */
+:root:root:root .glow-page .glow-task {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.glow-page .glow-task:active { transform: scale(0.985); }
+:root:root:root .glow-page .task-liquid {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(100deg, color-mix(in oklab, var(--ring-1) 24%, transparent), color-mix(in oklab, var(--ring-2) 8%, transparent));
+  clip-path: circle(0 at 33px 50%);
+  transition: clip-path 0.9s cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+:root:root:root .glow-page .glow-task.is-done .task-liquid { clip-path: circle(160% at 33px 50%); }
+:root:root:root .glow-page .glow-task.is-done { animation: task-settle 0.7s cubic-bezier(0.3, 1.4, 0.5, 1); }
+:root:root:root .glow-page .glow-task.is-done .glow-check { animation: drop-in 0.55s cubic-bezier(0.3, 1.6, 0.5, 1); }
+:root:root:root .glow-page .glow-task.is-done .glow-check:after {
+  border-color: var(--tint);
+  animation: ripple-out 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
 /* Akıcılık: düz zemin üzerindeki kaydırılan öğelerde bulanıklık gereksiz ve telefonları yoruyor */
 :root:root:root .adorn-app:not(.has-backdrop) :is(.home-row, .product-tile, .assistant-bubble) {
   -webkit-backdrop-filter: none !important;
@@ -92,6 +185,12 @@
   .onboarding-step,
   .welcome-overlay,
   .welcome-card,
-  .dialog-content.is-full .glow > *,
-  .dialog-content.is-full .glow-start > * { animation: none !important; }
+  .glow-page,
+  .glow-page .glow > *,
+  .glow-page .glow-start > *,
+  .glow-page .glow-meter span:after,
+  .glow-page .glow-task.is-done,
+  .glow-page .glow-task.is-done .glow-check,
+  .glow-page .glow-task.is-done .glow-check:after { animation: none !important; }
+  .glow-page .task-liquid { transition: none !important; }
 }
