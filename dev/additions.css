@@ -317,19 +317,28 @@ body {
 }
 @keyframes fr-squash {
   0%, 100% { transform: scale(1, 1); }
-  28% { transform: scale(1.05, 0.95); }
-  58% { transform: scale(0.97, 1.04) rotate(-1.5deg); }
-  80% { transform: scale(1.01, 0.99) rotate(1deg); }
+  30% { transform: scale(1.025, 0.975); }
+  60% { transform: scale(0.985, 1.025) rotate(-1.2deg); }
+  82% { transform: scale(1.005, 0.995) rotate(0.8deg); }
 }
 @keyframes fr-pop {
   0% { transform: scale(1, 1); }
-  35% { transform: scale(1.14, 0.88); }
-  65% { transform: scale(0.94, 1.1) translateY(-4px); }
+  35% { transform: scale(1.08, 0.92); }
+  65% { transform: scale(0.96, 1.07) translateY(-3px); }
   100% { transform: scale(1, 1); }
 }
 .fr-gloss { fill: #fff; opacity: 0.45; pointer-events: none; }
-.fr-core { fill: var(--flame-core-1); transition: opacity 1s ease 0.3s; transform-box: fill-box; transform-origin: 50% 100%; animation: fr-core 1.8s ease-in-out infinite; }
-@keyframes fr-core { 50% { transform: scale(0.96, 1.05); } }
+.fr-num {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  fill: var(--fr-deep);
+  transition: fill 0.6s ease 0.4s;
+}
+.fr-num.is-light { fill: #fbf6ec; }
+.fr-num.is-small { font-size: 10px; }
+:root:root:root[data-theme="dark"] .fr-num.is-light { fill: #1a120b; }
 :root:root:root[data-theme="dark"] .fr-gloss { opacity: 0.18; }
 /* Üst bardaki küçük alev de aynı tombul hareketi yapar */
 .streak-flame svg { transform-origin: 50% 90%; }
@@ -338,7 +347,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 13%;
+  bottom: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;

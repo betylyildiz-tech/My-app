@@ -1,5 +1,5 @@
 /* Adorn servis çalışanı: uygulamayı önbelleğe alır, internetsiz de açılır. */
-const CACHE = 'adorn-v8';
+const CACHE = 'adorn-v9';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-64.png'];
 
 self.addEventListener('install', (e) => {

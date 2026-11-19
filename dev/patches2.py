@@ -123,12 +123,12 @@ p("progs-icons", """                      children:
 
 # Daha zarif alev (seri çipi ve her yerde aynı bileşen)
 p("flame-outer", """              d: `M32 4c3 9 13 15 15 27 2 12-5 25-15 25S15 46 17 35c1-7 6-10 7-17 4 4 5 8 5 12 3-6 4-15 3-26z`,""",
-  """              d: `M32 58C19.5 58 12 50.5 12 41C12 33.5 15.8 28.2 20.6 24C21.6 27.6 23.6 30.2 26.8 31.2C26.4 24.4 29.6 17.8 36 12.5C37.6 18.8 41.6 23 45.6 27.2C49.6 31.4 52 35.8 52 41C52 50.5 44.5 58 32 58Z`,""")
+  """              d: `M32 57C22.6 57 16 50.4 16 41.6C16 34.6 19.6 29.4 23.4 25.4C24.2 28.4 25.8 30.6 28.4 31.6C28 24.4 30.6 16.4 35.6 7.5C36.8 15.2 40.4 20.4 43.6 25.2C46.6 29.6 48 33.6 48 41.6C48 50.4 41.4 57 32 57Z`,""")
 p("flame-inner", """              d: `M32 28c2 6 8 9 8 17 0 6-4 10-8 10s-8-4-8-9c0-5 3-7 4-11 2 2 3 4 3 6 1-4 2-8 1-13z`,""",
-  """              d: `M32 55C25.6 55 21.8 50.8 21.8 45.6C21.8 40.6 25 37.2 28.6 33.8C29.4 37.2 31.6 39.2 34.4 40.2C35.2 38.2 35.8 36.2 36.2 34.2C39.8 37.6 42.2 41.2 42.2 45.6C42.2 50.8 38.4 55 32 55Z`,""")
+  """              d: `M32 55C27 55 23.6 51.4 23.6 46.6C23.6 42.4 26 39.4 28.8 36.2C29.6 39.2 31.2 40.8 33.4 41.6C34 39.4 34.4 37.4 34.6 35.2C37.6 38.4 40.4 42 40.4 46.6C40.4 51.4 37 55 32 55Z`,""")
 
 # ---------------------------------------------------------------- yeni bileşenler
-COMPONENTS_JS = r'''  var __FLAME = `M32 58C19.5 58 12 50.5 12 41C12 33.5 15.8 28.2 20.6 24C21.6 27.6 23.6 30.2 26.8 31.2C26.4 24.4 29.6 17.8 36 12.5C37.6 18.8 41.6 23 45.6 27.2C49.6 31.4 52 35.8 52 41C52 50.5 44.5 58 32 58Z`,
+COMPONENTS_JS = r'''  var __FLAME = `M32 57C22.6 57 16 50.4 16 41.6C16 34.6 19.6 29.4 23.4 25.4C24.2 28.4 25.8 30.6 28.4 31.6C28 24.4 30.6 16.4 35.6 7.5C36.8 15.2 40.4 20.4 43.6 25.2C46.6 29.6 48 33.6 48 41.6C48 50.4 41.4 57 32 57Z`,
     __WAVE = `M-64 0Q-56 -3 -48 0T-32 0T-16 0T0 0T16 0T32 0T48 0T64 0T80 0T96 0T112 0T128 0V80H-64Z`;
   function __thump() {
     try {
@@ -142,7 +142,7 @@ COMPONENTS_JS = r'''  var __FLAME = `M32 58C19.5 58 12 50.5 12 41C12 33.5 15.8 2
   function __FlameRing({ progress: e, today: t, streak: n }) {
     let r = 2 * Math.PI * 104,
       i = Math.max(0, Math.min(1, t)),
-      a = 60 - i * 50;
+      a = 60 - i * 55;
     return (0, R.jsxs)(`div`, {
       className: `flame-ring ${i >= 1 ? `is-full` : ``} ${n > 0 ? `is-lit` : ``}`,
       children: [
@@ -190,7 +190,7 @@ COMPONENTS_JS = r'''  var __FLAME = `M32 58C19.5 58 12 50.5 12 41C12 33.5 15.8 2
               style: { strokeDasharray: r, strokeDashoffset: r * (1 - Math.max(0, Math.min(1, e))) },
             }),
             (0, R.jsx)(`g`, {
-              transform: `translate(56 16) scale(2)`,
+              transform: `translate(49.6 50) scale(2.2)`,
               children: (0, R.jsxs)(`g`, {
                 className: `fr-flame`,
                 children: [
@@ -206,31 +206,30 @@ COMPONENTS_JS = r'''  var __FLAME = `M32 58C19.5 58 12 50.5 12 41C12 33.5 15.8 2
                       ],
                     }),
                   }),
-                  (0, R.jsx)(`path`, {
-                    d: `M32 55C25.6 55 21.8 50.8 21.8 45.6C21.8 40.6 25 37.2 28.6 33.8C29.4 37.2 31.6 39.2 34.4 40.2C35.2 38.2 35.8 36.2 36.2 34.2C39.8 37.6 42.2 41.2 42.2 45.6C42.2 50.8 38.4 55 32 55Z`,
-                    className: `fr-core`,
-                    style: { opacity: Math.max(0, i - 0.2) * 1.1 },
-                  }),
                   (0, R.jsx)(`path`, { d: __FLAME, className: `fr-outline` }),
                   (0, R.jsx)(`ellipse`, {
-                    cx: 21.5,
-                    cy: 40,
-                    rx: 2.6,
-                    ry: 5.2,
-                    transform: `rotate(18 21.5 40)`,
+                    cx: 21.6,
+                    cy: 38,
+                    rx: 1.8,
+                    ry: 4.2,
+                    transform: `rotate(16 21.6 38)`,
                     className: `fr-gloss`,
+                  }),
+                  (0, R.jsx)(`text`, {
+                    x: 32,
+                    y: 49.5,
+                    textAnchor: `middle`,
+                    className: `fr-num ${i >= 0.5 ? `is-light` : ``} ${n > 99 ? `is-small` : ``}`,
+                    children: n,
                   }),
                 ],
               }),
             }),
           ],
         }),
-        (0, R.jsxs)(`div`, {
+        (0, R.jsx)(`div`, {
           className: `flame-ring-count`,
-          children: [
-            (0, R.jsx)(`strong`, { children: n }),
-            (0, R.jsx)(`small`, { children: I(n === 1 ? `day` : `days`) }),
-          ],
+          children: (0, R.jsx)(`small`, { children: I(n === 1 ? `day` : `days`) }),
         }),
       ],
     });
