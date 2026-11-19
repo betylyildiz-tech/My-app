@@ -308,10 +308,32 @@ body {
 .fr-wave-back { opacity: 0.4; animation-duration: 4.8s; animation-direction: reverse; }
 @keyframes fr-wave { to { transform: translateX(32px); } }
 .fr-level { transition: transform 1.3s cubic-bezier(0.34, 1.25, 0.5, 1); }
-.fr-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: fr-breathe 3.6s ease-in-out infinite; }
-.flame-ring.is-lit .fr-flame { animation-duration: 2.6s; }
-@keyframes fr-breathe { 50% { transform: scale(1.025, 1.045); } }
-.flame-ring.is-full .fr-flame { filter: drop-shadow(0 6px 14px color-mix(in oklab, var(--fr-mid) 45%, transparent)); }
+/* Tombul alev: sürekli hafif esneyip sıkışır; gün dolunca bir kez zıplar */
+.fr-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: fr-squash 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+.flame-ring.is-lit .fr-flame { animation-duration: 2.2s; }
+.flame-ring.is-full .fr-flame {
+  animation: fr-pop 0.75s cubic-bezier(0.3, 1.6, 0.5, 1), fr-squash 2.2s cubic-bezier(0.45, 0, 0.55, 1) 0.75s infinite;
+  filter: drop-shadow(0 6px 12px color-mix(in oklab, var(--fr-mid) 40%, transparent));
+}
+@keyframes fr-squash {
+  0%, 100% { transform: scale(1, 1); }
+  28% { transform: scale(1.05, 0.95); }
+  58% { transform: scale(0.97, 1.04) rotate(-1.5deg); }
+  80% { transform: scale(1.01, 0.99) rotate(1deg); }
+}
+@keyframes fr-pop {
+  0% { transform: scale(1, 1); }
+  35% { transform: scale(1.14, 0.88); }
+  65% { transform: scale(0.94, 1.1) translateY(-4px); }
+  100% { transform: scale(1, 1); }
+}
+.fr-gloss { fill: #fff; opacity: 0.45; pointer-events: none; }
+.fr-core { fill: var(--flame-core-1); transition: opacity 1s ease 0.3s; transform-box: fill-box; transform-origin: 50% 100%; animation: fr-core 1.8s ease-in-out infinite; }
+@keyframes fr-core { 50% { transform: scale(0.96, 1.05); } }
+:root:root:root[data-theme="dark"] .fr-gloss { opacity: 0.18; }
+/* Üst bardaki küçük alev de aynı tombul hareketi yapar */
+.streak-flame svg { transform-origin: 50% 90%; }
+.streak-chip.is-lit .streak-flame svg { animation: fr-squash 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
 .flame-ring-count {
   position: absolute;
   left: 0;
@@ -410,5 +432,5 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fr-wave, .fr-flame, .home-rows li, .user-bubble, .assistant-bubble { animation: none !important; }
+  .fr-wave, .fr-flame, .fr-core, .streak-flame svg, .home-rows li, .user-bubble, .assistant-bubble { animation: none !important; }
 }
